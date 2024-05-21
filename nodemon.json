@@ -1,0 +1,8 @@
+{
+  "verbose": false,
+  "ignore": ["*.spect.ts"],
+  "ext": "ts",
+  "execMap": {
+    "ts": "node --experimental-specifier-resolution=node --no-warnings=ExperimentalWarning --loader ./loader.js"
+  }
+}
