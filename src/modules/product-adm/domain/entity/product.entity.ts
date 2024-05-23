@@ -8,7 +8,8 @@ type ProductProps = {
   description: string
   purchasePrice: number
   stock: number
-  createdAd: Date
+  createdAd?: Date
+  updatedAd?: Date
 }
 
 export default class Product extends BaseEntity implements AggregateRoot {
@@ -18,7 +19,7 @@ export default class Product extends BaseEntity implements AggregateRoot {
   private _stock: number
 
   constructor(props: ProductProps) {
-    super(props.id)
+    super(props.id, props.createdAd, props.updatedAd)
     this._name = props.name
     this._description = props.description
     this._purchasePrice = props.purchasePrice

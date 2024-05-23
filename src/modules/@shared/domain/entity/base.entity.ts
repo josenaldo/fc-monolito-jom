@@ -23,7 +23,7 @@ export default class BaseEntity {
     return this._updatedAt
   }
 
-  set updatedAt(date: Date) {
-    this._updatedAt = date
+  touch() {
+    this._updatedAt = new Date()
   }
 }

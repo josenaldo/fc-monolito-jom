@@ -8,7 +8,7 @@ export default class Id implements ValueObject {
     this._id = id || uuidv4()
   }
 
-  get id(): string {
+  get value(): string {
     return this._id
   }
 }
