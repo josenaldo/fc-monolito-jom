@@ -2,13 +2,13 @@ import ValueObject from '@/modules/@shared/domain/value-object/value-object.inte
 import { v4 as uuidv4 } from 'uuid'
 
 export default class Id implements ValueObject {
-  private _id: string
+  private _value: string
 
-  constructor(id?: string) {
-    this._id = id || uuidv4()
+  constructor(value?: string) {
+    this._value = value || uuidv4()
   }
 
   get value(): string {
-    return this._id
+    return this._value
   }
 }
