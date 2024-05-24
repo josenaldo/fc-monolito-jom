@@ -14,8 +14,6 @@ export function CreateSequelize(): Sequelize {
 export function CreateMockRepository() {
   return {
     find: jest.fn(),
-    create: jest.fn(),
-    update: jest.fn(),
-    findAll: jest.fn(),
+    add: jest.fn(),
   }
 }

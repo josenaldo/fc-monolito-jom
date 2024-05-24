@@ -8,8 +8,8 @@ type ProductProps = {
   description: string
   purchasePrice: number
   stock: number
-  createdAd?: Date
-  updatedAd?: Date
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export default class Product extends BaseEntity implements AggregateRoot {
@@ -19,11 +19,16 @@ export default class Product extends BaseEntity implements AggregateRoot {
   private _stock: number
 
   constructor(props: ProductProps) {
-    super(props.id, props.createdAd, props.updatedAd)
+    super(props.id, props.createdAt, props.updatedAt)
     this._name = props.name
     this._description = props.description
     this._purchasePrice = props.purchasePrice
     this._stock = props.stock
+    this.validate()
+  }
+
+  get contextName(): string {
+    return 'Product'
   }
 
   get name(): string {
@@ -56,5 +61,27 @@ export default class Product extends BaseEntity implements AggregateRoot {
 
   set stock(stock: number) {
     this._stock = stock
+  }
+
+  validate(): void {
+    if (!this._name) {
+      this.addNotificationError('Name is required')
+    }
+
+    if (!this._description) {
+      this.addNotificationError('Description is required')
+    }
+
+    if (this._purchasePrice < 0) {
+      this.addNotificationError(
+        'Purchase price must be greater than or equal to 0'
+      )
+    }
+
+    if (this._stock < 0) {
+      this.addNotificationError('Stock must be greater than or equal to 0')
+    }
+
+    this.throwIfHasNotificationErrors()
   }
 }
