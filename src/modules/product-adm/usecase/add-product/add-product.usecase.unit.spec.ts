@@ -45,6 +45,9 @@ describe('Add Product use case unit tests', () => {
         _updatedAt: expect.any(Date),
       })
     )
+    expect(output.id).toBeDefined()
+    expect(output.createdAt).toBeDefined()
+    expect(output.updatedAt).toBeDefined()
 
     expect(output).toEqual({
       id: expect.any(String),
