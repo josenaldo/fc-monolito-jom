@@ -30,8 +30,28 @@ describe('Add Product use case integration tests', () => {
     }
   })
 
-  it('should add a product', async () => {
+  it('should add a product without an id', async () => {
     // Arrange - Given
+
+    // Act - When
+    const output: AddProductOutputDto = await usecase.execute(input)
+
+    // Assert - Then
+    const productModel = await ProductModel.findByPk(output.id)
+
+    expect(productModel).not.toBeNull()
+    expect(productModel.id).toBe(output.id)
+    expect(productModel.name).toBe(input.name)
+    expect(productModel.description).toBe(input.description)
+    expect(productModel.purchasePrice).toBe(input.purchasePrice)
+    expect(productModel.stock).toBe(input.stock)
+    expect(productModel.createdAt).toBeDefined()
+    expect(productModel.updatedAt).toBeDefined()
+  })
+
+  it('should add a product with an id', async () => {
+    // Arrange - Given
+    input.id = '1'
 
     // Act - When
     const output: AddProductOutputDto = await usecase.execute(input)

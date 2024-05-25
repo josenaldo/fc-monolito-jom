@@ -23,7 +23,7 @@ describe('Add Product use case unit tests', () => {
     }
   })
 
-  it('should add a product', async () => {
+  it('should add a product without an id', async () => {
     // Arrange
 
     // Act
@@ -48,6 +48,41 @@ describe('Add Product use case unit tests', () => {
 
     expect(output).toEqual({
       id: expect.any(String),
+      name: input.name,
+      description: input.description,
+      purchasePrice: input.purchasePrice,
+      stock: input.stock,
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
+    })
+  })
+
+  it('should add a product with an id', async () => {
+    // Arrange
+    input.id = '123'
+
+    // Act
+    const output: AddProductOutputDto = await usecase.execute(input)
+
+    // Assert
+    expect(gateway.add).toHaveBeenCalledTimes(1)
+    expect(gateway.add).toHaveBeenCalledWith(
+      expect.objectContaining({
+        _id: expect.any(Id),
+        _name: input.name,
+        _description: input.description,
+        _purchasePrice: input.purchasePrice,
+        _stock: input.stock,
+        _createdAt: expect.any(Date),
+        _updatedAt: expect.any(Date),
+      })
+    )
+    expect(output.id).toBe('123')
+    expect(output.createdAt).toBeDefined()
+    expect(output.updatedAt).toBeDefined()
+
+    expect(output).toEqual({
+      id: '123',
       name: input.name,
       description: input.description,
       purchasePrice: input.purchasePrice,

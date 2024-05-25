@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize-typescript'
+import { Model, ModelCtor, Sequelize } from 'sequelize-typescript'
 
 export function CreateSequelize(): Sequelize {
   return new Sequelize({
@@ -9,6 +9,15 @@ export function CreateSequelize(): Sequelize {
       force: true,
     },
   })
+}
+
+export async function CreateSequelizeWithModels(
+  models: ModelCtor<Model>[]
+): Promise<Sequelize> {
+  const sequelize = CreateSequelize()
+  sequelize.addModels(models)
+  await sequelize.sync()
+  return sequelize
 }
 
 export function CreateMockRepository() {

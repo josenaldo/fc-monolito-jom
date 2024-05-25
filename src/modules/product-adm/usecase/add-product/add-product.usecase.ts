@@ -15,7 +15,7 @@ export default class AddProductUsecase implements UsecaseInterface {
   }
 
   async execute(input: AddProductInputDto): Promise<AddProductOutputDto> {
-    const id: Id = new Id()
+    const id: Id = new Id(input.id)
 
     const product = new Product({
       id: id,
