@@ -29,6 +29,11 @@ export default class ProductAdmFacade implements productAdmFacadeInterface {
   async checkStock(
     input: CheckStockFacadeInputDto
   ): Promise<CheckStockFacadeOutputDto> {
-    return await this._findUsecase.execute(input.productId)
+    const product = await this._findUsecase.execute(input.productId)
+
+    return {
+      productId: product.id,
+      stock: product.stock,
+    }
   }
 }

@@ -1,13 +1,10 @@
 import Id from '@/modules/@shared/domain/value-object/id.value-object'
 import { CreateSequelizeWithModels } from '@/modules/@shared/test/test.utils'
-import ProductAdmFacade, {
-  ProductAdmFacadeProps,
-} from '@/modules/product-adm/facade/produc-adm.facade'
+import ProductAdmFacade from '@/modules/product-adm/facade/produc-adm.facade'
 import { AddProductFacadeInputDto } from '@/modules/product-adm/facade/product-adm.facade.interface'
+import { ProductAdmFacadeFactory } from '@/modules/product-adm/factory/product-adm.facade.factory'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import ProductRepository from '@/modules/product-adm/repository/product.repository'
-import AddProductUsecase from '@/modules/product-adm/usecase/add-product/add-product.usecase'
-import FindProductUsecase from '@/modules/product-adm/usecase/find-product/find-product.usecase'
 import { Sequelize } from 'sequelize-typescript'
 
 describe('Product Adm facade integration tests', () => {
@@ -20,12 +17,7 @@ describe('Product Adm facade integration tests', () => {
     sequelize = await CreateSequelizeWithModels([ProductModel])
     repository = new ProductRepository()
 
-    const usecases: ProductAdmFacadeProps = {
-      addUsecase: new AddProductUsecase(repository),
-      findUsecase: new FindProductUsecase(repository),
-    }
-
-    productAdmFacade = new ProductAdmFacade(usecases)
+    productAdmFacade = ProductAdmFacadeFactory.create()
 
     input = {
       name: 'product',
@@ -111,7 +103,29 @@ describe('Product Adm facade integration tests', () => {
     )
   })
 
-  it('should find a product', async () => {})
+  it('should check stock of a product', async () => {
+    // Arrange - Given
+    const id = new Id()
+    input.id = id.value
+    await productAdmFacade.addProduct(input)
 
-  it('should throw an error when product not found', async () => {})
+    // Act - When
+    const output = await productAdmFacade.checkStock({ productId: id.value })
+
+    // Assert - Then
+    expect(output).toBeDefined()
+    expect(output.productId).toBe(id.value)
+    expect(output.stock).toBe(10)
+  })
+
+  it('should throw an error when product does not exist', async () => {
+    // Arrange - Given
+    const id = new Id()
+
+    // Act - When
+    const output = productAdmFacade.checkStock({ productId: id.value })
+
+    // Assert - Then
+    await expect(output).rejects.toThrow('Product not found')
+  })
 })
