@@ -1,14 +1,14 @@
 import { CreateSequelize } from '@/modules/@shared/test/test.utils'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import ProductRepository from '@/modules/product-adm/repository/product.repository'
-import FindProductUseCase from '@/modules/product-adm/usecase/find-product/find-product.usecase'
+import FindProductUsecase from '@/modules/product-adm/usecase/find-product/find-product.usecase'
 import { Sequelize } from 'sequelize-typescript'
 import { v4 as uuid } from 'uuid'
 
 describe('Find Product use case integration tests', () => {
   let sequelize: Sequelize
   let repository: ProductRepository
-  let usecase: FindProductUseCase
+  let usecase: FindProductUsecase
   let id1: string
   let id2: string
 
@@ -18,7 +18,7 @@ describe('Find Product use case integration tests', () => {
     await sequelize.sync()
 
     repository = new ProductRepository()
-    usecase = new FindProductUseCase(repository)
+    usecase = new FindProductUsecase(repository)
 
     id1 = uuid()
     id2 = uuid()

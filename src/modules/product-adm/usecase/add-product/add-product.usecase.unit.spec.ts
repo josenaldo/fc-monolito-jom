@@ -5,16 +5,16 @@ import {
   AddProductInputDto,
   AddProductOutputDto,
 } from '@/modules/product-adm/usecase/add-product/add-product.dto'
-import AddProductUseCase from '@/modules/product-adm/usecase/add-product/add-product.usecase'
+import AddProductUsecase from '@/modules/product-adm/usecase/add-product/add-product.usecase'
 
 describe('Add Product use case unit tests', () => {
   let gateway: ProductGateway
-  let usecase: AddProductUseCase
+  let usecase: AddProductUsecase
   let input: AddProductInputDto
 
   beforeEach(async () => {
     gateway = CreateMockRepository()
-    usecase = new AddProductUseCase(gateway)
+    usecase = new AddProductUsecase(gateway)
     input = {
       name: 'Product 1',
       description: 'Description 1',

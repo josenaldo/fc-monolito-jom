@@ -1,7 +1,8 @@
+import { UsecaseInterface } from '@/modules/@shared/usecase/usecase.interface'
 import ProductGateway from '@/modules/product-adm/gateway/product.gateway'
 import { FindProductOutputDto } from '@/modules/product-adm/usecase/find-product/find-product.dto'
 
-export default class FindProductUseCase {
+export default class FindProductUsecase implements UsecaseInterface {
   private _repository: ProductGateway
 
   constructor(repository: ProductGateway) {

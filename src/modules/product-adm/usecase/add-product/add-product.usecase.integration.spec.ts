@@ -5,13 +5,13 @@ import {
   AddProductInputDto,
   AddProductOutputDto,
 } from '@/modules/product-adm/usecase/add-product/add-product.dto'
-import AddProductUseCase from '@/modules/product-adm/usecase/add-product/add-product.usecase'
+import AddProductUsecase from '@/modules/product-adm/usecase/add-product/add-product.usecase'
 import { Sequelize } from 'sequelize-typescript'
 
 describe('Add Product use case integration tests', () => {
   let sequelize: Sequelize
   let repository: ProductRepository
-  let usecase: AddProductUseCase
+  let usecase: AddProductUsecase
   let input: AddProductInputDto
 
   beforeEach(async () => {
@@ -20,7 +20,7 @@ describe('Add Product use case integration tests', () => {
     await sequelize.sync()
 
     repository = new ProductRepository()
-    usecase = new AddProductUseCase(repository)
+    usecase = new AddProductUsecase(repository)
 
     input = {
       name: 'Product 1',

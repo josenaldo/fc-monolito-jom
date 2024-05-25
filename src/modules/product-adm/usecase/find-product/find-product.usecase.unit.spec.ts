@@ -2,16 +2,16 @@ import Id from '@/modules/@shared/domain/value-object/id.value-object'
 import { CreateMockRepository } from '@/modules/@shared/test/test.utils'
 import Product from '@/modules/product-adm/domain/entity/product.entity'
 import ProductGateway from '@/modules/product-adm/gateway/product.gateway'
-import FindProductUseCase from '@/modules/product-adm/usecase/find-product/find-product.usecase'
+import FindProductUsecase from '@/modules/product-adm/usecase/find-product/find-product.usecase'
 import { v4 as uuid } from 'uuid'
 
 describe('Find Product use case unit tests', () => {
   let gateway: ProductGateway
-  let usecase: FindProductUseCase
+  let usecase: FindProductUsecase
 
   beforeEach(async () => {
     gateway = CreateMockRepository()
-    usecase = new FindProductUseCase(gateway)
+    usecase = new FindProductUsecase(gateway)
   })
 
   it('should find a product', async () => {
