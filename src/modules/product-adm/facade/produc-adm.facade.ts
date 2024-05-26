@@ -54,12 +54,12 @@ export class ProductAdmFacade implements ProductAdmFacadeInterface {
 
     return {
       id: output.id,
+      createdAt: output.createdAt,
+      updatedAt: output.updatedAt,
       name: output.name,
       description: output.description,
       purchasePrice: output.purchasePrice,
       stock: output.stock,
-      createdAt: output.createdAt,
-      updatedAt: output.updatedAt,
     }
   }
 }

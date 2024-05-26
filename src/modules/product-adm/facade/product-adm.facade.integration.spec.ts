@@ -47,12 +47,12 @@ describe('Product Adm facade integration tests', () => {
       const product = await repository.find(id.value)
       expect(product).toBeDefined()
       expect(product.id.value).toBe(id.value)
+      expect(product.createdAt).toBeDefined()
+      expect(product.updatedAt).toBeDefined()
       expect(product.name).toBe('product')
       expect(product.description).toBe('description')
       expect(product.purchasePrice).toBe(10)
       expect(product.stock).toBe(10)
-      expect(product.createdAt).toBeDefined()
-      expect(product.updatedAt).toBeDefined()
     })
 
     it('should add a product without an id', async () => {
@@ -72,12 +72,12 @@ describe('Product Adm facade integration tests', () => {
       const product = await repository.find(output.id)
       expect(product).toBeDefined()
       expect(product.id.value).toBe(output.id)
+      expect(product.createdAt).toBeDefined()
+      expect(product.updatedAt).toBeDefined()
       expect(product.name).toBe('product')
       expect(product.description).toBe('description')
       expect(product.purchasePrice).toBe(10)
       expect(product.stock).toBe(10)
-      expect(product.createdAt).toBeDefined()
-      expect(product.updatedAt).toBeDefined()
     })
 
     it('should throw an error when product already exists', async () => {

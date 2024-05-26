@@ -42,12 +42,12 @@ describe('Product Repository integration tests', () => {
 
     expect(productModel).not.toBeNull()
     expect(productModel.id).toBe(product.id.value)
+    expect(productModel.createdAt).toBeDefined()
+    expect(productModel.updatedAt).toBeDefined()
     expect(productModel.name).toBe(product.name)
     expect(productModel.description).toBe(product.description)
     expect(productModel.purchasePrice).toBe(product.purchasePrice)
     expect(productModel.stock).toBe(product.stock)
-    expect(productModel.createdAt).toBeDefined()
-    expect(productModel.updatedAt).toBeDefined()
   })
 
   it('should throw an error when trying to create a product with an existing id', async () => {
@@ -56,12 +56,12 @@ describe('Product Repository integration tests', () => {
 
     const props = {
       id: id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
       name: 'Product 1',
       description: 'Description 1',
       purchasePrice: 10,
       stock: 10,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     }
 
     await ProductModel.create(props)
@@ -84,22 +84,22 @@ describe('Product Repository integration tests', () => {
 
     await ProductModel.create({
       id: id1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
       name: 'Product 1',
       description: 'Product 1 description',
       purchasePrice: 10,
       stock: 10,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     await ProductModel.create({
       id: id2,
+      createdAt: new Date(),
+      updatedAt: new Date(),
       name: 'Product 2',
       description: 'Product 2 description',
       purchasePrice: 20,
       stock: 20,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     // Act - When
@@ -109,21 +109,21 @@ describe('Product Repository integration tests', () => {
     // Assert - Then
     expect(product1).not.toBeNull()
     expect(product1.id.value).toBe(id1)
+    expect(product1.createdAt).toBeDefined()
+    expect(product1.updatedAt).toBeDefined()
     expect(product1.name).toBe('Product 1')
     expect(product1.description).toBe('Product 1 description')
     expect(product1.purchasePrice).toBe(10)
     expect(product1.stock).toBe(10)
-    expect(product1.createdAt).toBeDefined()
-    expect(product1.updatedAt).toBeDefined()
 
     expect(product2).not.toBeNull()
     expect(product2.id.value).toBe(id2)
+    expect(product2.createdAt).toBeDefined()
+    expect(product2.updatedAt).toBeDefined()
     expect(product2.name).toBe('Product 2')
     expect(product2.description).toBe('Product 2 description')
     expect(product2.purchasePrice).toBe(20)
     expect(product2.stock).toBe(20)
-    expect(product2.createdAt).toBeDefined()
-    expect(product2.updatedAt).toBeDefined()
   })
 
   it('should throw a Not Found error when trying to find a product that does not exist', async () => {

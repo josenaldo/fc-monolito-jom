@@ -1,21 +1,14 @@
-import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { Product } from '@/modules/product-adm/domain/entity/product.entity'
 import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
+import { ProductModelToProductMapper } from '@/modules/product-adm/repository/product-model-to-product.mapper'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import { UniqueConstraintError } from 'sequelize'
 
 export class ProductRepository implements ProductGateway {
   async add(product: Product): Promise<void> {
     try {
-      await ProductModel.create({
-        id: product.id.value,
-        createdAt: product.createdAt,
-        updatedAt: product.updatedAt,
-        name: product.name,
-        description: product.description,
-        purchasePrice: product.purchasePrice,
-        stock: product.stock,
-      })
+      const model = ProductModelToProductMapper.toModel(product)
+      await ProductModel.create(model)
     } catch (error) {
       if (error instanceof UniqueConstraintError) {
         const hasId = Object.entries(error.fields).some(
@@ -34,20 +27,12 @@ export class ProductRepository implements ProductGateway {
   }
 
   async find(id: string): Promise<Product> {
-    const product = await ProductModel.findByPk(id)
+    const model = await ProductModel.findByPk(id)
 
-    if (!product) {
+    if (!model) {
       throw new Error('Product not found')
     }
 
-    return new Product({
-      id: new Id(product.id),
-      createdAt: product.createdAt,
-      updatedAt: product.updatedAt,
-      name: product.name,
-      description: product.description,
-      purchasePrice: product.purchasePrice,
-      stock: product.stock,
-    })
+    return ProductModelToProductMapper.toProduct(model)
   }
 }

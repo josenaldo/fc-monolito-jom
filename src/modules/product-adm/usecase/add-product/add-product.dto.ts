@@ -8,10 +8,10 @@ export interface AddProductInputDto {
 
 export interface AddProductOutputDto {
   id: string
+  createdAt: Date
+  updatedAt: Date
   name: string
   description: string
   purchasePrice: number
   stock: number
-  createdAt: Date
-  updatedAt: Date
 }

@@ -4,12 +4,12 @@ import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 
 type ProductProps = {
   id?: Id
+  createdAt?: Date
+  updatedAt?: Date
   name: string
   description: string
   purchasePrice: number
   stock: number
-  createdAt?: Date
-  updatedAt?: Date
 }
 
 export class Product extends BaseEntity implements AggregateRoot {

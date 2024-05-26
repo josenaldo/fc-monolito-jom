@@ -29,12 +29,12 @@ export class AddProductUsecase implements UsecaseInterface {
 
     return {
       id: product.id.value,
+      createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
       name: product.name,
       description: product.description,
       purchasePrice: product.purchasePrice,
       stock: product.stock,
-      createdAt: product.createdAt,
-      updatedAt: product.updatedAt,
     }
   }
 }

@@ -8,12 +8,12 @@ export interface AddProductFacadeInputDto {
 
 export interface AddProductFacadeOutputDto {
   id: string
+  createdAt: Date
+  updatedAt: Date
   name: string
   description: string
   purchasePrice: number
   stock: number
-  createdAt: Date
-  updatedAt: Date
 }
 
 export interface CheckStockFacadeInputDto {
@@ -31,12 +31,12 @@ export interface FindProductFacadeInputDto {
 
 export interface FindProductFacadeOutputDto {
   id: string
+  createdAt: Date
+  updatedAt: Date
   name: string
   description: string
   purchasePrice: number
   stock: number
-  createdAt: Date
-  updatedAt: Date
 }
 
 export interface ProductAdmFacadeInterface {

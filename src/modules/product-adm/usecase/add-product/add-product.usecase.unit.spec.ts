@@ -34,12 +34,12 @@ describe('Add Product use case unit tests', () => {
     expect(gateway.add).toHaveBeenCalledWith(
       expect.objectContaining({
         _id: expect.any(Id),
+        _createdAt: expect.any(Date),
+        _updatedAt: expect.any(Date),
         _name: input.name,
         _description: input.description,
         _purchasePrice: input.purchasePrice,
         _stock: input.stock,
-        _createdAt: expect.any(Date),
-        _updatedAt: expect.any(Date),
       })
     )
     expect(output.id).toBeDefined()
@@ -48,12 +48,12 @@ describe('Add Product use case unit tests', () => {
 
     expect(output).toEqual({
       id: expect.any(String),
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
       name: input.name,
       description: input.description,
       purchasePrice: input.purchasePrice,
       stock: input.stock,
-      createdAt: expect.any(Date),
-      updatedAt: expect.any(Date),
     })
   })
 
@@ -69,12 +69,12 @@ describe('Add Product use case unit tests', () => {
     expect(gateway.add).toHaveBeenCalledWith(
       expect.objectContaining({
         _id: expect.any(Id),
+        _createdAt: expect.any(Date),
+        _updatedAt: expect.any(Date),
         _name: input.name,
         _description: input.description,
         _purchasePrice: input.purchasePrice,
         _stock: input.stock,
-        _createdAt: expect.any(Date),
-        _updatedAt: expect.any(Date),
       })
     )
     expect(output.id).toBe(input.id)
@@ -83,12 +83,12 @@ describe('Add Product use case unit tests', () => {
 
     expect(output).toEqual({
       id: input.id,
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
       name: input.name,
       description: input.description,
       purchasePrice: input.purchasePrice,
       stock: input.stock,
-      createdAt: expect.any(Date),
-      updatedAt: expect.any(Date),
     })
   })
 

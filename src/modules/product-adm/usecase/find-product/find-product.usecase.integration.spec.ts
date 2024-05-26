@@ -24,22 +24,22 @@ describe('Find Product use case integration tests', () => {
 
     await ProductModel.create({
       id: id1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
       name: 'Product 1',
       description: 'Description 1',
       purchasePrice: 10,
       stock: 10,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
 
     await ProductModel.create({
       id: id2,
+      createdAt: new Date(),
+      updatedAt: new Date(),
       name: 'Product 2',
       description: 'Description 2',
       purchasePrice: 20,
       stock: 20,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
   })
 
@@ -55,12 +55,12 @@ describe('Find Product use case integration tests', () => {
     // Assert - Then
     expect(output).toEqual({
       id: expect.any(String),
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
       name: 'Product 1',
       description: 'Description 1',
       purchasePrice: 10,
       stock: 10,
-      createdAt: expect.any(Date),
-      updatedAt: expect.any(Date),
     })
   })
 

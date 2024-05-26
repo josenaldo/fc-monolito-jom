@@ -19,12 +19,12 @@ describe('Find Product use case unit tests', () => {
     const id = uuid()
     const expectedProduct = new Product({
       id: new Id(id),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       name: 'Product 1',
       description: 'Description 1',
       purchasePrice: 10,
       stock: 10,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     })
     gateway.find = jest.fn().mockResolvedValue(expectedProduct)
 
@@ -36,12 +36,12 @@ describe('Find Product use case unit tests', () => {
     expect(gateway.find).toHaveBeenCalledWith(id)
     expect(output).toEqual({
       id,
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
       name: 'Product 1',
       description: 'Description 1',
       purchasePrice: 10,
       stock: 10,
-      createdAt: expect.any(Date),
-      updatedAt: expect.any(Date),
     })
   })
 

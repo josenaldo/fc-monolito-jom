@@ -1,4 +1,4 @@
-import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
+import { ProductGateway } from '@/modules/store-catalog/gateway/product.gateway'
 import { Model, ModelCtor, Sequelize } from 'sequelize-typescript'
 
 export function CreateSequelize(): Sequelize {
@@ -24,6 +24,6 @@ export async function CreateSequelizeWithModels(
 export function CreateMockRepository(): ProductGateway {
   return {
     find: jest.fn(),
-    add: jest.fn(),
+    findAll: jest.fn(),
   }
 }

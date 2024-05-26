@@ -22,8 +22,5 @@ export class ProductModel extends Model {
   declare description: string
 
   @Column({ allowNull: false })
-  declare purchasePrice: number
-
-  @Column({ allowNull: false })
-  declare stock: number
+  declare salesPrice: number
 }

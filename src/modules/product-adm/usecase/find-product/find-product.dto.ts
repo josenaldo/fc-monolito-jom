@@ -4,10 +4,10 @@ export interface FindProductInputDto {
 
 export interface FindProductOutputDto {
   id: string
+  createdAt: Date
+  updatedAt: Date
   name: string
   description: string
   purchasePrice: number
   stock: number
-  createdAt: Date
-  updatedAt: Date
 }

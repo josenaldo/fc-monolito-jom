@@ -41,12 +41,12 @@ describe('Add Product use case integration tests', () => {
 
     expect(productModel).not.toBeNull()
     expect(productModel.id).toBe(output.id)
+    expect(productModel.createdAt).toBeDefined()
+    expect(productModel.updatedAt).toBeDefined()
     expect(productModel.name).toBe(input.name)
     expect(productModel.description).toBe(input.description)
     expect(productModel.purchasePrice).toBe(input.purchasePrice)
     expect(productModel.stock).toBe(input.stock)
-    expect(productModel.createdAt).toBeDefined()
-    expect(productModel.updatedAt).toBeDefined()
   })
 
   it('should add a product with an id', async () => {
@@ -61,12 +61,12 @@ describe('Add Product use case integration tests', () => {
 
     expect(productModel).not.toBeNull()
     expect(productModel.id).toBe(output.id)
+    expect(productModel.createdAt).toBeDefined()
+    expect(productModel.updatedAt).toBeDefined()
     expect(productModel.name).toBe(input.name)
     expect(productModel.description).toBe(input.description)
     expect(productModel.purchasePrice).toBe(input.purchasePrice)
     expect(productModel.stock).toBe(input.stock)
-    expect(productModel.createdAt).toBeDefined()
-    expect(productModel.updatedAt).toBeDefined()
   })
 
   it('should throw an error when trying to create a product with an invalid id', async () => {
