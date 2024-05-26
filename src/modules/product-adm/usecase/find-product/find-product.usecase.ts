@@ -1,6 +1,9 @@
 import { UsecaseInterface } from '@/modules/@shared/usecase/usecase.interface'
 import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
-import { FindProductOutputDto } from '@/modules/product-adm/usecase/find-product/find-product.dto'
+import {
+  FindProductInputDto,
+  FindProductOutputDto,
+} from '@/modules/product-adm/usecase/find-product/find-product.dto'
 
 export class FindProductUsecase implements UsecaseInterface {
   private _repository: ProductGateway
@@ -9,8 +12,8 @@ export class FindProductUsecase implements UsecaseInterface {
     this._repository = repository
   }
 
-  async execute(id: string): Promise<FindProductOutputDto> {
-    const product = await this._repository.find(id)
+  async execute(input: FindProductInputDto): Promise<FindProductOutputDto> {
+    const product = await this._repository.find(input.id)
 
     if (!product) throw new Error('Product not found')
 

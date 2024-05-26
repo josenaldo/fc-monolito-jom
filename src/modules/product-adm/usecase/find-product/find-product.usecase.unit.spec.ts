@@ -29,7 +29,7 @@ describe('Find Product use case unit tests', () => {
     gateway.find = jest.fn().mockResolvedValue(expectedProduct)
 
     // Act - When
-    const output = await usecase.execute(id)
+    const output = await usecase.execute({ id: id })
 
     // Assert - Then
     expect(gateway.find).toHaveBeenCalledTimes(1)
@@ -51,7 +51,7 @@ describe('Find Product use case unit tests', () => {
     gateway.find = jest.fn().mockResolvedValue(undefined)
 
     // Act - When
-    const output = usecase.execute(id)
+    const output = usecase.execute({ id: id })
 
     // Assert - Then
     await expect(output).rejects.toThrow('Product not found')
@@ -62,7 +62,7 @@ describe('Find Product use case unit tests', () => {
     const id = 'invalid-id'
     gateway.find = jest.fn().mockResolvedValue(undefined)
     // Act - When
-    const output = usecase.execute(id)
+    const output = usecase.execute({ id: id })
 
     // Assert - Then
     await expect(output).rejects.toThrow('Product not found')
@@ -74,7 +74,7 @@ describe('Find Product use case unit tests', () => {
     gateway.find = jest.fn().mockResolvedValue(undefined)
 
     // Act - When
-    const output = usecase.execute(id)
+    const output = usecase.execute({ id: id })
 
     // Assert - Then
     await expect(output).rejects.toThrow('Product not found')

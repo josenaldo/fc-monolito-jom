@@ -25,6 +25,20 @@ export interface CheckStockFacadeOutputDto {
   stock: number
 }
 
+export interface FindProductFacadeInputDto {
+  id: string
+}
+
+export interface FindProductFacadeOutputDto {
+  id: string
+  name: string
+  description: string
+  purchasePrice: number
+  stock: number
+  createdAt: Date
+  updatedAt: Date
+}
+
 export interface ProductAdmFacadeInterface {
   addProduct(
     input: AddProductFacadeInputDto
@@ -33,4 +47,8 @@ export interface ProductAdmFacadeInterface {
   checkStock(
     input: CheckStockFacadeInputDto
   ): Promise<CheckStockFacadeOutputDto>
+
+  findProduct(
+    input: FindProductFacadeInputDto
+  ): Promise<FindProductFacadeOutputDto>
 }

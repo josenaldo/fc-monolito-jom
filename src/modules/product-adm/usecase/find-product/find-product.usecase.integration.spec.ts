@@ -1,4 +1,5 @@
-import { CreateSequelize } from '@/modules/@shared/test/test.utils'
+import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { CreateSequelizeWithModels } from '@/modules/@shared/test/test.utils'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
 import { FindProductUsecase } from '@/modules/product-adm/usecase/find-product/find-product.usecase'
@@ -13,15 +14,13 @@ describe('Find Product use case integration tests', () => {
   let id2: string
 
   beforeEach(async () => {
-    sequelize = CreateSequelize()
-    sequelize.addModels([ProductModel])
-    await sequelize.sync()
+    sequelize = await CreateSequelizeWithModels([ProductModel])
 
     repository = new ProductRepository()
     usecase = new FindProductUsecase(repository)
 
-    id1 = uuid()
-    id2 = uuid()
+    id1 = new Id().value
+    id2 = new Id().value
 
     await ProductModel.create({
       id: id1,
@@ -51,7 +50,7 @@ describe('Find Product use case integration tests', () => {
   it('should find a product', async () => {
     // Arrange - Given
     // Act - When
-    const output = await usecase.execute(id1)
+    const output = await usecase.execute({ id: id1 })
 
     // Assert - Then
     expect(output).toEqual({
@@ -70,7 +69,7 @@ describe('Find Product use case integration tests', () => {
     const id = uuid()
 
     // Act - When
-    const output = usecase.execute(id)
+    const output = usecase.execute({ id: id })
 
     // Assert - Then
     await expect(output).rejects.toThrow('Product not found')
@@ -81,7 +80,7 @@ describe('Find Product use case integration tests', () => {
     const id = 'invalid-id'
 
     // Act - When
-    const output = usecase.execute(id)
+    const output = usecase.execute({ id: id })
 
     // Assert - Then
     await expect(output).rejects.toThrow('Product not found')
@@ -92,7 +91,7 @@ describe('Find Product use case integration tests', () => {
     const id = ''
 
     // Act - When
-    const output = usecase.execute(id)
+    const output = usecase.execute({ id: id })
 
     // Assert - Then
     await expect(output).rejects.toThrow('Product not found')

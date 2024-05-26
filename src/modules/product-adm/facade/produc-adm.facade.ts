@@ -4,37 +4,62 @@ import {
   AddProductFacadeOutputDto,
   CheckStockFacadeInputDto,
   CheckStockFacadeOutputDto,
+  FindProductFacadeInputDto,
+  FindProductFacadeOutputDto,
   ProductAdmFacadeInterface,
 } from '@/modules/product-adm/facade/product-adm.facade.interface'
+import { CheckStockOutputDto } from '@/modules/product-adm/usecase/check-stock/check-stock.dto'
+import { FindProductOutputDto } from '@/modules/product-adm/usecase/find-product/find-product.dto'
 
 export interface ProductAdmFacadeProps {
-  addUsecase: UsecaseInterface
-  findUsecase: UsecaseInterface
+  addProductUsecase: UsecaseInterface
+  checkStockUsecase: UsecaseInterface
+  findProductUsecase: UsecaseInterface
 }
 
 export class ProductAdmFacade implements ProductAdmFacadeInterface {
-  private _addUsecase: UsecaseInterface
-  private _findUsecase: UsecaseInterface
+  private _addProductUsecase: UsecaseInterface
+  private _checkStockUsecase: UsecaseInterface
+  private _findProductUsecase: UsecaseInterface
 
   constructor(usecaseProps: ProductAdmFacadeProps) {
-    this._addUsecase = usecaseProps.addUsecase
-    this._findUsecase = usecaseProps.findUsecase
+    this._addProductUsecase = usecaseProps.addProductUsecase
+    this._checkStockUsecase = usecaseProps.checkStockUsecase
+    this._findProductUsecase = usecaseProps.findProductUsecase
   }
 
   async addProduct(
     input: AddProductFacadeInputDto
   ): Promise<AddProductFacadeOutputDto> {
-    return await this._addUsecase.execute(input)
+    return await this._addProductUsecase.execute(input)
   }
 
   async checkStock(
     input: CheckStockFacadeInputDto
   ): Promise<CheckStockFacadeOutputDto> {
-    const product = await this._findUsecase.execute(input.productId)
+    const output: CheckStockOutputDto =
+      await this._checkStockUsecase.execute(input)
 
     return {
-      productId: product.id,
-      stock: product.stock,
+      productId: output.productId,
+      stock: output.stock,
+    }
+  }
+
+  async findProduct(
+    input: FindProductFacadeInputDto
+  ): Promise<FindProductFacadeOutputDto> {
+    const output: FindProductOutputDto =
+      await this._findProductUsecase.execute(input)
+
+    return {
+      id: output.id,
+      name: output.name,
+      description: output.description,
+      purchasePrice: output.purchasePrice,
+      stock: output.stock,
+      createdAt: output.createdAt,
+      updatedAt: output.updatedAt,
     }
   }
 }
