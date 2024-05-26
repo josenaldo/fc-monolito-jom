@@ -66,6 +66,14 @@ describe('Product Repository integration tests', () => {
     expect(product2.salesPrice).toBe(20)
   })
 
+  it('should return an empty list when there are no products', async () => {
+    // Act - When
+    const result = await repository.findAll()
+
+    // Assert - Then
+    expect(result).toHaveLength(0)
+  })
+
   it('should find a product', async () => {
     // Arrange - Given
     const id1 = uuid()
