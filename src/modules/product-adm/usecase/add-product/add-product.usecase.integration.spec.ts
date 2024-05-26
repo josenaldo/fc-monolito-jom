@@ -1,11 +1,11 @@
 import { CreateSequelize } from '@/modules/@shared/test/test.utils'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
-import ProductRepository from '@/modules/product-adm/repository/product.repository'
+import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
 import {
   AddProductInputDto,
   AddProductOutputDto,
 } from '@/modules/product-adm/usecase/add-product/add-product.dto'
-import AddProductUsecase from '@/modules/product-adm/usecase/add-product/add-product.usecase'
+import { AddProductUsecase } from '@/modules/product-adm/usecase/add-product/add-product.usecase'
 import { Sequelize } from 'sequelize-typescript'
 
 describe('Add Product use case integration tests', () => {

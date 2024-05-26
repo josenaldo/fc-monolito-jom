@@ -1,11 +1,11 @@
-import Id from '@/modules/@shared/domain/value-object/id.value-object'
+import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { CreateMockRepository } from '@/modules/@shared/test/test.utils'
-import ProductGateway from '@/modules/product-adm/gateway/product.gateway'
+import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
 import {
   AddProductInputDto,
   AddProductOutputDto,
 } from '@/modules/product-adm/usecase/add-product/add-product.dto'
-import AddProductUsecase from '@/modules/product-adm/usecase/add-product/add-product.usecase'
+import { AddProductUsecase } from '@/modules/product-adm/usecase/add-product/add-product.usecase'
 
 describe('Add Product use case unit tests', () => {
   let gateway: ProductGateway

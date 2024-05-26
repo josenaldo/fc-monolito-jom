@@ -1,7 +1,7 @@
 import { CreateSequelize } from '@/modules/@shared/test/test.utils'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
-import ProductRepository from '@/modules/product-adm/repository/product.repository'
-import FindProductUsecase from '@/modules/product-adm/usecase/find-product/find-product.usecase'
+import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
+import { FindProductUsecase } from '@/modules/product-adm/usecase/find-product/find-product.usecase'
 import { Sequelize } from 'sequelize-typescript'
 import { v4 as uuid } from 'uuid'
 

@@ -1,10 +1,10 @@
-import Id from '@/modules/@shared/domain/value-object/id.value-object'
-import Product from '@/modules/product-adm/domain/entity/product.entity'
-import ProductGateway from '@/modules/product-adm/gateway/product.gateway'
+import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Product } from '@/modules/product-adm/domain/entity/product.entity'
+import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import { UniqueConstraintError } from 'sequelize'
 
-export default class ProductRepository implements ProductGateway {
+export class ProductRepository implements ProductGateway {
   async add(product: Product): Promise<void> {
     try {
       await ProductModel.create({

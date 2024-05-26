@@ -1,6 +1,6 @@
-import AggregateRoot from '@/modules/@shared/domain/entity/aggregate-root.interface'
-import BaseEntity from '@/modules/@shared/domain/entity/base.entity'
-import Id from '@/modules/@shared/domain/value-object/id.value-object'
+import { AggregateRoot } from '@/modules/@shared/domain/entity/aggregate-root.interface'
+import { BaseEntity } from '@/modules/@shared/domain/entity/base.entity'
+import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 
 type ProductProps = {
   id?: Id
@@ -12,7 +12,7 @@ type ProductProps = {
   updatedAt?: Date
 }
 
-export default class Product extends BaseEntity implements AggregateRoot {
+export class Product extends BaseEntity implements AggregateRoot {
   private _name: string
   private _description: string
   private _purchasePrice: number

@@ -1,9 +1,10 @@
 import { UsecaseInterface } from '@/modules/@shared/usecase/usecase.interface'
-import productAdmFacadeInterface, {
+import {
   AddProductFacadeInputDto,
   AddProductFacadeOutputDto,
   CheckStockFacadeInputDto,
   CheckStockFacadeOutputDto,
+  ProductAdmFacadeInterface,
 } from '@/modules/product-adm/facade/product-adm.facade.interface'
 
 export interface ProductAdmFacadeProps {
@@ -11,7 +12,7 @@ export interface ProductAdmFacadeProps {
   findUsecase: UsecaseInterface
 }
 
-export default class ProductAdmFacade implements productAdmFacadeInterface {
+export class ProductAdmFacade implements ProductAdmFacadeInterface {
   private _addUsecase: UsecaseInterface
   private _findUsecase: UsecaseInterface
 

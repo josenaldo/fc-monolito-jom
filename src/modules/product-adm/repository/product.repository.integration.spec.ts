@@ -1,8 +1,8 @@
-import Id from '@/modules/@shared/domain/value-object/id.value-object'
+import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { CreateSequelize } from '@/modules/@shared/test/test.utils'
-import Product from '@/modules/product-adm/domain/entity/product.entity'
+import { Product } from '@/modules/product-adm/domain/entity/product.entity'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
-import ProductRepository from '@/modules/product-adm/repository/product.repository'
+import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
 import { Sequelize } from 'sequelize-typescript'
 
 import { v4 as uuid } from 'uuid'

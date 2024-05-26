@@ -1,1 +1,1 @@
-export default interface ValueObject {}
+export interface ValueObject {}

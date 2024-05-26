@@ -1,10 +1,10 @@
-import Id from '@/modules/@shared/domain/value-object/id.value-object'
+import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { CreateSequelizeWithModels } from '@/modules/@shared/test/test.utils'
-import ProductAdmFacade from '@/modules/product-adm/facade/produc-adm.facade'
+import { ProductAdmFacade } from '@/modules/product-adm/facade/produc-adm.facade'
 import { AddProductFacadeInputDto } from '@/modules/product-adm/facade/product-adm.facade.interface'
 import { ProductAdmFacadeFactory } from '@/modules/product-adm/factory/product-adm.facade.factory'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
-import ProductRepository from '@/modules/product-adm/repository/product.repository'
+import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
 import { Sequelize } from 'sequelize-typescript'
 
 describe('Product Adm facade integration tests', () => {

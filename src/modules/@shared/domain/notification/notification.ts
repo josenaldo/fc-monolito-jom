@@ -3,7 +3,7 @@ export type NotificationErrorProps = {
   context: string
 }
 
-export default class Notification {
+export class Notification {
   private _errors: NotificationErrorProps[] = []
 
   hasErrors(context?: string): boolean {

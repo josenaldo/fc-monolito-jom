@@ -1,13 +1,13 @@
-import Id from '@/modules/@shared/domain/value-object/id.value-object'
+import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { UsecaseInterface } from '@/modules/@shared/usecase/usecase.interface'
-import Product from '@/modules/product-adm/domain/entity/product.entity'
-import ProductGateway from '@/modules/product-adm/gateway/product.gateway'
+import { Product } from '@/modules/product-adm/domain/entity/product.entity'
+import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
 import {
   AddProductInputDto,
   AddProductOutputDto,
 } from '@/modules/product-adm/usecase/add-product/add-product.dto'
 
-export default class AddProductUsecase implements UsecaseInterface {
+export class AddProductUsecase implements UsecaseInterface {
   private _gateway: ProductGateway
 
   constructor(gateway: ProductGateway) {

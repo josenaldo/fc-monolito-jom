@@ -1,8 +1,8 @@
-import Notification from '@/modules/@shared/domain/notification/notification'
-import NotificationError from '@/modules/@shared/domain/notification/notification.error'
-import Id from '@/modules/@shared/domain/value-object/id.value-object'
+import { Notification } from '@/modules/@shared/domain/notification/notification'
+import { NotificationError } from '@/modules/@shared/domain/notification/notification.error'
+import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 
-export default abstract class BaseEntity {
+export abstract class BaseEntity {
   private _id: Id
   private _createdAt: Date
   private _updatedAt: Date

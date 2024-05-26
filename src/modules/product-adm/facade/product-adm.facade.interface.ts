@@ -25,7 +25,7 @@ export interface CheckStockFacadeOutputDto {
   stock: number
 }
 
-export default interface productAdmFacadeInterface {
+export interface ProductAdmFacadeInterface {
   addProduct(
     input: AddProductFacadeInputDto
   ): Promise<AddProductFacadeOutputDto>
