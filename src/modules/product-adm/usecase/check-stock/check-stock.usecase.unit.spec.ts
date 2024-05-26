@@ -1,6 +1,6 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
-import { CreateMockRepository } from '@/modules/@shared/test/test.utils'
 import { Product } from '@/modules/product-adm/domain/entity/product.entity'
+import { CreateMockRepository } from '@/modules/product-adm/test/test.utils'
 import {
   CheckStockInputDto,
   CheckStockOutputDto,

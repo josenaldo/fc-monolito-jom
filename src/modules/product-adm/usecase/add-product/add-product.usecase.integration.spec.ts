@@ -1,6 +1,6 @@
-import { CreateSequelize } from '@/modules/@shared/test/test.utils'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
+import { CreateSequelize } from '@/modules/product-adm/test/test.utils'
 import {
   AddProductInputDto,
   AddProductOutputDto,

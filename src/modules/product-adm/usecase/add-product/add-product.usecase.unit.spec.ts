@@ -1,6 +1,6 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
-import { CreateMockRepository } from '@/modules/@shared/test/test.utils'
 import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
+import { CreateMockRepository } from '@/modules/product-adm/test/test.utils'
 import {
   AddProductInputDto,
   AddProductOutputDto,

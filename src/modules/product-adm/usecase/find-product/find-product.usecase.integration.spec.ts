@@ -1,7 +1,7 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
-import { CreateSequelizeWithModels } from '@/modules/@shared/test/test.utils'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
+import { CreateSequelizeWithModels } from '@/modules/product-adm/test/test.utils'
 import { FindProductUsecase } from '@/modules/product-adm/usecase/find-product/find-product.usecase'
 import { Sequelize } from 'sequelize-typescript'
 import { v4 as uuid } from 'uuid'
