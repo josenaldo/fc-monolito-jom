@@ -59,7 +59,7 @@ describe('Add Product use case unit tests', () => {
 
   it('should add a product with an id', async () => {
     // Arrange
-    input.id = '123'
+    input.id = '123e4567-e89b-12d3-a456-426614174000'
 
     // Act
     const output: AddProductOutputDto = await usecase.execute(input)
@@ -77,12 +77,12 @@ describe('Add Product use case unit tests', () => {
         _updatedAt: expect.any(Date),
       })
     )
-    expect(output.id).toBe('123')
+    expect(output.id).toBe(input.id)
     expect(output.createdAt).toBeDefined()
     expect(output.updatedAt).toBeDefined()
 
     expect(output).toEqual({
-      id: '123',
+      id: input.id,
       name: input.name,
       description: input.description,
       purchasePrice: input.purchasePrice,

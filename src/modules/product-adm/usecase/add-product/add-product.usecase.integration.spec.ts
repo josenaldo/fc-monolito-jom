@@ -51,7 +51,7 @@ describe('Add Product use case integration tests', () => {
 
   it('should add a product with an id', async () => {
     // Arrange - Given
-    input.id = '1'
+    input.id = '123e4567-e89b-12d3-a456-426614174000'
 
     // Act - When
     const output: AddProductOutputDto = await usecase.execute(input)
@@ -67,6 +67,17 @@ describe('Add Product use case integration tests', () => {
     expect(productModel.stock).toBe(input.stock)
     expect(productModel.createdAt).toBeDefined()
     expect(productModel.updatedAt).toBeDefined()
+  })
+
+  it('should throw an error when trying to create a product with an invalid id', async () => {
+    // Arrange - Given
+    input.id = 'invalid-id'
+
+    // Act - When
+    const output = usecase.execute(input)
+
+    // Assert - Then
+    await expect(output).rejects.toThrow('Invalid id')
   })
 
   it('should throw an error when trying to create a product with an empty name', async () => {
