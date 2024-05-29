@@ -4,7 +4,6 @@ import { ProductRepository } from '@/modules/product-adm/repository/product.repo
 import { CreateSequelizeWithModels } from '@/modules/product-adm/test/test.utils'
 import { FindProductUsecase } from '@/modules/product-adm/usecase/find-product/find-product.usecase'
 import { Sequelize } from 'sequelize-typescript'
-import { v4 as uuid } from 'uuid'
 
 describe('Find Product use case integration tests', () => {
   let sequelize: Sequelize
@@ -66,10 +65,10 @@ describe('Find Product use case integration tests', () => {
 
   it('should throw a Not Found error when trying to find a product that does not exist', async () => {
     // Arrange - Given
-    const id = uuid()
+    const id = new Id()
 
     // Act - When
-    const output = usecase.execute({ id: id })
+    const output = usecase.execute({ id: id.value })
 
     // Assert - Then
     await expect(output).rejects.toThrow(new Error('Product not found'))

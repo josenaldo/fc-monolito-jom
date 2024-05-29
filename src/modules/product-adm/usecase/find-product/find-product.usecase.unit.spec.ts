@@ -3,7 +3,6 @@ import { Product } from '@/modules/product-adm/domain/entity/product.entity'
 import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
 import { CreateMockRepository } from '@/modules/product-adm/test/test.utils'
 import { FindProductUsecase } from '@/modules/product-adm/usecase/find-product/find-product.usecase'
-import { v4 as uuid } from 'uuid'
 
 describe('Find Product use case unit tests', () => {
   let gateway: ProductGateway
@@ -16,9 +15,9 @@ describe('Find Product use case unit tests', () => {
 
   it('should find a product', async () => {
     // Arrange - Given
-    const id = uuid()
+    const id = new Id()
     const expectedProduct = new Product({
-      id: new Id(id),
+      id: id,
       createdAt: new Date(),
       updatedAt: new Date(),
       name: 'Product 1',
@@ -29,13 +28,13 @@ describe('Find Product use case unit tests', () => {
     gateway.find = jest.fn().mockResolvedValue(expectedProduct)
 
     // Act - When
-    const output = await usecase.execute({ id: id })
+    const output = await usecase.execute({ id: id.value })
 
     // Assert - Then
     expect(gateway.find).toHaveBeenCalledTimes(1)
-    expect(gateway.find).toHaveBeenCalledWith(id)
+    expect(gateway.find).toHaveBeenCalledWith(id.value)
     expect(output).toEqual({
-      id,
+      id: id.value,
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date),
       name: 'Product 1',
@@ -47,7 +46,7 @@ describe('Find Product use case unit tests', () => {
 
   it('should throw a Not Found error when trying to find a product that does not exist', async () => {
     // Arrange - Given
-    const id = uuid()
+    const id = new Id().value
     gateway.find = jest.fn().mockResolvedValue(undefined)
 
     // Act - When

@@ -1,9 +1,8 @@
+import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { ProductModel } from '@/modules/store-catalog/repository/product.model'
 import { ProductRepository } from '@/modules/store-catalog/repository/product.repository'
 import { CreateSequelizeWithModels } from '@/modules/store-catalog/test/test.utils'
 import { Sequelize } from 'sequelize-typescript'
-
-import { v4 as uuid } from 'uuid'
 
 describe('Product Repository integration tests', () => {
   let sequelize: Sequelize
@@ -21,11 +20,11 @@ describe('Product Repository integration tests', () => {
 
   it('should find all products', async () => {
     // Arrange - Given
-    const id1 = uuid()
-    const id2 = uuid()
+    const id1 = new Id()
+    const id2 = new Id()
 
     await ProductModel.create({
-      id: id1,
+      id: id1.value,
       createdAt: new Date(),
       updatedAt: new Date(),
       name: 'Product 1',
@@ -34,7 +33,7 @@ describe('Product Repository integration tests', () => {
     })
 
     await ProductModel.create({
-      id: id2,
+      id: id2.value,
       createdAt: new Date(),
       updatedAt: new Date(),
       name: 'Product 2',
@@ -45,12 +44,12 @@ describe('Product Repository integration tests', () => {
     // Act - When
     const result = await repository.findAll()
 
-    const product1 = result.find((product) => product.id.value === id1)
-    const product2 = result.find((product) => product.id.value === id2)
+    const product1 = result.find((product) => product.id.value === id1.value)
+    const product2 = result.find((product) => product.id.value === id2.value)
 
     // Assert - Then
     expect(product1).not.toBeNull()
-    expect(product1.id.value).toBe(id1)
+    expect(product1.id).toStrictEqual(id1)
     expect(product1.createdAt).toBeDefined()
     expect(product1.updatedAt).toBeDefined()
     expect(product1.name).toBe('Product 1')
@@ -58,7 +57,7 @@ describe('Product Repository integration tests', () => {
     expect(product1.salesPrice).toBe(10)
 
     expect(product2).not.toBeNull()
-    expect(product2.id.value).toBe(id2)
+    expect(product2.id).toStrictEqual(id2)
     expect(product2.createdAt).toBeDefined()
     expect(product2.updatedAt).toBeDefined()
     expect(product2.name).toBe('Product 2')
@@ -76,10 +75,10 @@ describe('Product Repository integration tests', () => {
 
   it('should find a product', async () => {
     // Arrange - Given
-    const id1 = uuid()
+    const id1 = new Id()
 
     await ProductModel.create({
-      id: id1,
+      id: id1.value,
       createdAt: new Date(),
       updatedAt: new Date(),
       name: 'Product 1',
@@ -88,11 +87,11 @@ describe('Product Repository integration tests', () => {
     })
 
     // Act - When
-    const product1 = await repository.find(id1)
+    const product1 = await repository.find(id1.value)
 
     // Assert - Then
     expect(product1).not.toBeNull()
-    expect(product1.id.value).toBe(id1)
+    expect(product1.id).toStrictEqual(id1)
     expect(product1.createdAt).toBeDefined()
     expect(product1.updatedAt).toBeDefined()
     expect(product1.name).toBe('Product 1')
@@ -102,10 +101,10 @@ describe('Product Repository integration tests', () => {
 
   it('should throw a Not Found error when trying to find a product that does not exist', async () => {
     // Arrange - Given
-    const id = uuid()
+    const id = new Id()
 
     // Act - When
-    const result = repository.find(id)
+    const result = repository.find(id.value)
 
     // Assert - Then
     await expect(result).rejects.toThrow(new Error('Product not found'))
