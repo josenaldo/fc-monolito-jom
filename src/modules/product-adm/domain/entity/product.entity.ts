@@ -28,7 +28,7 @@ export class Product extends BaseEntity implements AggregateRoot {
   }
 
   get contextName(): string {
-    return 'Product'
+    return 'product-adm/product'
   }
 
   get name(): string {

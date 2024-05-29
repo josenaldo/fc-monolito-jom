@@ -108,6 +108,6 @@ describe('Product Repository integration tests', () => {
     const result = repository.find(id)
 
     // Assert - Then
-    await expect(result).rejects.toThrow('Product not found')
+    await expect(result).rejects.toThrow(new Error('Product not found'))
   })
 })

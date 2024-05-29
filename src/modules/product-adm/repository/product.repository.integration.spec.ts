@@ -74,7 +74,7 @@ describe('Product Repository integration tests', () => {
     const output = repository.add(product)
 
     // Assert - Then
-    await expect(output).rejects.toThrow('Product already exists')
+    await expect(output).rejects.toThrow(new Error('Product already exists'))
   })
 
   it('should find a product', async () => {
@@ -136,6 +136,6 @@ describe('Product Repository integration tests', () => {
     }
 
     // Assert - Then
-    await expect(f()).rejects.toThrow('Product not found')
+    await expect(f()).rejects.toThrow(new Error('Product not found'))
   })
 })

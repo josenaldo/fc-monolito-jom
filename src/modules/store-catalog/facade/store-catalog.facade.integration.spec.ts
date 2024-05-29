@@ -75,7 +75,7 @@ describe('Store Catalog facade integration tests', () => {
     const output = facade.find(input)
 
     // Assert - Then
-    await expect(output).rejects.toThrow('Product not found')
+    await expect(output).rejects.toThrow(new Error('Product not found'))
   })
 
   it('should find all products', async () => {

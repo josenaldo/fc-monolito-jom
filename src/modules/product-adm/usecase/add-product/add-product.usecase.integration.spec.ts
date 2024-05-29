@@ -77,7 +77,7 @@ describe('Add Product use case integration tests', () => {
     const output = usecase.execute(input)
 
     // Assert - Then
-    await expect(output).rejects.toThrow('Invalid id')
+    await expect(output).rejects.toThrow(new Error('Invalid id'))
   })
 
   it('should throw an error when trying to create a product with an empty name', async () => {
@@ -88,7 +88,9 @@ describe('Add Product use case integration tests', () => {
     const output = usecase.execute(input)
 
     // Assert - Then
-    await expect(output).rejects.toThrow('product: Name is required')
+    await expect(output).rejects.toThrow(
+      new Error('product-adm/product: Name is required')
+    )
   })
 
   it('should throw an error when trying to create a product with an empty description', async () => {
@@ -99,7 +101,9 @@ describe('Add Product use case integration tests', () => {
     const output = usecase.execute(input)
 
     // Assert - Then
-    await expect(output).rejects.toThrow('product: Description is required')
+    await expect(output).rejects.toThrow(
+      new Error('product-adm/product: Description is required')
+    )
   })
 
   it('should throw an error when trying to create a product with a negative purchase price', async () => {
@@ -111,7 +115,9 @@ describe('Add Product use case integration tests', () => {
 
     // Assert - Then
     await expect(output).rejects.toThrow(
-      'product: Purchase price must be greater than or equal to 0'
+      new Error(
+        'product-adm/product: Purchase price must be greater than or equal to 0'
+      )
     )
   })
 
@@ -124,7 +130,7 @@ describe('Add Product use case integration tests', () => {
 
     // Assert - Then
     await expect(output).rejects.toThrow(
-      'product: Stock must be greater than or equal to 0'
+      new Error('product-adm/product: Stock must be greater than or equal to 0')
     )
   })
 })

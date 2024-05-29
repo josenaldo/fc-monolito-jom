@@ -56,6 +56,6 @@ describe('Find Product use case unit tests', () => {
     const output = usecase.execute({ id: id.value })
 
     // Assert - Then
-    await expect(output).rejects.toThrow('Product not found')
+    await expect(output).rejects.toThrow(new Error('Product not found'))
   })
 })

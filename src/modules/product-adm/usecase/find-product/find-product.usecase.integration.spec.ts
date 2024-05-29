@@ -72,7 +72,7 @@ describe('Find Product use case integration tests', () => {
     const output = usecase.execute({ id: id })
 
     // Assert - Then
-    await expect(output).rejects.toThrow('Product not found')
+    await expect(output).rejects.toThrow(new Error('Product not found'))
   })
 
   it('should throw an error when trying to find a product with an invalid id', async () => {
@@ -83,7 +83,7 @@ describe('Find Product use case integration tests', () => {
     const output = usecase.execute({ id: id })
 
     // Assert - Then
-    await expect(output).rejects.toThrow('Product not found')
+    await expect(output).rejects.toThrow(new Error('Product not found'))
   })
 
   it('should throw an error when trying to find a product with an empty id', async () => {
@@ -94,6 +94,6 @@ describe('Find Product use case integration tests', () => {
     const output = usecase.execute({ id: id })
 
     // Assert - Then
-    await expect(output).rejects.toThrow('Product not found')
+    await expect(output).rejects.toThrow(new Error('Product not found'))
   })
 })

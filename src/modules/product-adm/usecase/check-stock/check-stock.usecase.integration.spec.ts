@@ -70,6 +70,6 @@ describe('Check Stock usecase unit tests', () => {
     const output = usecase.execute({ productId: 'invalid-id' })
 
     // Assert - Then
-    await expect(output).rejects.toThrow('Product not found')
+    await expect(output).rejects.toThrow(new Error('Product not found'))
   })
 })

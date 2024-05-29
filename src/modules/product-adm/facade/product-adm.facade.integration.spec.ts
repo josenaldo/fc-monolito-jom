@@ -105,7 +105,7 @@ describe('Product Adm facade integration tests', () => {
       const output = productAdmFacade.addProduct(input2)
 
       // Assert - Then
-      await expect(output).rejects.toThrow('Product already exists')
+      await expect(output).rejects.toThrow(new Error('Product already exists'))
     })
 
     it('should throw an error when product is invalid', async () => {
@@ -122,7 +122,9 @@ describe('Product Adm facade integration tests', () => {
 
       // Assert - Then
       await expect(output).rejects.toThrow(
-        'product: Name is required, Description is required, Purchase price must be greater than or equal to 0, Stock must be greater than or equal to 0'
+        new Error(
+          'product-adm/product: Name is required, Description is required, Purchase price must be greater than or equal to 0, Stock must be greater than or equal to 0'
+        )
       )
     })
   })
@@ -157,7 +159,7 @@ describe('Product Adm facade integration tests', () => {
       const output = productAdmFacade.checkStock({ productId: id.value })
 
       // Assert - Then
-      await expect(output).rejects.toThrow('Product not found')
+      await expect(output).rejects.toThrow(new Error('Product not found'))
     })
   })
 
@@ -197,7 +199,7 @@ describe('Product Adm facade integration tests', () => {
       const output = productAdmFacade.findProduct({ id: id.value })
 
       // Assert - Then
-      await expect(output).rejects.toThrow('Product not found')
+      await expect(output).rejects.toThrow(new Error('Product not found'))
     })
   })
 })
