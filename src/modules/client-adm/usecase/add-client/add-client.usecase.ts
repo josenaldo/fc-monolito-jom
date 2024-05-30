@@ -1,6 +1,6 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { UsecaseInterface } from '@/modules/@shared/usecase/usecase.interface'
-import { Client } from '@/modules/client-adm/domain/client.entity'
+import { Client } from '@/modules/client-adm/domain/entity/client.entity'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
 import {
   AddClientInputDto,

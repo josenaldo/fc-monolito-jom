@@ -1,58 +1,60 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
-import { Client } from '@/modules/client-adm/domain/entity/client.entity'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
-import { CreateMockRepository } from '@/modules/client-adm/test/test.utils'
+import { ClientModel } from '@/modules/client-adm/repository/client.model'
+import { ClientRepository } from '@/modules/client-adm/repository/client.repository'
+import { CreateSequelizeWithModels } from '@/modules/client-adm/test/test.utils'
 import { FindClientUsecase } from '@/modules/client-adm/usecase/find-client/find-client.usecase'
-import { FindClientInputDto } from '@/modules/client-adm/usecase/find-client/find-client.usecase.dto'
+import { Sequelize } from 'sequelize-typescript'
 
-describe('Find Client use case unit tests', () => {
-  let gateway: ClientGateway
+describe('Find Client use case integration tests', () => {
+  let sequelize: Sequelize
+  let repository: ClientGateway
   let usecase: FindClientUsecase
-  let input: FindClientInputDto
-  let id: Id
+  let id1: string
+  let id2: string
 
   beforeEach(async () => {
-    gateway = CreateMockRepository()
-    usecase = new FindClientUsecase(gateway)
-    id = new Id()
-    input = {
-      id: id.value,
-    }
+    sequelize = await CreateSequelizeWithModels([ClientModel])
+
+    repository = new ClientRepository()
+    usecase = new FindClientUsecase(repository)
+    id1 = new Id().value
+    id2 = new Id().value
+
+    await ClientModel.create({
+      id: id1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      name: 'Client 1',
+      email: 'teste1@teste.com',
+      address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
+    })
+  })
+
+  afterEach(async () => {
+    await sequelize.close()
   })
 
   it('should find a client', async () => {
     // Arrange - Given
-    const client = new Client({
-      id: id,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      name: 'Client 1',
-      email: 'teste@teste.com',
-      address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
-    })
-
-    gateway.find = jest.fn().mockResolvedValue(client)
 
     // Act - When
-    const output = await usecase.execute(input)
+    const output = await usecase.execute({ id: id1 })
 
     // Assert - Then
-    expect(gateway.find).toHaveBeenCalledTimes(1)
-    expect(gateway.find).toHaveBeenCalledWith(input.id)
     expect(output).toEqual({
-      id: client.id.value,
-      createdAt: client.createdAt,
-      updatedAt: client.updatedAt,
-      name: client.name,
-      email: client.email,
-      address: client.address,
+      id: expect.any(String),
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
+      name: 'Client 1',
+      email: 'teste1@teste.com',
+      address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
     })
   })
 
   it('should throw a client not found error when trying to find a client that does not exist', async () => {
     // Arrange - Given
     const id = new Id()
-    gateway.find = jest.fn().mockResolvedValue(undefined)
 
     // Act - When
     const output = usecase.execute({ id: id.value })
@@ -64,7 +66,6 @@ describe('Find Client use case unit tests', () => {
   it('should throw a client not found error when trying to find a client with an invalid id', async () => {
     // Arrange - Given
     const id = 'invalid-id'
-    gateway.find = jest.fn().mockResolvedValue(undefined)
 
     // Act - When
     const output = usecase.execute({ id: id })
@@ -76,7 +77,6 @@ describe('Find Client use case unit tests', () => {
   it('should throw a client not found error when trying to find a client with an empty id', async () => {
     // Arrange - Given
     const id = ''
-    gateway.find = jest.fn().mockResolvedValue(undefined)
 
     // Act - When
     const output = usecase.execute({ id: id })

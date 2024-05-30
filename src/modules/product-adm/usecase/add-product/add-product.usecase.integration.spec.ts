@@ -1,6 +1,7 @@
+import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
-import { CreateSequelize } from '@/modules/product-adm/test/test.utils'
+import { CreateSequelizeWithModels } from '@/modules/product-adm/test/test.utils'
 import {
   AddProductInputDto,
   AddProductOutputDto,
@@ -15,9 +16,7 @@ describe('Add Product use case integration tests', () => {
   let input: AddProductInputDto
 
   beforeEach(async () => {
-    sequelize = CreateSequelize()
-    sequelize.addModels([ProductModel])
-    await sequelize.sync()
+    sequelize = await CreateSequelizeWithModels([ProductModel])
 
     repository = new ProductRepository()
     usecase = new AddProductUsecase(repository)
@@ -30,6 +29,10 @@ describe('Add Product use case integration tests', () => {
     }
   })
 
+  afterEach(async () => {
+    await sequelize.close()
+  })
+
   it('should add a product without an id', async () => {
     // Arrange - Given
 
@@ -37,36 +40,63 @@ describe('Add Product use case integration tests', () => {
     const output: AddProductOutputDto = await usecase.execute(input)
 
     // Assert - Then
+    expect(output).toBeDefined()
+    expect(output).toEqual({
+      id: expect.any(String),
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
+      name: input.name,
+      description: input.description,
+      purchasePrice: input.purchasePrice,
+      stock: input.stock,
+    })
+
     const productModel = await ProductModel.findByPk(output.id)
 
     expect(productModel).not.toBeNull()
-    expect(productModel.id).toBe(output.id)
-    expect(productModel.createdAt).toBeDefined()
-    expect(productModel.updatedAt).toBeDefined()
-    expect(productModel.name).toBe(input.name)
-    expect(productModel.description).toBe(input.description)
-    expect(productModel.purchasePrice).toBe(input.purchasePrice)
-    expect(productModel.stock).toBe(input.stock)
+    expect(productModel).toMatchObject({
+      id: output.id,
+      createdAt: output.createdAt,
+      updatedAt: output.updatedAt,
+      name: input.name,
+      description: input.description,
+      purchasePrice: input.purchasePrice,
+      stock: input.stock,
+    })
   })
 
   it('should add a product with an id', async () => {
     // Arrange - Given
-    input.id = '123e4567-e89b-12d3-a456-426614174000'
+    const id = new Id()
+    input.id = id.value
 
     // Act - When
     const output: AddProductOutputDto = await usecase.execute(input)
 
     // Assert - Then
+    expect(output).toBeDefined()
+    expect(output).toEqual({
+      id: expect.any(String),
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
+      name: input.name,
+      description: input.description,
+      purchasePrice: input.purchasePrice,
+      stock: input.stock,
+    })
+
     const productModel = await ProductModel.findByPk(output.id)
 
     expect(productModel).not.toBeNull()
-    expect(productModel.id).toBe(output.id)
-    expect(productModel.createdAt).toBeDefined()
-    expect(productModel.updatedAt).toBeDefined()
-    expect(productModel.name).toBe(input.name)
-    expect(productModel.description).toBe(input.description)
-    expect(productModel.purchasePrice).toBe(input.purchasePrice)
-    expect(productModel.stock).toBe(input.stock)
+    expect(productModel).toMatchObject({
+      id: output.id,
+      createdAt: output.createdAt,
+      updatedAt: output.updatedAt,
+      name: input.name,
+      description: input.description,
+      purchasePrice: input.purchasePrice,
+      stock: input.stock,
+    })
   })
 
   it('should throw an error when trying to create a product with an invalid id', async () => {

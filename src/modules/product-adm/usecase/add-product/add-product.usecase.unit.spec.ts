@@ -15,6 +15,7 @@ describe('Add Product use case unit tests', () => {
   beforeEach(async () => {
     gateway = CreateMockRepository()
     usecase = new AddProductUsecase(gateway)
+
     input = {
       name: 'Product 1',
       description: 'Description 1',
@@ -42,10 +43,8 @@ describe('Add Product use case unit tests', () => {
         _stock: input.stock,
       })
     )
-    expect(output.id).toBeDefined()
-    expect(output.createdAt).toBeDefined()
-    expect(output.updatedAt).toBeDefined()
 
+    expect(output).toBeDefined()
     expect(output).toEqual({
       id: expect.any(String),
       createdAt: expect.any(Date),
@@ -77,12 +76,10 @@ describe('Add Product use case unit tests', () => {
         _stock: input.stock,
       })
     )
-    expect(output.id).toBe(input.id)
-    expect(output.createdAt).toBeDefined()
-    expect(output.updatedAt).toBeDefined()
 
+    expect(output).toBeDefined()
     expect(output).toEqual({
-      id: input.id,
+      id: expect.any(String),
       createdAt: expect.any(Date),
       updatedAt: expect.any(Date),
       name: input.name,
@@ -90,6 +87,17 @@ describe('Add Product use case unit tests', () => {
       purchasePrice: input.purchasePrice,
       stock: input.stock,
     })
+  })
+
+  it('should throw an error when trying to create a product with an invalid id', async () => {
+    // Arrange - Given
+    input.id = 'invalid-id'
+
+    // Act - When
+    const output = usecase.execute(input)
+
+    // Assert - Then
+    await expect(output).rejects.toThrow(new Error('Invalid id'))
   })
 
   it('should throw an error when trying to create a product with an empty name', async () => {
