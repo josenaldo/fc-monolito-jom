@@ -1,5 +1,5 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
-import { ProductAdmFacade } from '@/modules/product-adm/facade/produc-adm.facade'
+import { ProductAdmFacade } from '@/modules/product-adm/facade/product-adm.facade'
 import {
   AddProductFacadeInputDto,
   AddProductFacadeOutputDto,

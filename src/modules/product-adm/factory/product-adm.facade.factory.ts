@@ -1,7 +1,7 @@
 import {
   ProductAdmFacade,
   ProductAdmFacadeProps,
-} from '@/modules/product-adm/facade/produc-adm.facade'
+} from '@/modules/product-adm/facade/product-adm.facade'
 import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
 import { AddProductUsecase } from '@/modules/product-adm/usecase/add-product/add-product.usecase'
 import { CheckStockUsecase } from '@/modules/product-adm/usecase/check-stock/check-stock.usecase'
