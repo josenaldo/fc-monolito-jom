@@ -9,10 +9,10 @@ export class ClientModel extends Model {
   @Column({ allowNull: false })
   declare id: string
 
-  @Column({ allowNull: false })
+  @Column({ allowNull: false, field: 'created_at' })
   declare createdAt: Date
 
-  @Column({ allowNull: false })
+  @Column({ allowNull: false, field: 'updated_at' })
   declare updatedAt: Date
 
   @Column({ allowNull: false })
