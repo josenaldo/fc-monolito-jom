@@ -34,7 +34,7 @@ describe('Transaction entity unit tests', () => {
       updatedAt: new Date(),
       amount: 100,
       orderId: new Id(),
-      status: TransactionStatus.Approved,
+      status: TransactionStatus.APPROVED,
     }
 
     // Act - When
@@ -78,7 +78,7 @@ describe('Transaction entity unit tests', () => {
     transaction.process()
 
     // Assert - Then
-    expect(transaction.status).toBe(TransactionStatus.Approved)
+    expect(transaction.status).toBe(TransactionStatus.APPROVED)
   })
 
   it('should process and decline a transaction', () => {
@@ -93,7 +93,7 @@ describe('Transaction entity unit tests', () => {
     transaction.process()
 
     // Assert - Then
-    expect(transaction.status).toBe(TransactionStatus.Declined)
+    expect(transaction.status).toBe(TransactionStatus.DECLINED)
   })
 
   it('should process a transaction and throw an error if the the transaction is already declined', () => {
@@ -101,7 +101,7 @@ describe('Transaction entity unit tests', () => {
     const props = {
       amount: 100,
       orderId: new Id(),
-      status: TransactionStatus.Declined,
+      status: TransactionStatus.DECLINED,
     }
     const transaction = new Transaction(props)
 
@@ -119,7 +119,7 @@ describe('Transaction entity unit tests', () => {
     const props = {
       amount: 100,
       orderId: new Id(),
-      status: TransactionStatus.Approved,
+      status: TransactionStatus.APPROVED,
     }
     const transaction = new Transaction(props)
 

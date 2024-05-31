@@ -3,9 +3,9 @@ import { BaseEntity } from '@/modules/@shared/domain/entity/base.entity'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 
 export enum TransactionStatus {
-  Approved = 'approved',
-  Declined = 'declined',
-  Pending = 'pending',
+  APPROVED = 'approved',
+  DECLINED = 'declined',
+  PENDING = 'pending',
 }
 
 type TransactionProps = {
@@ -26,7 +26,7 @@ export class Transaction extends BaseEntity implements AggregateRoot {
     super(props.id, props.createdAt, props.updatedAt)
     this._amount = props.amount
     this._orderId = props.orderId
-    this._status = props.status || TransactionStatus.Pending
+    this._status = props.status || TransactionStatus.PENDING
     this.validate()
   }
 
@@ -55,19 +55,19 @@ export class Transaction extends BaseEntity implements AggregateRoot {
   }
 
   private approve(): void {
-    this._status = TransactionStatus.Approved
+    this._status = TransactionStatus.APPROVED
   }
 
   private decline(): void {
-    this._status = TransactionStatus.Declined
+    this._status = TransactionStatus.DECLINED
   }
 
   process(): void {
-    if (this._status === TransactionStatus.Declined) {
+    if (this._status === TransactionStatus.DECLINED) {
       this.addNotificationError('Transaction declined')
     }
 
-    if (this._status === TransactionStatus.Approved) {
+    if (this._status === TransactionStatus.APPROVED) {
       this.addNotificationError('Transaction already approved')
     }
 

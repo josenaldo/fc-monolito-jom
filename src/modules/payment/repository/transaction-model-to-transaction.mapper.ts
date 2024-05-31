@@ -10,13 +10,15 @@ export class TransactionModelToTransactionMapper
   implements DomainToModelMapperInterface<Transaction, TransactionModel>
 {
   toDomain(model: TransactionModel) {
+    const status = model.status as TransactionStatus
+
     return new Transaction({
       id: new Id(model.id),
       createdAt: model.createdAt,
       updatedAt: model.updatedAt,
       orderId: new Id(model.orderId),
       amount: model.amount,
-      status: TransactionStatus[model.status as keyof typeof TransactionStatus],
+      status: status,
     })
   }
 
@@ -25,7 +27,7 @@ export class TransactionModelToTransactionMapper
       id: domain.id.value,
       createdAt: domain.createdAt,
       updatedAt: domain.updatedAt,
-      orderId: domain.orderId,
+      orderId: domain.orderId.value,
       amount: domain.amount,
       status: domain.status,
     })
