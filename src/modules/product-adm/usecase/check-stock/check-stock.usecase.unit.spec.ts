@@ -1,6 +1,6 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { Product } from '@/modules/product-adm/domain/entity/product.entity'
-import { CreateMockRepository } from '@/modules/product-adm/test/test.utils'
+import { CreateMockRepository } from '@/modules/product-adm/test/product-adm.test.utils'
 import {
   CheckStockInputDto,
   CheckStockOutputDto,
@@ -14,6 +14,9 @@ describe('Check Stock usecase unit tests', () => {
   let usecase: CheckStockUsecase
 
   beforeEach(() => {
+    repository = CreateMockRepository()
+    usecase = new CheckStockUsecase(repository)
+
     id = new Id()
     product = new Product({
       id: id,
@@ -22,10 +25,6 @@ describe('Check Stock usecase unit tests', () => {
       purchasePrice: 10,
       stock: 10,
     })
-
-    repository = CreateMockRepository()
-
-    usecase = new CheckStockUsecase(repository)
   })
 
   it('should check stock', async () => {

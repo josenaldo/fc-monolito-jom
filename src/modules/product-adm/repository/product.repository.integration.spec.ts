@@ -2,7 +2,7 @@ import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { Product } from '@/modules/product-adm/domain/entity/product.entity'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
-import { CreateSequelizeWithModels } from '@/modules/product-adm/test/test.utils'
+import { InitSequelizeForProductAdmModule } from '@/modules/product-adm/test/product-adm.test.utils'
 import { Sequelize } from 'sequelize-typescript'
 
 describe('Product Repository integration tests', () => {
@@ -10,7 +10,7 @@ describe('Product Repository integration tests', () => {
   let repository: ProductRepository
 
   beforeEach(async () => {
-    sequelize = await CreateSequelizeWithModels([ProductModel])
+    sequelize = await InitSequelizeForProductAdmModule()
 
     repository = new ProductRepository()
   })

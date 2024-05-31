@@ -2,7 +2,7 @@ import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
 import { ClientModel } from '@/modules/client-adm/repository/client.model'
 import { ClientRepository } from '@/modules/client-adm/repository/client.repository'
-import { CreateSequelizeWithModels } from '@/modules/client-adm/test/test.utils'
+import { InitSequelizeForClientAdmModule } from '@/modules/client-adm/test/client-adm.test.utils'
 import { AddClientUsecase } from '@/modules/client-adm/usecase/add-client/add-client.usecase'
 import {
   AddClientInputDto,
@@ -17,7 +17,7 @@ describe('Add Client use case integration tests', () => {
   let input: AddClientInputDto
 
   beforeEach(async () => {
-    sequelize = await CreateSequelizeWithModels([ClientModel])
+    sequelize = await InitSequelizeForClientAdmModule()
 
     repository = new ClientRepository()
     usecase = new AddClientUsecase(repository)

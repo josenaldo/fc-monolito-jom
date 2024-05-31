@@ -1,17 +1,18 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
-import { CreateMockRepository } from '@/modules/client-adm/test/test.utils'
+import { CreateMockRepository } from '@/modules/client-adm/test/client-adm.test.utils'
 import { AddClientUsecase } from '@/modules/client-adm/usecase/add-client/add-client.usecase'
 import { AddClientInputDto } from '@/modules/client-adm/usecase/add-client/add-client.usecase.dto'
 
 describe('Add Client use case unit tests', () => {
-  let gateway: ClientGateway
+  let repository: ClientGateway
   let usecase: AddClientUsecase
   let input: AddClientInputDto
 
   beforeEach(async () => {
-    gateway = CreateMockRepository()
-    usecase = new AddClientUsecase(gateway)
+    repository = CreateMockRepository()
+    usecase = new AddClientUsecase(repository)
+
     input = {
       name: 'Client 1',
       email: 'cliente@gmail.com',
@@ -26,8 +27,8 @@ describe('Add Client use case unit tests', () => {
     const output = await usecase.execute(input)
 
     // Assert - Then
-    expect(gateway.add).toHaveBeenCalledTimes(1)
-    expect(gateway.add).toHaveBeenCalledWith(
+    expect(repository.add).toHaveBeenCalledTimes(1)
+    expect(repository.add).toHaveBeenCalledWith(
       expect.objectContaining({
         _id: expect.any(Id),
         _createdAt: expect.any(Date),
@@ -58,8 +59,8 @@ describe('Add Client use case unit tests', () => {
 
     // Assert - Then
 
-    expect(gateway.add).toHaveBeenCalledTimes(1)
-    expect(gateway.add).toHaveBeenCalledWith(
+    expect(repository.add).toHaveBeenCalledTimes(1)
+    expect(repository.add).toHaveBeenCalledWith(
       expect.objectContaining({
         _id: id,
         _createdAt: expect.any(Date),

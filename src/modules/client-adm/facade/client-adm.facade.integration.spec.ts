@@ -7,9 +7,8 @@ import {
   FindClientFacadeOutputDto,
 } from '@/modules/client-adm/facade/client-adm.facade.interface'
 import { ClientAdmFacadeFactory } from '@/modules/client-adm/factory/client-adm.facade.factory'
-import { ClientModel } from '@/modules/client-adm/repository/client.model'
 import { ClientRepository } from '@/modules/client-adm/repository/client.repository'
-import { CreateSequelizeWithModels } from '@/modules/client-adm/test/test.utils'
+import { InitSequelizeForClientAdmModule } from '@/modules/client-adm/test/client-adm.test.utils'
 import { Sequelize } from 'sequelize-typescript'
 
 describe('Client Adm facade integration tests', () => {
@@ -18,9 +17,9 @@ describe('Client Adm facade integration tests', () => {
   let repository: ClientRepository
 
   beforeEach(async () => {
-    sequelize = await CreateSequelizeWithModels([ClientModel])
-    repository = new ClientRepository()
+    sequelize = await InitSequelizeForClientAdmModule()
 
+    repository = new ClientRepository()
     clientAdmFacade = ClientAdmFacadeFactory.create()
   })
 

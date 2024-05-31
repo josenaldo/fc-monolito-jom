@@ -2,7 +2,7 @@ import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { Client } from '@/modules/client-adm/domain/entity/client.entity'
 import { ClientModel } from '@/modules/client-adm/repository/client.model'
 import { ClientRepository } from '@/modules/client-adm/repository/client.repository'
-import { CreateSequelizeWithModels } from '@/modules/client-adm/test/test.utils'
+import { InitSequelizeForClientAdmModule } from '@/modules/client-adm/test/client-adm.test.utils'
 import { Sequelize } from 'sequelize-typescript'
 
 describe('Client Repository integration tests', () => {
@@ -10,7 +10,7 @@ describe('Client Repository integration tests', () => {
   let repository: ClientRepository
 
   beforeEach(async () => {
-    sequelize = await CreateSequelizeWithModels([ClientModel])
+    sequelize = await InitSequelizeForClientAdmModule()
 
     repository = new ClientRepository()
   })

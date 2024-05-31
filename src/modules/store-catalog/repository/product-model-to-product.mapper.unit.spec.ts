@@ -2,14 +2,14 @@ import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { Product } from '@/modules/store-catalog/domain/product.entity'
 import { ProductModelToProductMapper } from '@/modules/store-catalog/repository/product-model-to-product.mapper'
 import { ProductModel } from '@/modules/store-catalog/repository/product.model'
-import { CreateSequelizeWithModels } from '@/modules/store-catalog/test/test.utils'
+import { InitSequelizeForStoreCatalogModule } from '@/modules/store-catalog/test/store-catalog.test.utils'
 import { Sequelize } from 'sequelize-typescript'
 
 describe('ProductModelToProductMapper unit tests', () => {
   let sequelize: Sequelize
 
   beforeEach(async () => {
-    sequelize = await CreateSequelizeWithModels([ProductModel])
+    sequelize = await InitSequelizeForStoreCatalogModule()
   })
 
   afterEach(async () => {

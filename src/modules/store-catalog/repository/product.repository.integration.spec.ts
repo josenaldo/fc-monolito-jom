@@ -1,7 +1,7 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { ProductModel } from '@/modules/store-catalog/repository/product.model'
 import { ProductRepository } from '@/modules/store-catalog/repository/product.repository'
-import { CreateSequelizeWithModels } from '@/modules/store-catalog/test/test.utils'
+import { InitSequelizeForStoreCatalogModule } from '@/modules/store-catalog/test/store-catalog.test.utils'
 import { Sequelize } from 'sequelize-typescript'
 
 describe('Product Repository integration tests', () => {
@@ -9,7 +9,7 @@ describe('Product Repository integration tests', () => {
   let repository: ProductRepository
 
   beforeEach(async () => {
-    sequelize = await CreateSequelizeWithModels([ProductModel])
+    sequelize = await InitSequelizeForStoreCatalogModule()
 
     repository = new ProductRepository()
   })

@@ -1,16 +1,16 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { Product } from '@/modules/product-adm/domain/entity/product.entity'
 import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
-import { CreateMockRepository } from '@/modules/product-adm/test/test.utils'
+import { CreateMockRepository } from '@/modules/product-adm/test/product-adm.test.utils'
 import { FindProductUsecase } from '@/modules/product-adm/usecase/find-product/find-product.usecase'
 
 describe('Find Product use case unit tests', () => {
-  let gateway: ProductGateway
+  let repository: ProductGateway
   let usecase: FindProductUsecase
 
   beforeEach(async () => {
-    gateway = CreateMockRepository()
-    usecase = new FindProductUsecase(gateway)
+    repository = CreateMockRepository()
+    usecase = new FindProductUsecase(repository)
   })
 
   it('should find a product', async () => {
@@ -25,14 +25,14 @@ describe('Find Product use case unit tests', () => {
       purchasePrice: 10,
       stock: 10,
     })
-    gateway.find = jest.fn().mockResolvedValue(expectedProduct)
+    repository.find = jest.fn().mockResolvedValue(expectedProduct)
 
     // Act - When
     const output = await usecase.execute({ id: id.value })
 
     // Assert - Then
-    expect(gateway.find).toHaveBeenCalledTimes(1)
-    expect(gateway.find).toHaveBeenCalledWith(id.value)
+    expect(repository.find).toHaveBeenCalledTimes(1)
+    expect(repository.find).toHaveBeenCalledWith(id.value)
     expect(output).toEqual({
       id: id.value,
       createdAt: expect.any(Date),
@@ -47,7 +47,7 @@ describe('Find Product use case unit tests', () => {
   it('should throw a Not Found error when trying to find a product that does not exist', async () => {
     // Arrange - Given
     const id = new Id().value
-    gateway.find = jest.fn().mockResolvedValue(undefined)
+    repository.find = jest.fn().mockResolvedValue(undefined)
 
     // Act - When
     const output = usecase.execute({ id: id })
@@ -59,7 +59,7 @@ describe('Find Product use case unit tests', () => {
   it('should throw an error when trying to find a product with an invalid id', async () => {
     // Arrange - Given
     const id = 'invalid-id'
-    gateway.find = jest.fn().mockResolvedValue(undefined)
+    repository.find = jest.fn().mockResolvedValue(undefined)
     // Act - When
     const output = usecase.execute({ id: id })
 
@@ -70,7 +70,7 @@ describe('Find Product use case unit tests', () => {
   it('should throw an error when trying to find a product with an empty id', async () => {
     // Arrange - Given
     const id = ''
-    gateway.find = jest.fn().mockResolvedValue(undefined)
+    repository.find = jest.fn().mockResolvedValue(undefined)
 
     // Act - When
     const output = usecase.execute({ id: id })

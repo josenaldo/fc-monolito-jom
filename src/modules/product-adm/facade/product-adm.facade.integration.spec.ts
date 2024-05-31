@@ -7,9 +7,8 @@ import {
   FindProductFacadeOutputDto,
 } from '@/modules/product-adm/facade/product-adm.facade.interface'
 import { ProductAdmFacadeFactory } from '@/modules/product-adm/factory/product-adm.facade.factory'
-import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
-import { CreateSequelizeWithModels } from '@/modules/product-adm/test/test.utils'
+import { InitSequelizeForProductAdmModule } from '@/modules/product-adm/test/product-adm.test.utils'
 import { Sequelize } from 'sequelize-typescript'
 
 describe('Product Adm facade integration tests', () => {
@@ -18,9 +17,9 @@ describe('Product Adm facade integration tests', () => {
   let repository: ProductRepository
 
   beforeEach(async () => {
-    sequelize = await CreateSequelizeWithModels([ProductModel])
-    repository = new ProductRepository()
+    sequelize = await InitSequelizeForProductAdmModule()
 
+    repository = new ProductRepository()
     productAdmFacade = ProductAdmFacadeFactory.create()
   })
 

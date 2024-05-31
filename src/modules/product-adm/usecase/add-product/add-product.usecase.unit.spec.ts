@@ -1,6 +1,6 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
-import { CreateMockRepository } from '@/modules/product-adm/test/test.utils'
+import { CreateMockRepository } from '@/modules/product-adm/test/product-adm.test.utils'
 import {
   AddProductInputDto,
   AddProductOutputDto,
@@ -8,13 +8,13 @@ import {
 import { AddProductUsecase } from '@/modules/product-adm/usecase/add-product/add-product.usecase'
 
 describe('Add Product use case unit tests', () => {
-  let gateway: ProductGateway
+  let repository: ProductGateway
   let usecase: AddProductUsecase
   let input: AddProductInputDto
 
   beforeEach(async () => {
-    gateway = CreateMockRepository()
-    usecase = new AddProductUsecase(gateway)
+    repository = CreateMockRepository()
+    usecase = new AddProductUsecase(repository)
 
     input = {
       name: 'Product 1',
@@ -31,8 +31,8 @@ describe('Add Product use case unit tests', () => {
     const output: AddProductOutputDto = await usecase.execute(input)
 
     // Assert
-    expect(gateway.add).toHaveBeenCalledTimes(1)
-    expect(gateway.add).toHaveBeenCalledWith(
+    expect(repository.add).toHaveBeenCalledTimes(1)
+    expect(repository.add).toHaveBeenCalledWith(
       expect.objectContaining({
         _id: expect.any(Id),
         _createdAt: expect.any(Date),
@@ -64,8 +64,8 @@ describe('Add Product use case unit tests', () => {
     const output: AddProductOutputDto = await usecase.execute(input)
 
     // Assert
-    expect(gateway.add).toHaveBeenCalledTimes(1)
-    expect(gateway.add).toHaveBeenCalledWith(
+    expect(repository.add).toHaveBeenCalledTimes(1)
+    expect(repository.add).toHaveBeenCalledWith(
       expect.objectContaining({
         _id: expect.any(Id),
         _createdAt: expect.any(Date),

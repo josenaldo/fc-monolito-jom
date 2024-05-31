@@ -2,7 +2,7 @@ import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { ProductGateway } from '@/modules/store-catalog/gateway/product.gateway'
 import { ProductModel } from '@/modules/store-catalog/repository/product.model'
 import { ProductRepository } from '@/modules/store-catalog/repository/product.repository'
-import { CreateSequelizeWithModels } from '@/modules/store-catalog/test/test.utils'
+import { InitSequelizeForStoreCatalogModule } from '@/modules/store-catalog/test/store-catalog.test.utils'
 import { FindProductUsecase } from '@/modules/store-catalog/usecase/find-product/find-product.usecase'
 import { Sequelize } from 'sequelize-typescript'
 
@@ -12,7 +12,7 @@ describe('Find Product use case unit tests', () => {
   let usecase: FindProductUsecase
 
   beforeEach(async () => {
-    sequelize = await CreateSequelizeWithModels([ProductModel])
+    sequelize = await InitSequelizeForStoreCatalogModule()
 
     repository = new ProductRepository()
     usecase = new FindProductUsecase(repository)

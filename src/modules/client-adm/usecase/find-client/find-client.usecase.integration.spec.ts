@@ -2,7 +2,7 @@ import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
 import { ClientModel } from '@/modules/client-adm/repository/client.model'
 import { ClientRepository } from '@/modules/client-adm/repository/client.repository'
-import { CreateSequelizeWithModels } from '@/modules/client-adm/test/test.utils'
+import { InitSequelizeForClientAdmModule } from '@/modules/client-adm/test/client-adm.test.utils'
 import { FindClientUsecase } from '@/modules/client-adm/usecase/find-client/find-client.usecase'
 import { Sequelize } from 'sequelize-typescript'
 
@@ -11,15 +11,13 @@ describe('Find Client use case integration tests', () => {
   let repository: ClientGateway
   let usecase: FindClientUsecase
   let id1: string
-  let id2: string
 
   beforeEach(async () => {
-    sequelize = await CreateSequelizeWithModels([ClientModel])
+    sequelize = await InitSequelizeForClientAdmModule()
 
     repository = new ClientRepository()
     usecase = new FindClientUsecase(repository)
     id1 = new Id().value
-    id2 = new Id().value
 
     await ClientModel.create({
       id: id1,

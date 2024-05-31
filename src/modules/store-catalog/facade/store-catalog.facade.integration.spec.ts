@@ -1,8 +1,8 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
-import { CreateSequelizeWithModels } from '@/modules/product-adm/test/test.utils'
 import { StoreCatalogFacadeInterface } from '@/modules/store-catalog/facade/store-catalog.facade.interface'
 import { StoreCatalogFacadeFactory } from '@/modules/store-catalog/factory/store-catalog.facade.factory'
 import { ProductModel } from '@/modules/store-catalog/repository/product.model'
+import { InitSequelizeForStoreCatalogModule } from '@/modules/store-catalog/test/store-catalog.test.utils'
 import { Sequelize } from 'sequelize-typescript'
 
 describe('Store Catalog facade integration tests', () => {
@@ -14,7 +14,7 @@ describe('Store Catalog facade integration tests', () => {
   let productModel2: any
 
   beforeEach(async () => {
-    sequelize = await CreateSequelizeWithModels([ProductModel])
+    sequelize = await InitSequelizeForStoreCatalogModule()
 
     facade = StoreCatalogFacadeFactory.create()
 

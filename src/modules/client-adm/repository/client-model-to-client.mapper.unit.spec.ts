@@ -2,14 +2,14 @@ import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { Client } from '@/modules/client-adm/domain/entity/client.entity'
 import { ClientModelToClientMapper } from '@/modules/client-adm/repository/client-model-to-client.mapper'
 import { ClientModel } from '@/modules/client-adm/repository/client.model'
-import { CreateSequelizeWithModels } from '@/modules/client-adm/test/test.utils'
+import { InitSequelizeForClientAdmModule } from '@/modules/client-adm/test/client-adm.test.utils'
 import { Sequelize } from 'sequelize-typescript'
 
 describe('ClientModelToClientMapper unit tests', () => {
   let sequelize: Sequelize
 
   beforeEach(async () => {
-    sequelize = await CreateSequelizeWithModels([ClientModel])
+    sequelize = await InitSequelizeForClientAdmModule()
   })
 
   afterEach(async () => {

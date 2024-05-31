@@ -1,7 +1,7 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { TransactionStatus } from '@/modules/payment/domain/entity/transaction.entity'
 import { PaymentGateway } from '@/modules/payment/gateway/payment.gateway'
-import { CreateMockRepository } from '@/modules/payment/test/test.utils'
+import { CreateMockRepository } from '@/modules/payment/test/payment.test.utils'
 import ProcessPaymentUsecase from '@/modules/payment/usecase/process-payment/process-payment.usecase'
 import {
   ProcessPaymentInputDto,
