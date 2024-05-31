@@ -1,4 +1,5 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { DomainToModelMapperInterface } from '@/modules/@shared/repository/domain-to-model-mapper.interface'
 import { Client } from '@/modules/client-adm/domain/entity/client.entity'
 import { ClientModelToClientMapper } from '@/modules/client-adm/repository/client-model-to-client.mapper'
 import { ClientModel } from '@/modules/client-adm/repository/client.model'
@@ -7,9 +8,11 @@ import { Sequelize } from 'sequelize-typescript'
 
 describe('ClientModelToClientMapper unit tests', () => {
   let sequelize: Sequelize
+  let mapper: DomainToModelMapperInterface<Client, ClientModel>
 
   beforeEach(async () => {
     sequelize = await InitSequelizeForClientAdmModule()
+    mapper = new ClientModelToClientMapper()
   })
 
   afterEach(async () => {
@@ -28,7 +31,7 @@ describe('ClientModelToClientMapper unit tests', () => {
       address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
     })
 
-    const client = ClientModelToClientMapper.toClient(clientModel)
+    const client = mapper.toDomain(clientModel)
 
     expect(client).toBeInstanceOf(Client)
     expect(client.id.value).toBe(id.value)
@@ -51,7 +54,7 @@ describe('ClientModelToClientMapper unit tests', () => {
       address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
     })
 
-    const clientModel = ClientModelToClientMapper.toModel(client)
+    const clientModel = mapper.toModel(client)
 
     expect(clientModel.id).toBe(client.id.value)
     expect(clientModel.createdAt).toEqual(client.createdAt)
