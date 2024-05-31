@@ -38,7 +38,7 @@ export class Transaction extends BaseEntity implements AggregateRoot {
     return this._amount
   }
 
-  get orderId(): string {
+  get orderId(): Id {
     return this._orderId
   }
 
