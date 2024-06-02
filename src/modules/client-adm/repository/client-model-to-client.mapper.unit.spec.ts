@@ -22,7 +22,7 @@ describe('ClientModelToClientMapper unit tests', () => {
   it('should map ClientModel to Client', () => {
     const id: Id = new Id()
 
-    const clientModel: ClientModel = new ClientModel({
+    const model: ClientModel = new ClientModel({
       id: id.value,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -31,21 +31,21 @@ describe('ClientModelToClientMapper unit tests', () => {
       address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
     })
 
-    const client = mapper.toDomain(clientModel)
+    const domain = mapper.toDomain(model)
 
-    expect(client).toBeInstanceOf(Client)
-    expect(client.id.value).toBe(id.value)
-    expect(client.createdAt).toEqual(clientModel.createdAt)
-    expect(client.updatedAt).toEqual(clientModel.updatedAt)
-    expect(client.name).toBe(clientModel.name)
-    expect(client.email).toBe(clientModel.email)
-    expect(client.address).toBe(clientModel.address)
+    expect(domain).toBeInstanceOf(Client)
+    expect(domain.id.value).toBe(id.value)
+    expect(domain.createdAt).toEqual(model.createdAt)
+    expect(domain.updatedAt).toEqual(model.updatedAt)
+    expect(domain.name).toBe(model.name)
+    expect(domain.email).toBe(model.email)
+    expect(domain.address).toBe(model.address)
   })
 
   it('should map Client to ClientModel', () => {
     const id: Id = new Id()
 
-    const client: Client = new Client({
+    const domain: Client = new Client({
       id,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -54,13 +54,13 @@ describe('ClientModelToClientMapper unit tests', () => {
       address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
     })
 
-    const clientModel = mapper.toModel(client)
+    const model = mapper.toModel(domain)
 
-    expect(clientModel.id).toBe(client.id.value)
-    expect(clientModel.createdAt).toEqual(client.createdAt)
-    expect(clientModel.updatedAt).toEqual(client.updatedAt)
-    expect(clientModel.name).toBe(client.name)
-    expect(clientModel.email).toBe(client.email)
-    expect(clientModel.address).toBe(client.address)
+    expect(model.id).toBe(domain.id.value)
+    expect(model.createdAt).toEqual(domain.createdAt)
+    expect(model.updatedAt).toEqual(domain.updatedAt)
+    expect(model.name).toBe(domain.name)
+    expect(model.email).toBe(domain.email)
+    expect(model.address).toBe(domain.address)
   })
 })

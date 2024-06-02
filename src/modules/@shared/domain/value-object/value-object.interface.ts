@@ -1,1 +1,3 @@
-export interface ValueObject {}
+export interface ValueObject {
+  validate(): void
+}

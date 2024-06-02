@@ -100,7 +100,9 @@ describe('Add Client use case integration tests', () => {
     const output = usecase.execute(input)
 
     // Assert - Then
-    await expect(output).rejects.toThrow(new Error('Invalid id'))
+    await expect(output).rejects.toThrow(
+      new Error('id: Invalid id: invalid-id')
+    )
   })
 
   it('should throw an error when trying to create a client with an empty name', async () => {

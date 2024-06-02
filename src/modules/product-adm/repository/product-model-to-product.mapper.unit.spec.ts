@@ -22,7 +22,7 @@ describe('ProductModelToProductMapper unit tests', () => {
   it('should map ProductModel to Product', () => {
     const id: Id = new Id()
 
-    const productModel: ProductModel = new ProductModel({
+    const model: ProductModel = new ProductModel({
       id: id.value,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -32,22 +32,22 @@ describe('ProductModelToProductMapper unit tests', () => {
       stock: 10,
     })
 
-    const product = mapper.toDomain(productModel)
+    const domain = mapper.toDomain(model)
 
-    expect(product).toBeInstanceOf(Product)
-    expect(product.id.value).toBe(id.value)
-    expect(product.createdAt).toEqual(productModel.createdAt)
-    expect(product.updatedAt).toEqual(productModel.updatedAt)
-    expect(product.name).toBe(productModel.name)
-    expect(product.description).toBe(productModel.description)
-    expect(product.purchasePrice).toBe(productModel.purchasePrice)
-    expect(product.stock).toBe(productModel.stock)
+    expect(domain).toBeInstanceOf(Product)
+    expect(domain.id.value).toBe(id.value)
+    expect(domain.createdAt).toEqual(model.createdAt)
+    expect(domain.updatedAt).toEqual(model.updatedAt)
+    expect(domain.name).toBe(model.name)
+    expect(domain.description).toBe(model.description)
+    expect(domain.purchasePrice).toBe(model.purchasePrice)
+    expect(domain.stock).toBe(model.stock)
   })
 
   it('should map Product to ProductModel', () => {
     const id: Id = new Id()
 
-    const product: Product = new Product({
+    const domain: Product = new Product({
       id,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -57,14 +57,14 @@ describe('ProductModelToProductMapper unit tests', () => {
       stock: 10,
     })
 
-    const productModel = mapper.toModel(product)
+    const model = mapper.toModel(domain)
 
-    expect(productModel.id).toBe(product.id.value)
-    expect(productModel.createdAt).toEqual(product.createdAt)
-    expect(productModel.updatedAt).toEqual(product.updatedAt)
-    expect(productModel.name).toBe(product.name)
-    expect(productModel.description).toBe(product.description)
-    expect(productModel.purchasePrice).toBe(product.purchasePrice)
-    expect(productModel.stock).toBe(product.stock)
+    expect(model.id).toBe(domain.id.value)
+    expect(model.createdAt).toEqual(domain.createdAt)
+    expect(model.updatedAt).toEqual(domain.updatedAt)
+    expect(model.name).toBe(domain.name)
+    expect(model.description).toBe(domain.description)
+    expect(model.purchasePrice).toBe(domain.purchasePrice)
+    expect(model.stock).toBe(domain.stock)
   })
 })
