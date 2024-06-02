@@ -3,32 +3,30 @@ import { BaseEntity } from '@/modules/@shared/domain/entity/base.entity'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 
 export type ProductProps = {
-  id?: Id
-  createdAt?: Date
-  updatedAt?: Date
+  // O id deve ser obrigatório pois esse produto sempre representa um produto que já existe
+  id: Id
   name: string
   description: string
-  purchasePrice: number
-  stock: number
+  salesPrice: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 export class Product extends BaseEntity implements AggregateRoot {
   private _name: string
   private _description: string
-  private _purchasePrice: number
-  private _stock: number
+  private _salesPrice: number
 
   constructor(props: ProductProps) {
     super(props.id, props.createdAt, props.updatedAt)
     this._name = props.name
     this._description = props.description
-    this._purchasePrice = props.purchasePrice
-    this._stock = props.stock
+    this._salesPrice = props.salesPrice
     this.validate()
   }
 
   get contextName(): string {
-    return 'product-adm/product'
+    return 'store-catalog/product'
   }
 
   get name(): string {
@@ -39,28 +37,8 @@ export class Product extends BaseEntity implements AggregateRoot {
     return this._description
   }
 
-  get purchasePrice(): number {
-    return this._purchasePrice
-  }
-
-  get stock(): number {
-    return this._stock
-  }
-
-  set name(name: string) {
-    this._name = name
-  }
-
-  set description(description: string) {
-    this._description = description
-  }
-
-  set purchasePrice(purchasePrice: number) {
-    this._purchasePrice = purchasePrice
-  }
-
-  set stock(stock: number) {
-    this._stock = stock
+  get salesPrice(): number {
+    return this._salesPrice
   }
 
   validate(): void {
@@ -72,14 +50,12 @@ export class Product extends BaseEntity implements AggregateRoot {
       this.addNotificationError('Description is required')
     }
 
-    if (this._purchasePrice <= 0) {
-      this.addNotificationError(
-        'Purchase Price must be greater than or equal to 0'
-      )
+    if (!this._salesPrice) {
+      this.addNotificationError('Price is required')
     }
 
-    if (this._stock < 0) {
-      this.addNotificationError('Stock must be greater than 0')
+    if (this._salesPrice && this._salesPrice <= 0) {
+      this.addNotificationError('Sales Price must be greater than zero')
     }
 
     this.throwIfHasNotificationErrors()

@@ -1,5 +1,5 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
-import { Product } from '@/modules/store-catalog/domain/product.entity'
+import { Product } from '@/modules/store-catalog/domain/entity/product.entity'
 import { ProductGateway } from '@/modules/store-catalog/gateway/product.gateway'
 import { CreateMockRepository } from '@/modules/store-catalog/test/store-catalog.test.utils'
 import { FindAllProductsOutputDto } from '@/modules/store-catalog/usecase/find-all-products/find-all-products.dto'

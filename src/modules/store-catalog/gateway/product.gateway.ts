@@ -1,4 +1,4 @@
-import { Product } from '@/modules/store-catalog/domain/product.entity'
+import { Product } from '@/modules/store-catalog/domain/entity/product.entity'
 
 export interface ProductGateway {
   findAll(): Promise<Product[]>

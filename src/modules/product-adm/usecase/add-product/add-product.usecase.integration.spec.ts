@@ -148,7 +148,7 @@ describe('Add Product use case integration tests', () => {
     // Assert - Then
     await expect(output).rejects.toThrow(
       new Error(
-        'product-adm/product: Purchase price must be greater than or equal to 0'
+        'product-adm/product: Purchase Price must be greater than or equal to 0'
       )
     )
   })
@@ -162,7 +162,7 @@ describe('Add Product use case integration tests', () => {
 
     // Assert - Then
     await expect(output).rejects.toThrow(
-      new Error('product-adm/product: Stock must be greater than or equal to 0')
+      new Error('product-adm/product: Stock must be greater than 0')
     )
   })
 })

@@ -122,7 +122,7 @@ describe('Product Adm facade integration tests', () => {
       // Assert - Then
       await expect(output).rejects.toThrow(
         new Error(
-          'product-adm/product: Name is required, Description is required, Purchase price must be greater than or equal to 0, Stock must be greater than or equal to 0'
+          'product-adm/product: Name is required, Description is required, Purchase Price must be greater than or equal to 0, Stock must be greater than 0'
         )
       )
     })

@@ -12,6 +12,7 @@ describe('ProductModelToProductMapper unit tests', () => {
 
   beforeEach(async () => {
     sequelize = await InitSequelizeForProductAdmModule()
+
     mapper = new ProductModelToProductMapper()
   })
 

@@ -1,5 +1,5 @@
 import { DomainToModelMapperInterface } from '@/modules/@shared/repository/domain-to-model-mapper.interface'
-import { Product } from '@/modules/store-catalog/domain/product.entity'
+import { Product } from '@/modules/store-catalog/domain/entity/product.entity'
 import { ProductGateway } from '@/modules/store-catalog/gateway/product.gateway'
 import { ProductModelToProductMapper } from '@/modules/store-catalog/repository/product-model-to-product.mapper'
 import { ProductModel } from '@/modules/store-catalog/repository/product.model'

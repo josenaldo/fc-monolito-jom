@@ -2,14 +2,13 @@ import { AggregateRoot } from '@/modules/@shared/domain/entity/aggregate-root.in
 import { BaseEntity } from '@/modules/@shared/domain/entity/base.entity'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 
-type ProductProps = {
-  // O id deve ser obrigatório pois esse produto sempre representa um produto que já existe
-  id: Id
+export type ProductProps = {
+  id?: Id
+  createdAt?: Date
+  updatedAt?: Date
   name: string
   description: string
   salesPrice: number
-  createdAt: Date
-  updatedAt: Date
 }
 
 export class Product extends BaseEntity implements AggregateRoot {
@@ -22,10 +21,11 @@ export class Product extends BaseEntity implements AggregateRoot {
     this._name = props.name
     this._description = props.description
     this._salesPrice = props.salesPrice
+    this.validate()
   }
 
   get contextName(): string {
-    return 'store-catalog/product'
+    return 'checkout/product'
   }
 
   get name(): string {
@@ -38,5 +38,25 @@ export class Product extends BaseEntity implements AggregateRoot {
 
   get salesPrice(): number {
     return this._salesPrice
+  }
+
+  validate(): void {
+    if (!this._name) {
+      this.addNotificationError('Name is required')
+    }
+
+    if (!this._description) {
+      this.addNotificationError('Description is required')
+    }
+
+    if (!this._salesPrice) {
+      this.addNotificationError('Price is required')
+    }
+
+    if (this._salesPrice && this._salesPrice <= 0) {
+      this.addNotificationError('Sales Price must be greater than zero')
+    }
+
+    this.throwIfHasNotificationErrors()
   }
 }

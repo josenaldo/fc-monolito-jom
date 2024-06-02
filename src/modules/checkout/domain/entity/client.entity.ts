@@ -25,7 +25,7 @@ export class Client extends BaseEntity implements AggregateRoot {
   }
 
   get contextName(): string {
-    return 'client-adm/client'
+    return 'checkout/client'
   }
 
   get name(): string {
