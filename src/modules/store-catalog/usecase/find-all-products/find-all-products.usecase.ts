@@ -1,6 +1,6 @@
 import { UsecaseInterface } from '@/modules/@shared/usecase/usecase.interface'
 import { ProductGateway } from '@/modules/store-catalog/gateway/product.gateway'
-import { FindAllProductsOutputDto } from '@/modules/store-catalog/usecase/find-all-products/find-all-products.dto'
+import { FindAllProductsUsecaseOutputDto } from '@/modules/store-catalog/usecase/find-all-products/find-all-products.dto'
 
 export class FindAllProductsUsecase implements UsecaseInterface {
   private productRepository: ProductGateway
@@ -9,7 +9,7 @@ export class FindAllProductsUsecase implements UsecaseInterface {
     this.productRepository = productRepository
   }
 
-  async execute(): Promise<FindAllProductsOutputDto> {
+  async execute(): Promise<FindAllProductsUsecaseOutputDto> {
     const products = await this.productRepository.findAll()
 
     return {

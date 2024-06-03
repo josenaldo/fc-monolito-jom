@@ -1,8 +1,8 @@
 import { UsecaseInterface } from '@/modules/@shared/usecase/usecase.interface'
 import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
 import {
-  CheckStockInputDto,
-  CheckStockOutputDto,
+  CheckStockUsecaseInputDto,
+  CheckStockUsecaseOutputDto,
 } from '@/modules/product-adm/usecase/check-stock/check-stock.dto'
 
 export class CheckStockUsecase implements UsecaseInterface {
@@ -12,7 +12,9 @@ export class CheckStockUsecase implements UsecaseInterface {
     this._repository = repository
   }
 
-  async execute(input: CheckStockInputDto): Promise<CheckStockOutputDto> {
+  async execute(
+    input: CheckStockUsecaseInputDto
+  ): Promise<CheckStockUsecaseOutputDto> {
     const product = await this._repository.find(input.productId)
 
     return {

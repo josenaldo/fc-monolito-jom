@@ -3,8 +3,8 @@ import { UsecaseInterface } from '@/modules/@shared/usecase/usecase.interface'
 import { Product } from '@/modules/product-adm/domain/entity/product.entity'
 import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
 import {
-  AddProductInputDto,
-  AddProductOutputDto,
+  AddProductUsecaseInputDto,
+  AddProductUsecaseOutputDto,
 } from '@/modules/product-adm/usecase/add-product/add-product.dto'
 
 export class AddProductUsecase implements UsecaseInterface {
@@ -14,7 +14,9 @@ export class AddProductUsecase implements UsecaseInterface {
     this._gateway = gateway
   }
 
-  async execute(input: AddProductInputDto): Promise<AddProductOutputDto> {
+  async execute(
+    input: AddProductUsecaseInputDto
+  ): Promise<AddProductUsecaseOutputDto> {
     const id: Id = new Id(input.id)
 
     const product = new Product({

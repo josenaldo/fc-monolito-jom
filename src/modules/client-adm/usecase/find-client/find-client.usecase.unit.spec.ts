@@ -3,12 +3,12 @@ import { Client } from '@/modules/client-adm/domain/entity/client.entity'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
 import { CreateMockRepository } from '@/modules/client-adm/test/client-adm.test.utils'
 import { FindClientUsecase } from '@/modules/client-adm/usecase/find-client/find-client.usecase'
-import { FindClientInputDto } from '@/modules/client-adm/usecase/find-client/find-client.usecase.dto'
+import { FindClientUsecaseInputDto } from '@/modules/client-adm/usecase/find-client/find-client.usecase.dto'
 
 describe('Find Client use case unit tests', () => {
   let repository: ClientGateway
   let usecase: FindClientUsecase
-  let input: FindClientInputDto
+  let input: FindClientUsecaseInputDto
   let id: Id
 
   beforeEach(async () => {

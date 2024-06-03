@@ -6,8 +6,8 @@ import { TransactionRepository } from '@/modules/payment/repository/transaction.
 import { InitSequelizeForPaymentModule } from '@/modules/payment/test/payment.test.utils'
 import ProcessPaymentUsecase from '@/modules/payment/usecase/process-payment/process-payment.usecase'
 import {
-  ProcessPaymentInputDto,
-  ProcessPaymentOutputDto,
+  ProcessPaymentUsecaseInputDto,
+  ProcessPaymentUsecaseOutputDto,
 } from '@/modules/payment/usecase/process-payment/process-payment.usecase.dto'
 import { Sequelize } from 'sequelize-typescript'
 
@@ -30,13 +30,13 @@ describe('Process Payment unit tests', () => {
     // Arrange - Given
     const orderId = new Id()
 
-    const input: ProcessPaymentInputDto = {
+    const input: ProcessPaymentUsecaseInputDto = {
       orderId: orderId.value,
       amount: 100,
     }
 
     // Act - When
-    const output: ProcessPaymentOutputDto = await usecase.execute(input)
+    const output: ProcessPaymentUsecaseOutputDto = await usecase.execute(input)
 
     // Assert - Then
     expect(output.transactionId).not.toBeNull()
@@ -62,13 +62,13 @@ describe('Process Payment unit tests', () => {
     // Arrange - Given
     const orderId = new Id()
 
-    const input: ProcessPaymentInputDto = {
+    const input: ProcessPaymentUsecaseInputDto = {
       orderId: orderId.value,
       amount: 99,
     }
 
     // Act - When
-    const output: ProcessPaymentOutputDto = await usecase.execute(input)
+    const output: ProcessPaymentUsecaseOutputDto = await usecase.execute(input)
 
     // Assert - Then
     expect(output.transactionId).not.toBeNull()
@@ -92,7 +92,7 @@ describe('Process Payment unit tests', () => {
 
   it('should throw an error if amount is less than or equal to 0', async () => {
     // Arrange - Given
-    const input: ProcessPaymentInputDto = {
+    const input: ProcessPaymentUsecaseInputDto = {
       orderId: new Id().value,
       amount: 0,
     }

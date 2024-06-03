@@ -1,7 +1,7 @@
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
 import {
-  FindClientInputDto,
-  FindClientOutputDto,
+  FindClientUsecaseInputDto,
+  FindClientUsecaseOutputDto,
 } from '@/modules/client-adm/usecase/find-client/find-client.usecase.dto'
 
 export class FindClientUsecase {
@@ -11,7 +11,9 @@ export class FindClientUsecase {
     this._repository = repository
   }
 
-  async execute(input: FindClientInputDto): Promise<FindClientOutputDto> {
+  async execute(
+    input: FindClientUsecaseInputDto
+  ): Promise<FindClientUsecaseOutputDto> {
     const client = await this._repository.find(input.id)
 
     if (!client) {

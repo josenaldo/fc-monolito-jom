@@ -4,8 +4,8 @@ import { PaymentGateway } from '@/modules/payment/gateway/payment.gateway'
 import { CreateMockRepository } from '@/modules/payment/test/payment.test.utils'
 import ProcessPaymentUsecase from '@/modules/payment/usecase/process-payment/process-payment.usecase'
 import {
-  ProcessPaymentInputDto,
-  ProcessPaymentOutputDto,
+  ProcessPaymentUsecaseInputDto,
+  ProcessPaymentUsecaseOutputDto,
 } from '@/modules/payment/usecase/process-payment/process-payment.usecase.dto'
 
 describe('Process Payment unit tests', () => {
@@ -23,7 +23,7 @@ describe('Process Payment unit tests', () => {
     // Arrange - Given
     const orderId = new Id()
 
-    const input: ProcessPaymentInputDto = {
+    const input: ProcessPaymentUsecaseInputDto = {
       orderId: orderId.value,
       amount: 100,
     }
@@ -33,7 +33,7 @@ describe('Process Payment unit tests', () => {
       .mockImplementation((input) => Promise.resolve(input))
 
     // Act - When
-    const output: ProcessPaymentOutputDto = await usecase.execute(input)
+    const output: ProcessPaymentUsecaseOutputDto = await usecase.execute(input)
 
     // Assert - Then
     expect(repository.save).toHaveBeenCalledTimes(1)
@@ -60,7 +60,7 @@ describe('Process Payment unit tests', () => {
     // Arrange - Given
     const orderId = new Id()
 
-    const input: ProcessPaymentInputDto = {
+    const input: ProcessPaymentUsecaseInputDto = {
       orderId: orderId.value,
       amount: 99,
     }
@@ -70,7 +70,7 @@ describe('Process Payment unit tests', () => {
       .mockImplementation((input) => Promise.resolve(input))
 
     // Act - When
-    const output: ProcessPaymentOutputDto = await usecase.execute(input)
+    const output: ProcessPaymentUsecaseOutputDto = await usecase.execute(input)
 
     // Assert - Then
     expect(repository.save).toHaveBeenCalledTimes(1)
@@ -95,7 +95,7 @@ describe('Process Payment unit tests', () => {
 
   it('should throw an error if amount is less than or equal to 0', async () => {
     // Arrange - Given
-    const input: ProcessPaymentInputDto = {
+    const input: ProcessPaymentUsecaseInputDto = {
       orderId: new Id().value,
       amount: 0,
     }

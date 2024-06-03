@@ -1,9 +1,9 @@
-export interface ProcessPaymentInputDto {
+export interface ProcessPaymentUsecaseInputDto {
   amount: number
   orderId: string
 }
 
-export interface ProcessPaymentOutputDto {
+export interface ProcessPaymentUsecaseOutputDto {
   transactionId: string
   createdAt: Date
   updatedAt: Date

@@ -2,8 +2,8 @@ import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { Transaction } from '@/modules/payment/domain/entity/transaction.entity'
 import { PaymentGateway } from '@/modules/payment/gateway/payment.gateway'
 import {
-  ProcessPaymentInputDto,
-  ProcessPaymentOutputDto,
+  ProcessPaymentUsecaseInputDto,
+  ProcessPaymentUsecaseOutputDto,
 } from '@/modules/payment/usecase/process-payment/process-payment.usecase.dto'
 
 export default class ProcessPaymentUsecase {
@@ -14,8 +14,8 @@ export default class ProcessPaymentUsecase {
   }
 
   async execute(
-    input: ProcessPaymentInputDto
-  ): Promise<ProcessPaymentOutputDto> {
+    input: ProcessPaymentUsecaseInputDto
+  ): Promise<ProcessPaymentUsecaseOutputDto> {
     const transaction = new Transaction({
       amount: input.amount,
       orderId: new Id(input.orderId),

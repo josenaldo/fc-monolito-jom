@@ -3,8 +3,8 @@ import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
 import { InitSequelizeForProductAdmModule } from '@/modules/product-adm/test/product-adm.test.utils'
 import {
-  AddProductInputDto,
-  AddProductOutputDto,
+  AddProductUsecaseInputDto,
+  AddProductUsecaseOutputDto,
 } from '@/modules/product-adm/usecase/add-product/add-product.dto'
 import { AddProductUsecase } from '@/modules/product-adm/usecase/add-product/add-product.usecase'
 import { Sequelize } from 'sequelize-typescript'
@@ -13,7 +13,7 @@ describe('Add Product use case integration tests', () => {
   let sequelize: Sequelize
   let repository: ProductRepository
   let usecase: AddProductUsecase
-  let input: AddProductInputDto
+  let input: AddProductUsecaseInputDto
 
   beforeEach(async () => {
     sequelize = await InitSequelizeForProductAdmModule()
@@ -37,7 +37,7 @@ describe('Add Product use case integration tests', () => {
     // Arrange - Given
 
     // Act - When
-    const output: AddProductOutputDto = await usecase.execute(input)
+    const output: AddProductUsecaseOutputDto = await usecase.execute(input)
 
     // Assert - Then
     expect(output).toBeDefined()
@@ -71,7 +71,7 @@ describe('Add Product use case integration tests', () => {
     input.id = id.value
 
     // Act - When
-    const output: AddProductOutputDto = await usecase.execute(input)
+    const output: AddProductUsecaseOutputDto = await usecase.execute(input)
 
     // Assert - Then
     expect(output).toBeDefined()

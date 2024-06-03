@@ -1,8 +1,8 @@
-export interface FindClientInputDto {
+export interface FindClientUsecaseInputDto {
   id: string
 }
 
-export interface FindClientOutputDto {
+export interface FindClientUsecaseOutputDto {
   id: string
   createdAt: Date
   updatedAt: Date

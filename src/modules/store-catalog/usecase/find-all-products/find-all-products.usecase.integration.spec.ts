@@ -3,7 +3,7 @@ import { ProductGateway } from '@/modules/store-catalog/gateway/product.gateway'
 import { ProductModel } from '@/modules/store-catalog/repository/product.model'
 import { ProductRepository } from '@/modules/store-catalog/repository/product.repository'
 import { InitSequelizeForStoreCatalogModule } from '@/modules/store-catalog/test/store-catalog.test.utils'
-import { FindAllProductsOutputDto } from '@/modules/store-catalog/usecase/find-all-products/find-all-products.dto'
+import { FindAllProductsUsecaseOutputDto } from '@/modules/store-catalog/usecase/find-all-products/find-all-products.dto'
 import { FindAllProductsUsecase } from '@/modules/store-catalog/usecase/find-all-products/find-all-products.usecase'
 import { Sequelize } from 'sequelize-typescript'
 
@@ -48,7 +48,7 @@ describe('Find All Products Usecase unit tests', () => {
     })
 
     // Act - When
-    const output: FindAllProductsOutputDto = await usecase.execute()
+    const output: FindAllProductsUsecaseOutputDto = await usecase.execute()
 
     // Assert - Then
     expect(output).toBeDefined()
@@ -70,7 +70,7 @@ describe('Find All Products Usecase unit tests', () => {
     // Arrange - Given
 
     // Act - When
-    const output: FindAllProductsOutputDto = await usecase.execute()
+    const output: FindAllProductsUsecaseOutputDto = await usecase.execute()
 
     // Assert - Then
     expect(output).toBeDefined()

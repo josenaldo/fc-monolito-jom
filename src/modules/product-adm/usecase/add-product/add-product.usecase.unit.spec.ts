@@ -2,15 +2,15 @@ import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
 import { CreateMockRepository } from '@/modules/product-adm/test/product-adm.test.utils'
 import {
-  AddProductInputDto,
-  AddProductOutputDto,
+  AddProductUsecaseInputDto,
+  AddProductUsecaseOutputDto,
 } from '@/modules/product-adm/usecase/add-product/add-product.dto'
 import { AddProductUsecase } from '@/modules/product-adm/usecase/add-product/add-product.usecase'
 
 describe('Add Product use case unit tests', () => {
   let repository: ProductGateway
   let usecase: AddProductUsecase
-  let input: AddProductInputDto
+  let input: AddProductUsecaseInputDto
 
   beforeEach(async () => {
     repository = CreateMockRepository()
@@ -28,7 +28,7 @@ describe('Add Product use case unit tests', () => {
     // Arrange
 
     // Act
-    const output: AddProductOutputDto = await usecase.execute(input)
+    const output: AddProductUsecaseOutputDto = await usecase.execute(input)
 
     // Assert
     expect(repository.add).toHaveBeenCalledTimes(1)
@@ -61,7 +61,7 @@ describe('Add Product use case unit tests', () => {
     input.id = '123e4567-e89b-12d3-a456-426614174000'
 
     // Act
-    const output: AddProductOutputDto = await usecase.execute(input)
+    const output: AddProductUsecaseOutputDto = await usecase.execute(input)
 
     // Assert
     expect(repository.add).toHaveBeenCalledTimes(1)

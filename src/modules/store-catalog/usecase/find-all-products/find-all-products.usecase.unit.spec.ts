@@ -2,7 +2,7 @@ import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { Product } from '@/modules/store-catalog/domain/entity/product.entity'
 import { ProductGateway } from '@/modules/store-catalog/gateway/product.gateway'
 import { CreateMockRepository } from '@/modules/store-catalog/test/store-catalog.test.utils'
-import { FindAllProductsOutputDto } from '@/modules/store-catalog/usecase/find-all-products/find-all-products.dto'
+import { FindAllProductsUsecaseOutputDto } from '@/modules/store-catalog/usecase/find-all-products/find-all-products.dto'
 import { FindAllProductsUsecase } from '@/modules/store-catalog/usecase/find-all-products/find-all-products.usecase'
 
 describe('Find All Products Usecase unit tests', () => {
@@ -47,7 +47,7 @@ describe('Find All Products Usecase unit tests', () => {
     repository.findAll = jest.fn().mockResolvedValue([product1, product2])
 
     // Act - When
-    const output: FindAllProductsOutputDto = await usecase.execute()
+    const output: FindAllProductsUsecaseOutputDto = await usecase.execute()
 
     // Assert - Then
     expect(repository.findAll).toHaveBeenCalledTimes(1)
@@ -72,7 +72,7 @@ describe('Find All Products Usecase unit tests', () => {
     repository.findAll = jest.fn().mockResolvedValue([])
 
     // Act - When
-    const output: FindAllProductsOutputDto = await usecase.execute()
+    const output: FindAllProductsUsecaseOutputDto = await usecase.execute()
 
     // Assert - Then
     expect(repository.findAll).toHaveBeenCalledTimes(1)

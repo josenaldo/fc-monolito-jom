@@ -8,8 +8,8 @@ import {
   FindProductFacadeOutputDto,
   ProductAdmFacadeInterface,
 } from '@/modules/product-adm/facade/product-adm.facade.interface'
-import { CheckStockOutputDto } from '@/modules/product-adm/usecase/check-stock/check-stock.dto'
-import { FindProductOutputDto } from '@/modules/product-adm/usecase/find-product/find-product.dto'
+import { CheckStockUsecaseOutputDto } from '@/modules/product-adm/usecase/check-stock/check-stock.dto'
+import { FindProductUsecaseOutputDto } from '@/modules/product-adm/usecase/find-product/find-product.dto'
 
 export interface ProductAdmFacadeProps {
   addProductUsecase: UsecaseInterface
@@ -37,7 +37,7 @@ export class ProductAdmFacade implements ProductAdmFacadeInterface {
   async checkStock(
     input: CheckStockFacadeInputDto
   ): Promise<CheckStockFacadeOutputDto> {
-    const output: CheckStockOutputDto =
+    const output: CheckStockUsecaseOutputDto =
       await this._checkStockUsecase.execute(input)
 
     return {
@@ -49,7 +49,7 @@ export class ProductAdmFacade implements ProductAdmFacadeInterface {
   async findProduct(
     input: FindProductFacadeInputDto
   ): Promise<FindProductFacadeOutputDto> {
-    const output: FindProductOutputDto =
+    const output: FindProductUsecaseOutputDto =
       await this._findProductUsecase.execute(input)
 
     return {

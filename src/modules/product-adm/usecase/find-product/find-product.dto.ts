@@ -1,8 +1,8 @@
-export interface FindProductInputDto {
+export interface FindProductUsecaseInputDto {
   id: string
 }
 
-export interface FindProductOutputDto {
+export interface FindProductUsecaseOutputDto {
   id: string
   createdAt: Date
   updatedAt: Date

@@ -1,4 +1,4 @@
-export interface AddProductInputDto {
+export interface AddProductUsecaseInputDto {
   id?: string
   name: string
   description: string
@@ -6,7 +6,7 @@ export interface AddProductInputDto {
   stock: number
 }
 
-export interface AddProductOutputDto {
+export interface AddProductUsecaseOutputDto {
   id: string
   createdAt: Date
   updatedAt: Date

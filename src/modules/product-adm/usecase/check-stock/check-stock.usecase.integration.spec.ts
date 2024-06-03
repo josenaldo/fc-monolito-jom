@@ -3,8 +3,8 @@ import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
 import { InitSequelizeForProductAdmModule } from '@/modules/product-adm/test/product-adm.test.utils'
 import {
-  CheckStockInputDto,
-  CheckStockOutputDto,
+  CheckStockUsecaseInputDto,
+  CheckStockUsecaseOutputDto,
 } from '@/modules/product-adm/usecase/check-stock/check-stock.dto'
 import { CheckStockUsecase } from '@/modules/product-adm/usecase/check-stock/check-stock.usecase'
 import { Sequelize } from 'sequelize-typescript'
@@ -52,10 +52,10 @@ describe('Check Stock usecase unit tests', () => {
 
   it('should check stock', async () => {
     // Arrange - Given
-    const input: CheckStockInputDto = { productId: id1.value }
+    const input: CheckStockUsecaseInputDto = { productId: id1.value }
 
     // Act - When
-    const output: CheckStockOutputDto = await usecase.execute(input)
+    const output: CheckStockUsecaseOutputDto = await usecase.execute(input)
 
     // Assert - Then
     expect(output).toBeDefined()

@@ -6,7 +6,7 @@ import {
   FindClientFacadeInputDto,
   FindClientFacadeOutputDto,
 } from '@/modules/client-adm/facade/client-adm.facade.interface'
-import { FindClientOutputDto } from '@/modules/client-adm/usecase/find-client/find-client.usecase.dto'
+import { FindClientUsecaseOutputDto } from '@/modules/client-adm/usecase/find-client/find-client.usecase.dto'
 
 export type ClientAdmFacadeProps = {
   addClientUseCase: UsecaseInterface
@@ -31,7 +31,7 @@ export class ClientAdmFacade implements ClientAdmFacadeInterface {
   async findClient(
     input: FindClientFacadeInputDto
   ): Promise<FindClientFacadeOutputDto> {
-    const output: FindClientOutputDto =
+    const output: FindClientUsecaseOutputDto =
       await this._findClientUseCase.execute(input)
 
     return {

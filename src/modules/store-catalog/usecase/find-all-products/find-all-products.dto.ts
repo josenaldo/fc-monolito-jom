@@ -1,4 +1,4 @@
-export interface FindAllProductsOutputDto {
+export interface FindAllProductsUsecaseOutputDto {
   totalCount: number
   products: {
     id: string
