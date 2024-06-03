@@ -3,8 +3,8 @@ import { UsecaseInterface } from '@/modules/@shared/usecase/usecase.interface'
 import { Client } from '@/modules/client-adm/domain/entity/client.entity'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
 import {
-  AddClientInputDto,
-  AddClientOutputDto,
+  AddClientUsecaseInputDto,
+  AddClientUsecaseOutputDto,
 } from '@/modules/client-adm/usecase/add-client/add-client.usecase.dto'
 
 export class AddClientUsecase implements UsecaseInterface {
@@ -14,7 +14,9 @@ export class AddClientUsecase implements UsecaseInterface {
     this._repository = repository
   }
 
-  async execute(input: AddClientInputDto): Promise<AddClientOutputDto> {
+  async execute(
+    input: AddClientUsecaseInputDto
+  ): Promise<AddClientUsecaseOutputDto> {
     const id: Id = new Id(input.id)
 
     const cliente = new Client({

@@ -5,8 +5,8 @@ import { ClientRepository } from '@/modules/client-adm/repository/client.reposit
 import { InitSequelizeForClientAdmModule } from '@/modules/client-adm/test/client-adm.test.utils'
 import { AddClientUsecase } from '@/modules/client-adm/usecase/add-client/add-client.usecase'
 import {
-  AddClientInputDto,
-  AddClientOutputDto,
+  AddClientUsecaseInputDto,
+  AddClientUsecaseOutputDto,
 } from '@/modules/client-adm/usecase/add-client/add-client.usecase.dto'
 import { Sequelize } from 'sequelize-typescript'
 
@@ -14,7 +14,7 @@ describe('Add Client use case integration tests', () => {
   let sequelize: Sequelize
   let repository: ClientGateway
   let usecase: AddClientUsecase
-  let input: AddClientInputDto
+  let input: AddClientUsecaseInputDto
 
   beforeEach(async () => {
     sequelize = await InitSequelizeForClientAdmModule()
@@ -36,7 +36,7 @@ describe('Add Client use case integration tests', () => {
     // Arrange - Given
 
     // Act - When
-    const output: AddClientOutputDto = await usecase.execute(input)
+    const output: AddClientUsecaseOutputDto = await usecase.execute(input)
 
     // Assert - Then
     expect(output).toBeDefined()
@@ -67,7 +67,7 @@ describe('Add Client use case integration tests', () => {
     input.id = id.value
 
     // Act - When
-    const output: AddClientOutputDto = await usecase.execute(input)
+    const output: AddClientUsecaseOutputDto = await usecase.execute(input)
 
     // Assert - Then
     expect(output).toBeDefined()

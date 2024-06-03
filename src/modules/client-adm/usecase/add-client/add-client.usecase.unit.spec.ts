@@ -2,12 +2,12 @@ import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
 import { CreateMockRepository } from '@/modules/client-adm/test/client-adm.test.utils'
 import { AddClientUsecase } from '@/modules/client-adm/usecase/add-client/add-client.usecase'
-import { AddClientInputDto } from '@/modules/client-adm/usecase/add-client/add-client.usecase.dto'
+import { AddClientUsecaseInputDto } from '@/modules/client-adm/usecase/add-client/add-client.usecase.dto'
 
 describe('Add Client use case unit tests', () => {
   let repository: ClientGateway
   let usecase: AddClientUsecase
-  let input: AddClientInputDto
+  let input: AddClientUsecaseInputDto
 
   beforeEach(async () => {
     repository = CreateMockRepository()

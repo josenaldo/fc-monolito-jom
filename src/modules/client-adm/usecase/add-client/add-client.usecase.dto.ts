@@ -1,11 +1,11 @@
-export interface AddClientInputDto {
+export interface AddClientUsecaseInputDto {
   id?: string
   name: string
   email: string
   address: string
 }
 
-export interface AddClientOutputDto {
+export interface AddClientUsecaseOutputDto {
   id: string
   createdAt: Date
   updatedAt: Date
