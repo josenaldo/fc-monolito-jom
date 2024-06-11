@@ -1,3 +1,4 @@
+import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { UsecaseInterface } from '@/modules/@shared/usecase/usecase.interface'
 import { Client } from '@/modules/client-adm/domain/entity/client.entity'
@@ -18,6 +19,19 @@ export class AddClientUsecase implements UsecaseInterface {
     input: AddClientUsecaseInputDto
   ): Promise<AddClientUsecaseOutputDto> {
     const id: Id = new Id(input.id)
+    let address: Address
+
+    if (input.address) {
+      address = new Address({
+        street: input.address.street,
+        number: input.address.number,
+        complement: input.address.complement,
+        city: input.address.city,
+        state: input.address.state,
+        zipCode: input.address.zipCode,
+        parentContext: 'client-adm/client',
+      })
+    }
 
     const cliente = new Client({
       id: id,
@@ -25,7 +39,8 @@ export class AddClientUsecase implements UsecaseInterface {
       updatedAt: new Date(),
       name: input.name,
       email: input.email,
-      address: input.address,
+      document: input.document,
+      address: address,
     })
 
     await this._repository.add(cliente)
@@ -36,7 +51,15 @@ export class AddClientUsecase implements UsecaseInterface {
       updatedAt: cliente.updatedAt,
       name: cliente.name,
       email: cliente.email,
-      address: cliente.address,
+      document: cliente.document,
+      address: {
+        street: cliente.address.street,
+        number: cliente.address.number,
+        complement: cliente.address.complement,
+        city: cliente.address.city,
+        state: cliente.address.state,
+        zipCode: cliente.address.zipCode,
+      },
     }
   }
 }

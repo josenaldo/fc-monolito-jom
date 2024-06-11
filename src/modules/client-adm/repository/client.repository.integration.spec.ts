@@ -1,3 +1,7 @@
+import {
+  Address,
+  AddressProps,
+} from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { Client } from '@/modules/client-adm/domain/entity/client.entity'
 import { ClientModel } from '@/modules/client-adm/repository/client.model'
@@ -8,11 +12,21 @@ import { Sequelize } from 'sequelize-typescript'
 describe('Client Repository integration tests', () => {
   let sequelize: Sequelize
   let repository: ClientRepository
+  let addressProps: AddressProps
 
   beforeEach(async () => {
     sequelize = await InitSequelizeForClientAdmModule()
 
     repository = new ClientRepository()
+
+    addressProps = {
+      street: 'Rua 1',
+      number: '123',
+      complement: 'Bairro 1',
+      city: 'Cidade 1',
+      state: 'Estado 1',
+      zipCode: '12345-123',
+    }
   })
 
   afterEach(async () => {
@@ -25,7 +39,8 @@ describe('Client Repository integration tests', () => {
       name: 'client name',
       description: 'client description',
       email: 'teste@teste.com',
-      address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
+      document: '12345678900',
+      address: new Address(addressProps),
     }
     const client = new Client(props)
 
@@ -41,7 +56,11 @@ describe('Client Repository integration tests', () => {
     expect(clientModel.updatedAt).toBeDefined()
     expect(clientModel.name).toBe(client.name)
     expect(clientModel.email).toBe(client.email)
-    expect(clientModel.address).toBe(client.address)
+    expect(clientModel.street).toBe('Rua 1')
+    expect(clientModel.number).toBe('123')
+    expect(clientModel.complement).toBe('Bairro 1')
+    expect(clientModel.city).toBe('Cidade 1')
+    expect(clientModel.state).toBe('Estado 1')
   })
 
   it('should throw an error when trying to create a client with an existing id', async () => {
@@ -54,7 +73,13 @@ describe('Client Repository integration tests', () => {
       updatedAt: new Date(),
       name: 'Client 1',
       email: 'teste@teste.com',
-      address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
+      document: '12345678900',
+      street: 'Rua 1',
+      number: '123',
+      complement: 'Bairro 1',
+      city: 'Cidade 1',
+      state: 'Estado 1',
+      zipCode: '12345-123',
     }
 
     await ClientModel.create(props)
@@ -65,7 +90,8 @@ describe('Client Repository integration tests', () => {
       updatedAt: new Date(),
       name: 'Client 2',
       email: 'teste2@teste.com',
-      address: 'Rua 2, 456, Bairro 2, Cidade 2, Estado 2',
+      document: '12345678901',
+      address: new Address(addressProps),
     })
     // Act - When
     const output = repository.add(client)
@@ -85,7 +111,13 @@ describe('Client Repository integration tests', () => {
       updatedAt: new Date(),
       name: 'Client 1',
       email: 'teste1@teste.com',
-      address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
+      document: '12345678900',
+      street: 'Rua 1',
+      number: '123',
+      complement: 'Bairro 1',
+      city: 'Cidade 1',
+      state: 'Estado 1',
+      zipCode: '12345-123',
     })
 
     await ClientModel.create({
@@ -94,7 +126,13 @@ describe('Client Repository integration tests', () => {
       updatedAt: new Date(),
       name: 'Client 2',
       email: 'teste2@teste.com',
-      address: 'Rua 2, 456, Bairro 2, Cidade 2, Estado 2',
+      document: '12345678901',
+      street: 'Rua 2',
+      number: '456',
+      complement: 'Bairro 2',
+      city: 'Cidade 2',
+      state: 'Estado 2',
+      zipCode: '12345-123',
     })
 
     // Act - When
@@ -108,7 +146,14 @@ describe('Client Repository integration tests', () => {
     expect(client1.updatedAt).toBeDefined()
     expect(client1.name).toBe('Client 1')
     expect(client1.email).toBe('teste1@teste.com')
-    expect(client1.address).toBe('Rua 1, 123, Bairro 1, Cidade 1, Estado 1')
+    expect(client1.document).toBe('12345678900')
+    expect(client1.address).toBeDefined()
+    expect(client1.address.street).toBe('Rua 1')
+    expect(client1.address.number).toBe('123')
+    expect(client1.address.complement).toBe('Bairro 1')
+    expect(client1.address.city).toBe('Cidade 1')
+    expect(client1.address.state).toBe('Estado 1')
+    expect(client1.address.zipCode).toBe('12345-123')
 
     expect(client2).not.toBeNull()
     expect(client2.id).toStrictEqual(id2)
@@ -116,7 +161,14 @@ describe('Client Repository integration tests', () => {
     expect(client2.updatedAt).toBeDefined()
     expect(client2.name).toBe('Client 2')
     expect(client2.email).toBe('teste2@teste.com')
-    expect(client2.address).toBe('Rua 2, 456, Bairro 2, Cidade 2, Estado 2')
+    expect(client2.document).toBe('12345678901')
+    expect(client2.address).toBeDefined()
+    expect(client2.address.street).toBe('Rua 2')
+    expect(client2.address.number).toBe('456')
+    expect(client2.address.complement).toBe('Bairro 2')
+    expect(client2.address.city).toBe('Cidade 2')
+    expect(client2.address.state).toBe('Estado 2')
+    expect(client2.address.zipCode).toBe('12345-123')
   })
 
   it('should throw a Not Found error when trying to find a client that does not exist', async () => {

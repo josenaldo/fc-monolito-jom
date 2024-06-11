@@ -29,9 +29,9 @@ describe('Invoice Facade integration tests', () => {
         street: 'Street 1',
         number: '123',
         complement: 'Complement 1',
-        zipCode: '12345678',
         city: 'City 1',
         state: 'State 1',
+        zipCode: '12345678',
         total: 50,
         items: [
           {
@@ -143,9 +143,9 @@ describe('Invoice Facade integration tests', () => {
         street: 'Street 1',
         number: '123',
         complement: 'Complement 1',
-        zipCode: '12345678',
         city: 'City 1',
         state: 'State 1',
+        zipCode: '12345678',
       },
       items: [
         {

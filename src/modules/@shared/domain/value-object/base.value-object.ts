@@ -4,9 +4,11 @@ import { ValueObject } from '@/modules/@shared/domain/value-object/value-object.
 
 export abstract class BaseValueObject implements ValueObject {
   protected _notification: Notification
+  protected _parentContext?: string
 
-  constructor() {
+  constructor(parentContext?: string) {
     this._notification = new Notification()
+    this._parentContext = parentContext
   }
 
   abstract get contextName(): string
@@ -32,7 +34,9 @@ export abstract class BaseValueObject implements ValueObject {
   addNotificationError(message: string) {
     this._notification.addError({
       message,
-      context: this.contextName,
+      context: this._parentContext
+        ? `${this._parentContext}/${this.contextName}`
+        : this.contextName,
     })
   }
 

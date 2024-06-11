@@ -24,7 +24,15 @@ describe('Add Client use case integration tests', () => {
     input = {
       name: 'Client 1',
       email: 'cliente@gmail.com',
-      address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
+      document: '12345678900',
+      address: {
+        street: 'Rua 1',
+        number: '123',
+        complement: 'Bairro 1',
+        city: 'Cidade 1',
+        state: 'Estado 1',
+        zipCode: '12345-123',
+      },
     }
   })
 
@@ -46,6 +54,7 @@ describe('Add Client use case integration tests', () => {
       updatedAt: expect.any(Date),
       name: input.name,
       email: input.email,
+      document: input.document,
       address: input.address,
     })
 
@@ -57,7 +66,12 @@ describe('Add Client use case integration tests', () => {
       updatedAt: output.updatedAt,
       name: input.name,
       email: input.email,
-      address: input.address,
+      street: input.address.street,
+      number: input.address.number,
+      complement: input.address.complement,
+      city: input.address.city,
+      state: input.address.state,
+      zipCode: input.address.zipCode,
     })
   })
 
@@ -77,7 +91,15 @@ describe('Add Client use case integration tests', () => {
       updatedAt: expect.any(Date),
       name: input.name,
       email: input.email,
-      address: input.address,
+      document: input.document,
+      address: expect.objectContaining({
+        street: input.address.street,
+        number: input.address.number,
+        complement: input.address.complement,
+        city: input.address.city,
+        state: input.address.state,
+        zipCode: input.address.zipCode,
+      }),
     })
 
     const clientModel = await ClientModel.findByPk(output.id)
@@ -88,7 +110,13 @@ describe('Add Client use case integration tests', () => {
       updatedAt: output.updatedAt,
       name: input.name,
       email: input.email,
-      address: input.address,
+      document: input.document,
+      street: input.address.street,
+      number: input.address.number,
+      complement: input.address.complement,
+      city: input.address.city,
+      state: input.address.state,
+      zipCode: input.address.zipCode,
     })
   })
 
@@ -133,7 +161,7 @@ describe('Add Client use case integration tests', () => {
 
   it('should throw an error when trying to create a client with an empty address', async () => {
     // Arrange - Given
-    input.address = ''
+    input.address = null
 
     // Act - When
     const output = usecase.execute(input)

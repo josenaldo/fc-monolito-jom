@@ -37,12 +37,12 @@ export class InvoiceModel extends Model {
   @Column({ allowNull: false })
   declare state: string
 
-  @Column({ allowNull: false, field: 'zip_code' })
-  declare zipCode: string
-
   @HasMany(() => InvoiceItemModel)
   declare items: InvoiceItemModel[]
 
   @Column({ allowNull: false })
   declare total: number
+
+  @Column({ allowNull: false, field: 'zip_code' })
+  declare zipCode: string
 }

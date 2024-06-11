@@ -29,9 +29,9 @@ export class FindInvoiceUsecase implements UsecaseInterface {
         street: invoice.address.street,
         number: invoice.address.number,
         complement: invoice.address.complement,
-        zipCode: invoice.address.zipCode,
         city: invoice.address.city,
         state: invoice.address.state,
+        zipCode: invoice.address.zipCode,
       },
       items: invoice.items.map((item) => ({
         id: item.id.value,

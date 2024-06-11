@@ -1,3 +1,4 @@
+import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { Client } from '@/modules/checkout/domain/entity/client.entity'
 import { OrderItem } from '@/modules/checkout/domain/entity/order-item.entity'
@@ -14,8 +15,15 @@ describe('Order unit tests', () => {
     const client: Client = new Client({
       name: 'John Doe',
       email: 'john@doe.com',
-      address:
-        'Fake Street, 123, Fake Complement, 111111-111, Fake City, Fake State',
+      document: '123.456.789-00',
+      address: new Address({
+        street: 'Fake Street',
+        number: '123',
+        complement: 'Fake Complement',
+        city: 'Fake City',
+        state: 'Fake State',
+        zipCode: '12345-123',
+      }),
     })
 
     const item1 = new OrderItem({

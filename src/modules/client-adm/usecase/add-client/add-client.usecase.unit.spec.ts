@@ -1,3 +1,7 @@
+import {
+  Address,
+  AddressProps,
+} from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
 import { CreateMockRepository } from '@/modules/client-adm/test/client-adm.test.utils'
@@ -8,15 +12,25 @@ describe('Add Client use case unit tests', () => {
   let repository: ClientGateway
   let usecase: AddClientUsecase
   let input: AddClientUsecaseInputDto
+  let addressProps: AddressProps
 
   beforeEach(async () => {
     repository = CreateMockRepository()
     usecase = new AddClientUsecase(repository)
+    addressProps = {
+      street: 'Rua 1',
+      number: '123',
+      complement: 'Bairro 1',
+      city: 'Cidade 1',
+      state: 'Estado 1',
+      zipCode: '12345-123',
+    }
 
     input = {
       name: 'Client 1',
       email: 'cliente@gmail.com',
-      address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
+      document: '12345678900',
+      address: new Address(addressProps),
     }
   })
 
@@ -35,7 +49,8 @@ describe('Add Client use case unit tests', () => {
         _updatedAt: expect.any(Date),
         _name: input.name,
         _email: input.email,
-        _address: input.address,
+        _document: input.document,
+        _address: expect.objectContaining(addressProps),
       })
     )
     expect(output).toBeDefined()
@@ -45,7 +60,8 @@ describe('Add Client use case unit tests', () => {
       updatedAt: expect.any(Date),
       name: input.name,
       email: input.email,
-      address: input.address,
+      document: input.document,
+      address: expect.objectContaining(addressProps),
     })
   })
 
@@ -67,7 +83,8 @@ describe('Add Client use case unit tests', () => {
         _updatedAt: expect.any(Date),
         _name: input.name,
         _email: input.email,
-        _address: input.address,
+        _document: input.document,
+        _address: expect.objectContaining(addressProps),
       })
     )
     expect(output).toBeDefined()
@@ -77,7 +94,8 @@ describe('Add Client use case unit tests', () => {
       updatedAt: expect.any(Date),
       name: input.name,
       email: input.email,
-      address: input.address,
+      document: input.document,
+      address: expect.objectContaining(addressProps),
     })
   })
 
@@ -122,7 +140,7 @@ describe('Add Client use case unit tests', () => {
 
   it('should throw an error when trying to create a client with an empty address', async () => {
     // Arrange - Given
-    input.address = ''
+    input.address = null
 
     // Act - When
     const output = usecase.execute(input)

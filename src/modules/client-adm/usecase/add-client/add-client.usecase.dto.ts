@@ -2,7 +2,15 @@ export interface AddClientUsecaseInputDto {
   id?: string
   name: string
   email: string
-  address: string
+  document: string
+  address: {
+    street: string
+    number: string
+    complement?: string
+    city: string
+    state: string
+    zipCode: string
+  }
 }
 
 export interface AddClientUsecaseOutputDto {
@@ -11,5 +19,13 @@ export interface AddClientUsecaseOutputDto {
   updatedAt: Date
   name: string
   email: string
-  address: string
+  document: string
+  address: {
+    street: string
+    number: string
+    complement?: string
+    city: string
+    state: string
+    zipCode: string
+  }
 }

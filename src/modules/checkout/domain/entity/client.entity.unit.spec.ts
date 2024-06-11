@@ -1,3 +1,4 @@
+import { Address } from '@/modules/@shared/domain/value-object/address'
 import {
   Client,
   ClientProps,
@@ -10,8 +11,15 @@ describe('Client unit tests', () => {
     props = {
       name: 'John Doe',
       email: 'john@doe.com',
-      address:
-        'Fake Street, 123, Fake Complement, 111111-111, Fake City, Fake State',
+      document: '12345678900',
+      address: new Address({
+        street: 'Fake Street',
+        number: '123',
+        complement: 'Fake Complement',
+        city: 'Fake City',
+        state: 'Fake State',
+        zipCode: '12345-123',
+      }),
     }
   })
 
@@ -27,7 +35,13 @@ describe('Client unit tests', () => {
     expect(output.updatedAt).not.toBeNull()
     expect(output.name).toBe(props.name)
     expect(output.email).toBe(props.email)
-    expect(output.address).toBe(props.address)
+    expect(output.address).toBeInstanceOf(Address)
+    expect(output.address.street).toBe(props.address.street)
+    expect(output.address.number).toBe(props.address.number)
+    expect(output.address.complement).toBe(props.address.complement)
+    expect(output.address.city).toBe(props.address.city)
+    expect(output.address.state).toBe(props.address.state)
+    expect(output.address.zipCode).toBe(props.address.zipCode)
   })
 
   it('should throw a notification error if name is not empty', () => {
@@ -54,7 +68,7 @@ describe('Client unit tests', () => {
 
   it('should throw a notification error if address is not empty', () => {
     // Arrange - Given
-    props.address = ''
+    props.address = null
 
     // Act - When
     const output = () => new Client(props)

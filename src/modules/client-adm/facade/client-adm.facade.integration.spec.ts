@@ -1,3 +1,4 @@
+import { AddressProps } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { ClientAdmFacade } from '@/modules/client-adm/facade/client-adm.facade'
 import {
@@ -15,12 +16,33 @@ describe('Client Adm facade integration tests', () => {
   let sequelize: Sequelize
   let clientAdmFacade: ClientAdmFacade
   let repository: ClientRepository
+  let addressProps: AddressProps
+  let id: Id
+  let input: AddClientFacadeInputDto
 
   beforeEach(async () => {
     sequelize = await InitSequelizeForClientAdmModule()
 
     repository = new ClientRepository()
     clientAdmFacade = ClientAdmFacadeFactory.create()
+
+    addressProps = {
+      street: 'Rua 1',
+      number: '123',
+      complement: 'Bairro 1',
+      city: 'Cidade 1',
+      state: 'Estado 1',
+      zipCode: '12345-123',
+    }
+
+    id = new Id()
+    input = {
+      id: id.value,
+      name: 'Client',
+      email: 't1@teste.com',
+      document: '12345678900',
+      address: addressProps,
+    }
   })
 
   afterEach(async () => {
@@ -30,13 +52,6 @@ describe('Client Adm facade integration tests', () => {
   describe('when addClient', () => {
     it('should add a client with an id', async () => {
       // Arrange - Given
-      const id = new Id()
-      const input: AddClientFacadeInputDto = {
-        id: id.value,
-        name: 'Client',
-        email: 't1@teste.com',
-        address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
-      }
 
       // Act - When
       await clientAdmFacade.addClient(input)
@@ -49,16 +64,17 @@ describe('Client Adm facade integration tests', () => {
       expect(client.updatedAt).toBeDefined()
       expect(client.name).toBe('Client')
       expect(client.email).toBe('t1@teste.com')
-      expect(client.address).toBe('Rua 1, 123, Bairro 1, Cidade 1, Estado 1')
+      expect(client.address).toBeDefined()
+      expect(client.address.street).toBe('Rua 1')
+      expect(client.address.number).toBe('123')
+      expect(client.address.complement).toBe('Bairro 1')
+      expect(client.address.city).toBe('Cidade 1')
+      expect(client.address.state).toBe('Estado 1')
     })
 
     it('should add a client without an id', async () => {
       // Arrange - Given
-      const input: AddClientFacadeInputDto = {
-        name: 'client',
-        email: 't1@teste.com',
-        address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
-      }
+      delete input.id
 
       // Act - When
       const output: AddClientFacadeOutputDto =
@@ -70,22 +86,18 @@ describe('Client Adm facade integration tests', () => {
       expect(client.id.value).toBe(output.id)
       expect(client.createdAt).toBeDefined()
       expect(client.updatedAt).toBeDefined()
-      expect(client.name).toBe('client')
+      expect(client.name).toBe('Client')
       expect(client.email).toBe('t1@teste.com')
-      expect(client.address).toBe('Rua 1, 123, Bairro 1, Cidade 1, Estado 1')
+      expect(client.address).toBeDefined()
+      expect(client.address.street).toBe('Rua 1')
+      expect(client.address.number).toBe('123')
+      expect(client.address.complement).toBe('Bairro 1')
+      expect(client.address.city).toBe('Cidade 1')
+      expect(client.address.state).toBe('Estado 1')
     })
 
     it('should throw an error when trying to add a client with an existent id', async () => {
       // Arrange - Given
-      const id = new Id()
-
-      const input: AddClientFacadeInputDto = {
-        id: id.value,
-        name: 'Client 1',
-        email: 't1@teste.com',
-        address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
-      }
-
       // Act - When
       await clientAdmFacade.addClient(input)
 
@@ -93,7 +105,8 @@ describe('Client Adm facade integration tests', () => {
         id: id.value,
         name: 'Client 2',
         email: 't2@teste.com',
-        address: 'Rua 1, 456, Bairro 2, Cidade 2, Estado 2',
+        document: '12345678901',
+        address: addressProps,
       }
       const output = clientAdmFacade.addClient(input2)
 
@@ -106,7 +119,8 @@ describe('Client Adm facade integration tests', () => {
       const input: AddClientFacadeInputDto = {
         name: '',
         email: '',
-        address: '',
+        document: '',
+        address: null,
       }
 
       // Act - When
@@ -115,7 +129,7 @@ describe('Client Adm facade integration tests', () => {
       // Assert - Then
       await expect(output).rejects.toThrow(
         new Error(
-          'client-adm/client: Name is required, Email is required, Address is required'
+          'client-adm/client: Name is required, Email is required, Document is required, Address is required'
         )
       )
     })
@@ -124,13 +138,6 @@ describe('Client Adm facade integration tests', () => {
   describe('when findClient', () => {
     it('should find a client', async () => {
       // Arrange - Given
-      const id = new Id()
-      const input: AddClientFacadeInputDto = {
-        id: id.value,
-        name: 'Client',
-        email: 't1@teste.com',
-        address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
-      }
       await clientAdmFacade.addClient(input)
 
       const findInput: FindClientFacadeInputDto = { id: id.value }
@@ -146,7 +153,12 @@ describe('Client Adm facade integration tests', () => {
       expect(output.updatedAt).toBeDefined()
       expect(output.name).toBe('Client')
       expect(output.email).toBe('t1@teste.com')
-      expect(output.address).toBe('Rua 1, 123, Bairro 1, Cidade 1, Estado 1')
+      expect(output.address).toBeDefined()
+      expect(output.address.street).toBe('Rua 1')
+      expect(output.address.number).toBe('123')
+      expect(output.address.complement).toBe('Bairro 1')
+      expect(output.address.city).toBe('Cidade 1')
+      expect(output.address.state).toBe('Estado 1')
     })
 
     it('should throw an error when client not found', async () => {

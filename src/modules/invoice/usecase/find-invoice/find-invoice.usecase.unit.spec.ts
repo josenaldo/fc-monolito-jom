@@ -1,7 +1,7 @@
+import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { InvoiceItem } from '@/modules/invoice/domain/entity/invoice-item.entity'
 import { Invoice } from '@/modules/invoice/domain/entity/invoice.entity'
-import Address from '@/modules/invoice/domain/value-object/address'
 import { InvoiceGateway } from '@/modules/invoice/gateway/invoice.gateway'
 import { CreateMockRepository } from '@/modules/invoice/test/invoice.test.utils'
 import { FindInvoiceUsecase } from '@/modules/invoice/usecase/find-invoice/find-invoice.usecase'
@@ -22,9 +22,9 @@ describe('Find Invoice use case unit tests', () => {
       street: 'Street 1',
       number: '123',
       complement: 'Complement 1',
-      zipCode: '12345678',
       city: 'City 1',
       state: 'State 1',
+      zipCode: '12345678',
     })
 
     const item: InvoiceItem = new InvoiceItem({
@@ -62,9 +62,9 @@ describe('Find Invoice use case unit tests', () => {
         street: 'Street 1',
         number: '123',
         complement: 'Complement 1',
-        zipCode: '12345678',
         city: 'City 1',
         state: 'State 1',
+        zipCode: '12345678',
       }),
       total: 40,
       items: [

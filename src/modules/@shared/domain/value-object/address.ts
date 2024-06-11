@@ -4,27 +4,28 @@ export type AddressProps = {
   street: string
   number: string
   complement?: string
-  zipCode: string
   city: string
   state: string
+  zipCode: string
+  parentContext?: string
 }
 
-export default class Address extends BaseValueObject {
+export class Address extends BaseValueObject {
   private _street: string = ''
   private _number: string = ''
   private _complement?: string
-  private _zipCode: string = ''
   private _city: string = ''
   private _state: string = ''
+  private _zipCode: string = ''
 
   constructor(props: AddressProps) {
-    super()
+    super(props.parentContext)
     this._street = props.street
     this._number = props.number
     this._complement = props.complement
-    this._zipCode = props.zipCode
     this._city = props.city
     this._state = props.state
+    this._zipCode = props.zipCode
 
     this.validate()
   }
@@ -45,10 +46,6 @@ export default class Address extends BaseValueObject {
     return this._complement
   }
 
-  get zipCode() {
-    return this._zipCode
-  }
-
   get city() {
     return this._city
   }
@@ -57,8 +54,12 @@ export default class Address extends BaseValueObject {
     return this._state
   }
 
+  get zipCode() {
+    return this._zipCode
+  }
+
   toString() {
-    return `${this._street}, ${this._number} - ${this._city}/${this._state} - ${this._zipCode} - ${this._complement}`
+    return `${this._street}, ${this._number}, ${this._complement} - ${this._city}/${this._state} - ${this._zipCode}`
   }
 
   validate() {
@@ -70,16 +71,16 @@ export default class Address extends BaseValueObject {
       this.addNotificationError('Number is required')
     }
 
-    if (!this._zipCode) {
-      this.addNotificationError('Zip code is required')
-    }
-
     if (!this._city) {
       this.addNotificationError('City is required')
     }
 
     if (!this._state) {
       this.addNotificationError('State is required')
+    }
+
+    if (!this._zipCode) {
+      this.addNotificationError('Zip code is required')
     }
 
     this.throwIfHasNotificationErrors()

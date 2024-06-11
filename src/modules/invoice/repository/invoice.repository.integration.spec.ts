@@ -1,10 +1,10 @@
+import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { InvoiceItem } from '@/modules/invoice/domain/entity/invoice-item.entity'
 import {
   Invoice,
   InvoiceProps,
 } from '@/modules/invoice/domain/entity/invoice.entity'
-import Address from '@/modules/invoice/domain/value-object/address'
 import InvoiceItemModel from '@/modules/invoice/repository/invoice-item.model'
 import { InvoiceModel } from '@/modules/invoice/repository/invoice.model'
 import { InvoiceRepository } from '@/modules/invoice/repository/invoice.repository'
@@ -27,9 +27,9 @@ describe('Invoice Repository integration tests', () => {
       street: 'Street 1',
       number: '123',
       complement: 'Complement 1',
-      zipCode: '12345678',
       city: 'City 1',
       state: 'State 1',
+      zipCode: '12345678',
     })
 
     item1 = new InvoiceItem({
@@ -147,9 +147,9 @@ describe('Invoice Repository integration tests', () => {
         street: 'Street 1',
         number: '123',
         complement: 'Complement 1',
-        zipCode: '12345678',
         city: 'City 1',
         state: 'State 1',
+        zipCode: '12345678',
         total: 10,
         items: [
           {
@@ -176,9 +176,9 @@ describe('Invoice Repository integration tests', () => {
         street: 'Street 2',
         number: '123',
         complement: 'Complement 2',
-        zipCode: '12345679',
         city: 'City 2',
         state: 'State 2',
+        zipCode: '12345679',
         total: 40,
         items: [
           {

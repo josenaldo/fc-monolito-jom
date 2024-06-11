@@ -1,5 +1,7 @@
-import { Notification } from '@/modules/@shared/domain/notification/notification'
-import { NotificationError } from '@/modules/@shared/domain/notification/notification.error'
+import {
+  Notification,
+  NotificationErrorProps,
+} from '@/modules/@shared/domain/notification/notification'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 
 export abstract class BaseEntity {
@@ -56,9 +58,10 @@ export abstract class BaseEntity {
     })
   }
 
+  addNotificationErrors(errors: NotificationErrorProps[]) {
+    this._notification.addErrors(errors)
+  }
   throwIfHasNotificationErrors() {
-    if (this.hasNotificationErrors) {
-      throw new NotificationError(this.notificationErrors)
-    }
+    this._notification.throwIfHasNotificationErrors(this.contextName)
   }
 }

@@ -22,9 +22,9 @@ describe('Generate Invoice use case unit tests', () => {
       street: 'Street 1',
       number: '123',
       complement: 'Complement 1',
-      zipCode: '12345678',
       city: 'City 1',
       state: 'State 1',
+      zipCode: '12345678',
       items: [
         {
           id: new Id().value,
@@ -61,9 +61,9 @@ describe('Generate Invoice use case unit tests', () => {
           _street: input.street,
           _number: input.number,
           _complement: input.complement,
-          _zipCode: input.zipCode,
           _city: input.city,
           _state: input.state,
+          _zipCode: input.zipCode,
         }),
         _items: expect.objectContaining(
           input.items.map((item) =>
@@ -88,9 +88,9 @@ describe('Generate Invoice use case unit tests', () => {
       street: input.street,
       number: input.number,
       complement: input.complement,
-      zipCode: input.zipCode,
       city: input.city,
       state: input.state,
+      zipCode: input.zipCode,
       items: input.items.map((item) =>
         expect.objectContaining({
           id: expect.any(String),
@@ -125,9 +125,9 @@ describe('Generate Invoice use case unit tests', () => {
           _street: input.street,
           _number: input.number,
           _complement: input.complement,
-          _zipCode: input.zipCode,
           _city: input.city,
           _state: input.state,
+          _zipCode: input.zipCode,
         }),
         _items: expect.objectContaining(
           input.items.map((item) =>
@@ -152,9 +152,9 @@ describe('Generate Invoice use case unit tests', () => {
       street: input.street,
       number: input.number,
       complement: input.complement,
-      zipCode: input.zipCode,
       city: input.city,
       state: input.state,
+      zipCode: input.zipCode,
       items: input.items.map((item) =>
         expect.objectContaining({
           id: expect.any(String),

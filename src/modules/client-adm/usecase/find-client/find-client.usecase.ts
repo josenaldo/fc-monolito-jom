@@ -25,6 +25,7 @@ export class FindClientUsecase {
       createdAt: client.createdAt,
       updatedAt: client.updatedAt,
       name: client.name,
+      document: client.document,
       email: client.email,
       address: client.address,
     }

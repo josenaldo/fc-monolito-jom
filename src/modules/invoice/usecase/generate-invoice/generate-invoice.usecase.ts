@@ -1,8 +1,8 @@
+import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { UsecaseInterface } from '@/modules/@shared/usecase/usecase.interface'
 import { InvoiceItem } from '@/modules/invoice/domain/entity/invoice-item.entity'
 import { Invoice } from '@/modules/invoice/domain/entity/invoice.entity'
-import Address from '@/modules/invoice/domain/value-object/address'
 import { InvoiceGateway } from '@/modules/invoice/gateway/invoice.gateway'
 import {
   GenerateInvoiceUsecaseInputDto,
@@ -25,9 +25,9 @@ export class GenerateInvoiceUsecase implements UsecaseInterface {
       street: input.street,
       number: input.number,
       complement: input.complement,
-      zipCode: input.zipCode,
       city: input.city,
       state: input.state,
+      zipCode: input.zipCode,
     })
 
     const items: InvoiceItem[] = input.items.map((item) => {

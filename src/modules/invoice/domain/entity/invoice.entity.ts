@@ -1,8 +1,8 @@
 import { AggregateRoot } from '@/modules/@shared/domain/entity/aggregate-root.interface'
 import { BaseEntity } from '@/modules/@shared/domain/entity/base.entity'
+import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { InvoiceItem } from '@/modules/invoice/domain/entity/invoice-item.entity'
-import Address from '@/modules/invoice/domain/value-object/address'
 
 export type InvoiceProps = {
   id?: Id

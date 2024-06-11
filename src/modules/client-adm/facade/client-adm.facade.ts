@@ -40,6 +40,7 @@ export class ClientAdmFacade implements ClientAdmFacadeInterface {
       updatedAt: output.updatedAt,
       name: output.name,
       email: output.email,
+      document: output.document,
       address: output.address,
     }
   }

@@ -1,3 +1,4 @@
+import { AddressProps } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
 import { ClientModel } from '@/modules/client-adm/repository/client.model'
@@ -11,6 +12,7 @@ describe('Find Client use case integration tests', () => {
   let repository: ClientGateway
   let usecase: FindClientUsecase
   let id1: string
+  let addressProps: AddressProps
 
   beforeEach(async () => {
     sequelize = await InitSequelizeForClientAdmModule()
@@ -19,13 +21,28 @@ describe('Find Client use case integration tests', () => {
     usecase = new FindClientUsecase(repository)
     id1 = new Id().value
 
+    addressProps = {
+      street: 'Rua 1',
+      number: '123',
+      complement: 'Bairro 1',
+      city: 'Cidade 1',
+      state: 'Estado 1',
+      zipCode: '12345-123',
+    }
+
     await ClientModel.create({
       id: id1,
       createdAt: new Date(),
       updatedAt: new Date(),
       name: 'Client 1',
       email: 'teste1@teste.com',
-      address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
+      document: '12345678901',
+      street: addressProps.street,
+      number: addressProps.number,
+      complement: addressProps.complement,
+      city: addressProps.city,
+      state: addressProps.state,
+      zipCode: addressProps.zipCode,
     })
   })
 
@@ -46,7 +63,8 @@ describe('Find Client use case integration tests', () => {
       updatedAt: expect.any(Date),
       name: 'Client 1',
       email: 'teste1@teste.com',
-      address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
+      document: '12345678901',
+      address: expect.objectContaining(addressProps),
     })
   })
 

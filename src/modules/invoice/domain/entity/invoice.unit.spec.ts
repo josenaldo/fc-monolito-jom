@@ -1,6 +1,6 @@
+import { Address } from '@/modules/@shared/domain/value-object/address'
 import { InvoiceItem } from '@/modules/invoice/domain/entity/invoice-item.entity'
 import { Invoice } from '@/modules/invoice/domain/entity/invoice.entity'
-import Address from '@/modules/invoice/domain/value-object/address'
 
 describe('Invoice unit tests ', () => {
   let address: Address
@@ -13,9 +13,9 @@ describe('Invoice unit tests ', () => {
       street: 'Fake Street',
       number: '123',
       complement: 'Fake Complement',
-      zipCode: '12345-123',
       city: 'Fake City',
       state: 'Fake State',
+      zipCode: '12345-123',
     })
 
     invoiceItem1 = new InvoiceItem({

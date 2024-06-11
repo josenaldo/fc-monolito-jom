@@ -1,3 +1,4 @@
+import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { DomainToModelMapperInterface } from '@/modules/@shared/repository/domain-to-model-mapper.interface'
 import { Client } from '@/modules/client-adm/domain/entity/client.entity'
@@ -28,7 +29,13 @@ describe('ClientModelToClientMapper unit tests', () => {
       updatedAt: new Date(),
       name: 'client',
       email: 'teste@teste.com',
-      address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
+      document: '12345678900',
+      street: 'Rua 1',
+      number: '123',
+      complement: 'Bairro 1',
+      city: 'Cidade 1',
+      state: 'Estado 1',
+      zipCode: '12345-123',
     })
 
     const domain = mapper.toDomain(model)
@@ -39,7 +46,15 @@ describe('ClientModelToClientMapper unit tests', () => {
     expect(domain.updatedAt).toEqual(model.updatedAt)
     expect(domain.name).toBe(model.name)
     expect(domain.email).toBe(model.email)
-    expect(domain.address).toBe(model.address)
+    expect(domain.document).toBe(model.document)
+    expect(domain.address).toBeDefined()
+    expect(domain.address).toBeInstanceOf(Address)
+    expect(domain.address.street).toBe(model.street)
+    expect(domain.address.number).toBe(model.number)
+    expect(domain.address.complement).toBe(model.complement)
+    expect(domain.address.city).toBe(model.city)
+    expect(domain.address.state).toBe(model.state)
+    expect(domain.address.zipCode).toBe(model.zipCode)
   })
 
   it('should map Client to ClientModel', () => {
@@ -51,7 +66,15 @@ describe('ClientModelToClientMapper unit tests', () => {
       updatedAt: new Date(),
       name: 'client',
       email: 'teste@teste.com',
-      address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
+      document: '12345678900',
+      address: new Address({
+        street: 'Rua 1',
+        number: '123',
+        complement: 'Bairro 1',
+        city: 'Cidade 1',
+        state: 'Estado 1',
+        zipCode: '12345-123',
+      }),
     })
 
     const model = mapper.toModel(domain)
@@ -61,6 +84,12 @@ describe('ClientModelToClientMapper unit tests', () => {
     expect(model.updatedAt).toEqual(domain.updatedAt)
     expect(model.name).toBe(domain.name)
     expect(model.email).toBe(domain.email)
-    expect(model.address).toBe(domain.address)
+    expect(model.document).toBe(domain.document)
+    expect(model.street).toBe(domain.address.street)
+    expect(model.number).toBe(domain.address.number)
+    expect(model.complement).toBe(domain.address.complement)
+    expect(model.city).toBe(domain.address.city)
+    expect(model.state).toBe(domain.address.state)
+    expect(model.zipCode).toBe(domain.address.zipCode)
   })
 })

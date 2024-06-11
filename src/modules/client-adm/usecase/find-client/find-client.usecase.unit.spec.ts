@@ -1,3 +1,4 @@
+import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { Client } from '@/modules/client-adm/domain/entity/client.entity'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
@@ -29,7 +30,15 @@ describe('Find Client use case unit tests', () => {
       updatedAt: new Date(),
       name: 'Client 1',
       email: 'teste@teste.com',
-      address: 'Rua 1, 123, Bairro 1, Cidade 1, Estado 1',
+      document: '12345678900',
+      address: new Address({
+        street: 'Rua 1',
+        number: '123',
+        complement: 'Bairro 1',
+        city: 'Cidade 1',
+        state: 'Estado 1',
+        zipCode: '12345-123',
+      }),
     })
 
     repository.find = jest.fn().mockResolvedValue(client)
@@ -40,12 +49,13 @@ describe('Find Client use case unit tests', () => {
     // Assert - Then
     expect(repository.find).toHaveBeenCalledTimes(1)
     expect(repository.find).toHaveBeenCalledWith(input.id)
-    expect(output).toEqual({
+    expect(output).toMatchObject({
       id: client.id.value,
       createdAt: client.createdAt,
       updatedAt: client.updatedAt,
       name: client.name,
       email: client.email,
+      document: client.document,
       address: client.address,
     })
   })

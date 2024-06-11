@@ -1,8 +1,8 @@
+import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { DomainToModelMapperInterface } from '@/modules/@shared/repository/domain-to-model-mapper.interface'
 import { InvoiceItem } from '@/modules/invoice/domain/entity/invoice-item.entity'
 import { Invoice } from '@/modules/invoice/domain/entity/invoice.entity'
-import Address from '@/modules/invoice/domain/value-object/address'
 import InvoiceItemModel from '@/modules/invoice/repository/invoice-item.model'
 import { InvoiceModel } from '@/modules/invoice/repository/invoice.model'
 
@@ -14,9 +14,9 @@ export class InvoiceModelToInvoiceMapper
       street: invoice.street,
       number: invoice.number,
       complement: invoice.complement,
-      zipCode: invoice.zipCode,
       city: invoice.city,
       state: invoice.state,
+      zipCode: invoice.zipCode,
     })
 
     const items = invoice.items.map((item) => {
@@ -50,9 +50,9 @@ export class InvoiceModelToInvoiceMapper
         street: invoice.address.street,
         number: invoice.address.number,
         complement: invoice.address.complement,
-        zipCode: invoice.address.zipCode,
         city: invoice.address.city,
         state: invoice.address.state,
+        zipCode: invoice.address.zipCode,
         items: invoice.items.map((item) => {
           return {
             id: item.id.value,

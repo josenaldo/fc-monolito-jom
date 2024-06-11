@@ -1,3 +1,5 @@
+import { NotificationError } from '@/modules/@shared/domain/notification/notification.error'
+
 export type NotificationErrorProps = {
   message: string
   context: string
@@ -21,8 +23,18 @@ export class Notification {
     this._errors.push(error)
   }
 
+  addErrors(errors: NotificationErrorProps[]): void {
+    this._errors.push(...errors)
+  }
+
   messages(context?: string): string {
     return Notification.messages(this._errors, context)
+  }
+
+  throwIfHasNotificationErrors(context: string) {
+    if (this.hasErrors(context)) {
+      throw new NotificationError(this.getErrors(context))
+    }
   }
 
   static messages(errors: NotificationErrorProps[], context?: string): string {
@@ -71,5 +83,9 @@ export class Notification {
       }
     })
     return messages
+  }
+
+  clear() {
+    this._errors = []
   }
 }

@@ -1,3 +1,4 @@
+import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { DomainToModelMapperInterface } from '@/modules/@shared/repository/domain-to-model-mapper.interface'
 import { InvoiceItem } from '@/modules/invoice/domain/entity/invoice-item.entity'
@@ -5,7 +6,6 @@ import {
   Invoice,
   InvoiceProps,
 } from '@/modules/invoice/domain/entity/invoice.entity'
-import Address from '@/modules/invoice/domain/value-object/address'
 import InvoiceItemModel from '@/modules/invoice/repository/invoice-item.model'
 import { InvoiceModelToInvoiceMapper } from '@/modules/invoice/repository/invoice-model-to-invoice.mapper'
 import { InvoiceModel } from '@/modules/invoice/repository/invoice.model'
@@ -38,9 +38,9 @@ describe('InvoiceModelToInvoiceMapper unit tests', () => {
         street: 'Street 1',
         number: '123',
         complement: 'Complement 1',
-        zipCode: '12345678',
         city: 'City 1',
         state: 'State 1',
+        zipCode: '12345678',
         total: 10,
         items: [
           {
@@ -89,9 +89,9 @@ describe('InvoiceModelToInvoiceMapper unit tests', () => {
       street: 'Street 1',
       number: '123',
       complement: 'Complement 1',
-      zipCode: '12345678',
       city: 'City 1',
       state: 'State 1',
+      zipCode: '12345678',
     })
 
     const item1 = new InvoiceItem({

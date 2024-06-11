@@ -1,6 +1,7 @@
-import Address, {
+import {
+  Address,
   AddressProps,
-} from '@/modules/invoice/domain/value-object/address'
+} from '@/modules/@shared/domain/value-object/address'
 
 describe('Address unit tests', () => {
   let addressProps: AddressProps
@@ -10,9 +11,9 @@ describe('Address unit tests', () => {
       street: 'Fake Street',
       number: '123',
       complement: 'Fake Complement',
-      zipCode: '12345-123',
       city: 'Fake City',
       state: 'Fake State',
+      zipCode: '12345-123',
     }
   })
   it('should create an Address instance', () => {
@@ -26,9 +27,9 @@ describe('Address unit tests', () => {
     expect(address.street).toBe(addressProps.street)
     expect(address.number).toBe(addressProps.number)
     expect(address.complement).toBe(addressProps.complement)
-    expect(address.zipCode).toBe(addressProps.zipCode)
     expect(address.city).toBe(addressProps.city)
     expect(address.state).toBe(addressProps.state)
+    expect(address.zipCode).toBe(addressProps.zipCode)
   })
 
   it('should throw an error if street is empty', () => {
