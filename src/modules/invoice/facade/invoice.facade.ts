@@ -22,13 +22,13 @@ export class InvoiceFacade implements InvoiceFacadeInterface {
     this._findInvoiceUsecase = usecaseProps.findInvoiceUsecase
   }
 
-  async generateInvoice(
+  async create(
     input: GenerateInvoiceFacadeInputDto
   ): Promise<GenerateInvoiceFacadeOutputDto> {
     return await this._generateInvoiceUsecase.execute(input)
   }
 
-  async findInvoice(
+  async find(
     input: FindInvoiceFacadeInputDto
   ): Promise<FindInvoiceFacadeOutputDto> {
     const output: FindInvoiceUsecaseOutputDto =

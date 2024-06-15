@@ -48,7 +48,7 @@ export function CreateMockPaymentFacade(): PaymentFacadeInterface {
 
 export function CreateMockInvoiceFacade(): InvoiceFacadeInterface {
   return {
-    generateInvoice: jest.fn(),
-    findInvoice: jest.fn(),
+    create: jest.fn(),
+    find: jest.fn(),
   }
 }

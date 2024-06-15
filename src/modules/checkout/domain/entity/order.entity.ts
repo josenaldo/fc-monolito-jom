@@ -49,7 +49,9 @@ export class Order extends BaseEntity implements AggregateRoot {
   }
 
   get total(): number {
-    return this._items.reduce((acc, item) => acc + item.total, 0)
+    return this._items && this.items.length > 0
+      ? this._items.reduce((acc, item) => acc + item.total, 0)
+      : 0
   }
 
   validate(): void {

@@ -90,7 +90,7 @@ describe('Invoice Facade integration tests', () => {
       ],
     }
     // Act - When
-    const output = await facade.generateInvoice(input)
+    const output = await facade.create(input)
 
     // Assert - Then
     expect(output).not.toBeNull()
@@ -129,7 +129,7 @@ describe('Invoice Facade integration tests', () => {
     const input: FindInvoiceFacadeInputDto = { id: id.value }
 
     // Act - When
-    const output = await facade.findInvoice(input)
+    const output = await facade.find(input)
 
     // Assert - Then
     expect(output).toEqual({
@@ -172,7 +172,7 @@ describe('Invoice Facade integration tests', () => {
 
     const input: FindInvoiceFacadeInputDto = { id: notFoundId.value }
     // Act - When
-    const output = facade.findInvoice(input)
+    const output = facade.find(input)
 
     // Assert - Then
     await expect(output).rejects.toThrow('Invoice not found')

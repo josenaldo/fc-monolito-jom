@@ -41,6 +41,15 @@ export type PlaceOrderUsecaseProps = {
   invoiceFacade: InvoiceFacadeInterface
 }
 
+export type FindProductOutput = {
+  [key: string]: {
+    productId: string
+    name: string
+    quantity: number
+    price: number
+  }
+}
+
 export class PlaceOrderUsecase implements UsecaseInterface {
   private _repository: CheckoutGateway
   private _clientFacade: ClientAdmFacadeInterface
@@ -71,8 +80,10 @@ export class PlaceOrderUsecase implements UsecaseInterface {
     //validar produtos (verificar stoque, preço, etc)
     await this.validateItems(input)
 
+    const products = await this.findProducts(input)
+
     // recuperar produtos
-    const orderItems: OrderItem[] = await this.createOrderItems(input)
+    const orderItems: OrderItem[] = this.createOrderItems(input, products)
 
     //criar Order
     const orderProps: OrderProps = {
@@ -85,24 +96,21 @@ export class PlaceOrderUsecase implements UsecaseInterface {
     }
 
     const order: Order = new Order(orderProps)
-    // salvar pedido
-    await this._repository.add(order)
 
     // processar pagamento
-    const outputPayment: PaymentFacadeOutputDto =
-      await this._paymentFacade.process({
-        orderId: order.id.value,
-        amount: order.total,
-      })
+    const payment: PaymentFacadeOutputDto = await this._paymentFacade.process({
+      orderId: order.id.value,
+      amount: order.total,
+    })
 
     let invoice: GenerateInvoiceFacadeOutputDto = null
     let invoiceId: string = null
 
     // caso pagamento aprovado, gerar fatura e aprovar order
-    if (outputPayment.status === 'approved') {
+    if (payment.status === 'approved') {
       const items = order.items.map((item) => ({
         id: item.productId,
-        name: item.contextName,
+        name: products[item.productId].name,
         quantity: item.quantity,
         price: item.price,
       }))
@@ -119,21 +127,24 @@ export class PlaceOrderUsecase implements UsecaseInterface {
         zipCode: client.address.zipCode,
         items: items,
       }
-      invoice = await this._invoiceFacade.generateInvoice(invoiceProps)
+      invoice = await this._invoiceFacade.create(invoiceProps)
       invoiceId = invoice.id
-    } else if (outputPayment.status === 'declined') {
-      invoiceId = null
+      order.approve()
+    } else if (payment.status === 'declined') {
       order.cancel()
     } else {
       //erro no pagamento
       throw new Error('Payment error')
     }
 
+    // salvar pedido
+    await this._repository.add(order)
+
     //retornar dto
     return {
       id: order.id.value,
       invoiceId: invoiceId,
-      status: outputPayment.status,
+      status: order.status,
       total: order.total,
       items: orderItems.map((item) => ({
         productId: item.productId,
@@ -191,24 +202,50 @@ export class PlaceOrderUsecase implements UsecaseInterface {
     this.throwIfHasNotificationErrors()
   }
 
-  private async createOrderItems(
+  private async findProducts(
     input: PlaceOrderUsecaseInputDto
-  ): Promise<OrderItem[]> {
-    const orderItemsPromises = input.items.map(async (item) => {
+  ): Promise<FindProductOutput> {
+    const products: FindProductOutput = {}
+
+    const findProductOutputPromises = input.items.map(async (item) => {
       const productOutput: FindStoreCatalogFacadeOutputDto =
         await this.findProduct(item.productId)
+
+      return {
+        productId: productOutput.id,
+        name: productOutput.name,
+        quantity: item.quantity,
+        price: productOutput.salesPrice,
+      }
+    })
+
+    const findProductOutputItems = await Promise.all(findProductOutputPromises)
+
+    for (const productOutput of findProductOutputItems) {
+      products[productOutput.productId] = productOutput
+    }
+
+    return products
+  }
+
+  private createOrderItems(
+    input: PlaceOrderUsecaseInputDto,
+    products: FindProductOutput
+  ): OrderItem[] {
+    const orderItems = input.items.map((item) => {
+      const productOutput = products[item.productId]
 
       const orderItemProps = {
         id: new Id(),
         name: productOutput.name,
-        productId: productOutput.id,
+        productId: productOutput.productId,
         quantity: item.quantity,
-        price: productOutput.salesPrice,
+        price: productOutput.price,
       }
 
       return new OrderItem(orderItemProps)
     })
-    return await Promise.all(orderItemsPromises)
+    return orderItems
   }
 
   private async findProduct(

@@ -2,6 +2,7 @@ import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { Client } from '@/modules/checkout/domain/entity/client.entity'
 import { OrderItem } from '@/modules/checkout/domain/entity/order-item.entity'
+import { OrderStatus } from '@/modules/checkout/domain/entity/order.entity'
 import { CheckoutGateway } from '@/modules/checkout/gateway/checkout.gateway'
 import {
   CreateMockClientFacade,
@@ -12,7 +13,10 @@ import {
   CreateMockStoreCatalogFacade,
 } from '@/modules/checkout/test/checkout.test.utils'
 import { PlaceOrderUsecaseInputDto } from '@/modules/checkout/usecase/place-order/place-order.dto'
-import { PlaceOrderUsecase } from '@/modules/checkout/usecase/place-order/place-order.usecase'
+import {
+  FindProductOutput,
+  PlaceOrderUsecase,
+} from '@/modules/checkout/usecase/place-order/place-order.usecase'
 import {
   ClientAdmFacadeInterface,
   FindClientFacadeOutputDto,
@@ -21,7 +25,10 @@ import { InvoiceFacadeInterface } from '@/modules/invoice/facade/invoice.facade.
 import { PaymentFacadeInterface } from '@/modules/payment/facade/payment.facade.interface'
 import { ProductAdmFacadeInterface } from '@/modules/product-adm/facade/product-adm.facade.interface'
 import { Product } from '@/modules/store-catalog/domain/entity/product.entity'
-import { StoreCatalogFacadeInterface } from '@/modules/store-catalog/facade/store-catalog.facade.interface'
+import {
+  FindStoreCatalogFacadeOutputDto,
+  StoreCatalogFacadeInterface,
+} from '@/modules/store-catalog/facade/store-catalog.facade.interface'
 
 describe('Place Order usecase unit tests', () => {
   let usecase: PlaceOrderUsecase
@@ -270,7 +277,8 @@ describe('Place Order usecase unit tests', () => {
       })
 
       // Act - When
-      const output = await usecase['createOrderItems'](input)
+      const products = await usecase['findProducts'](input)
+      const output = usecase['createOrderItems'](input, products)
 
       // Assert - Then
       expect(output).toBeDefined()
@@ -305,42 +313,16 @@ describe('Place Order usecase unit tests', () => {
     let products: Product[]
     let orderItems: OrderItem[]
     let client: Client
+    let product1: Product
+    let product2: Product
+    let findProductsOutput: FindProductOutput
+
+    let findClientSpy: jest.SpyInstance
+    let validateItemsSpy: jest.SpyInstance
+    let createOrderItemsSpy: jest.SpyInstance
+    let findProductSpy: jest.SpyInstance
 
     beforeEach(async () => {
-      products = [
-        new Product({
-          id: new Id(itemProps1.productId),
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          name: `Product ${itemProps1.productId}`,
-          description: `Product ${itemProps1.productId} description`,
-          salesPrice: 10,
-        }),
-        new Product({
-          id: new Id(itemProps2.productId),
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          name: `Product ${itemProps2.productId}`,
-          description: `Product ${itemProps2.productId} description`,
-          salesPrice: 20,
-        }),
-      ]
-
-      orderItems = [
-        new OrderItem({
-          id: new Id(),
-          productId: products[0].id.value,
-          quantity: itemProps1.quantity,
-          price: products[0].salesPrice,
-        }),
-        new OrderItem({
-          id: new Id(),
-          productId: products[1].id.value,
-          quantity: itemProps2.quantity,
-          price: products[1].salesPrice,
-        }),
-      ]
-
       client = new Client({
         id: new Id(clientFacadeOutput.id),
         name: clientFacadeOutput.name,
@@ -355,17 +337,14 @@ describe('Place Order usecase unit tests', () => {
           zipCode: '12345678',
         }),
       })
-    })
 
-    it('should place an order that should not be approved', async () => {
-      // Arrange - Given
-      const findClientSpy = jest
+      findClientSpy = jest
         //@ts-expect-error - jest.spyOn does not accept private methods
         .spyOn(usecase, 'findClient')
         //@ts-expect-error - not return never
         .mockResolvedValue(clientFacadeOutput)
 
-      const validateItemsSpy = jest
+      validateItemsSpy = jest
         //@ts-expect-error - jest.spyOn does not accept private methods
         .spyOn(usecase, 'validateItems')
         //@ts-expect-error - not return never
@@ -373,13 +352,91 @@ describe('Place Order usecase unit tests', () => {
           Promise.resolve()
         )
 
-      const createOrderItemsSpy = jest
+      createOrderItemsSpy = jest
         //@ts-expect-error - jest.spyOn does not accept private methods
         .spyOn(usecase, 'createOrderItems')
+
+      findProductSpy = jest
+        //@ts-expect-error - jest.spyOn does not accept private methods
+        .spyOn(usecase, 'findProduct')
         //@ts-expect-error - not return never
-        .mockImplementation((input: PlaceOrderUsecaseInputDto) =>
-          Promise.resolve(orderItems)
+        .mockImplementation(
+          async (
+            productId: string
+          ): Promise<FindStoreCatalogFacadeOutputDto> => {
+            const product = products.find(
+              (product) => product.id.value === productId
+            )
+            return Promise.resolve({
+              id: product.id.value,
+              name: product.name,
+              description: product.description,
+              salesPrice: product.salesPrice,
+            })
+          }
         )
+    })
+
+    it('should place an order that should not be approved', async () => {
+      // Arrange - Given
+      itemProps1 = {
+        productId: itemProps1.productId,
+        quantity: 1,
+      }
+      itemProps2 = {
+        productId: itemProps2.productId,
+        quantity: 2,
+      }
+
+      product1 = new Product({
+        id: new Id(itemProps1.productId),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        name: `Product ${itemProps1.productId}`,
+        description: `Product ${itemProps1.productId} description`,
+        salesPrice: 10,
+      })
+
+      product2 = new Product({
+        id: new Id(itemProps2.productId),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        name: `Product ${itemProps2.productId}`,
+        description: `Product ${itemProps2.productId} description`,
+        salesPrice: 20,
+      })
+
+      products = [product1, product2]
+
+      orderItems = [
+        new OrderItem({
+          id: new Id(),
+          productId: itemProps1.productId,
+          quantity: itemProps1.quantity,
+          price: product1.salesPrice,
+        }),
+        new OrderItem({
+          id: new Id(),
+          productId: itemProps2.productId,
+          quantity: itemProps2.quantity,
+          price: product2.salesPrice,
+        }),
+      ]
+
+      findProductsOutput = {
+        [product1.id.value]: {
+          productId: product1.id.value,
+          name: `${product1.name}`,
+          quantity: itemProps1.quantity,
+          price: product1.salesPrice,
+        },
+        [product2.id.value]: {
+          productId: product2.id.value,
+          name: `${product2.name}`,
+          quantity: itemProps2.quantity,
+          price: product2.salesPrice,
+        },
+      }
 
       paymentFacade.process = jest.fn().mockResolvedValue({
         transactionId: new Id().value,
@@ -401,7 +458,7 @@ describe('Place Order usecase unit tests', () => {
       expect(output).toBeDefined()
       expect(output.id).toBeDefined()
       expect(output.invoiceId).toBeNull()
-      expect(output.status).toBe('declined')
+      expect(output.status).toBe(OrderStatus.CANCELLED)
       expect(output.total).toBe(50)
       expect(output.items).toBeDefined()
       expect(output.items.length).toBe(2)
@@ -419,7 +476,10 @@ describe('Place Order usecase unit tests', () => {
       expect(validateItemsSpy).toHaveBeenCalledWith(input)
 
       expect(createOrderItemsSpy).toHaveBeenCalledTimes(1)
-      expect(createOrderItemsSpy).toHaveBeenCalledWith(input)
+      expect(createOrderItemsSpy).toHaveBeenCalledWith(
+        input,
+        findProductsOutput
+      )
 
       expect(repository.add).toHaveBeenCalledTimes(1)
 
@@ -429,7 +489,161 @@ describe('Place Order usecase unit tests', () => {
         orderId: output.id,
       })
 
-      expect(invoiceFacade.generateInvoice).toHaveBeenCalledTimes(0)
+      expect(invoiceFacade.create).toHaveBeenCalledTimes(0)
+    })
+
+    it('should place an order that should be approved', async () => {
+      itemProps1 = {
+        productId: itemProps1.productId,
+        quantity: 10,
+      }
+      itemProps2 = {
+        productId: itemProps2.productId,
+        quantity: 20,
+      }
+      product1 = new Product({
+        id: new Id(itemProps1.productId),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        name: `Product ${itemProps1.productId}`,
+        description: `Product ${itemProps1.productId} description`,
+        salesPrice: 10,
+      })
+
+      product2 = new Product({
+        id: new Id(itemProps2.productId),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        name: `Product ${itemProps2.productId}`,
+        description: `Product ${itemProps2.productId} description`,
+        salesPrice: 20,
+      })
+      products = [product1, product2]
+
+      orderItems = [
+        new OrderItem({
+          id: new Id(),
+          productId: itemProps1.productId,
+          quantity: itemProps1.quantity,
+          price: product1.salesPrice,
+        }),
+        new OrderItem({
+          id: new Id(),
+          productId: itemProps2.productId,
+          quantity: itemProps2.quantity,
+          price: product2.salesPrice,
+        }),
+      ]
+
+      findProductsOutput = {
+        [product1.id.value]: {
+          productId: product1.id.value,
+          name: `${product1.name}`,
+          quantity: itemProps1.quantity,
+          price: product1.salesPrice,
+        },
+        [product2.id.value]: {
+          productId: product2.id.value,
+          name: `${product2.name}`,
+          quantity: itemProps2.quantity,
+          price: product2.salesPrice,
+        },
+      }
+
+      // Arrange - Given
+
+      paymentFacade.process = jest.fn().mockResolvedValue({
+        transactionId: new Id().value,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        orderId: new Id().value,
+        amount: 500,
+        status: 'approved',
+      })
+
+      const invoiceId = new Id()
+      invoiceFacade.create = jest.fn().mockResolvedValue({
+        id: invoiceId.value,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        name: client.name,
+        document: client.document,
+        street: client.address.street,
+        number: client.address.number,
+        complement: client.address.complement,
+        city: client.address.city,
+        state: client.address.state,
+        zipCode: client.address.zipCode,
+        items: orderItems.map((item) => ({
+          id: item.productId,
+          name: `Product ${item.productId}`,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+      })
+
+      const input: PlaceOrderUsecaseInputDto = {
+        clientId: client.id.value,
+        items: [itemProps1, itemProps2],
+      }
+      // Act - When
+      const output = await usecase.execute(input)
+
+      // Assert - Then
+      expect(output).toBeDefined()
+      expect(output.id).toBeDefined()
+      expect(output.invoiceId).toBeDefined()
+      expect(output.invoiceId).toBe(invoiceId.value)
+      expect(output.status).toBe(OrderStatus.APPROVED)
+      expect(output.total).toBe(500)
+      expect(output.items).toBeDefined()
+      expect(output.items.length).toBe(2)
+      expect(output.items[0].productId).toBe(products[0].id.value)
+      expect(output.items[0].quantity).toBe(10)
+      expect(output.items[0].price).toBe(products[0].salesPrice)
+      expect(output.items[1].productId).toBe(products[1].id.value)
+      expect(output.items[1].quantity).toBe(20)
+      expect(output.items[1].price).toBe(products[1].salesPrice)
+
+      expect(findClientSpy).toHaveBeenCalledTimes(1)
+      expect(findClientSpy).toHaveBeenCalledWith(input)
+
+      expect(validateItemsSpy).toHaveBeenCalledTimes(1)
+      expect(validateItemsSpy).toHaveBeenCalledWith(input)
+
+      expect(findProductSpy).toHaveBeenCalledTimes(2)
+      expect(createOrderItemsSpy).toHaveBeenCalledTimes(1)
+      expect(createOrderItemsSpy).toHaveBeenCalledWith(
+        input,
+        findProductsOutput
+      )
+
+      expect(repository.add).toHaveBeenCalledTimes(1)
+
+      expect(paymentFacade.process).toHaveBeenCalledTimes(1)
+      expect(paymentFacade.process).toHaveBeenCalledWith({
+        amount: 500,
+        orderId: output.id,
+      })
+
+      expect(invoiceFacade.create).toHaveBeenCalledTimes(1)
+      expect(invoiceFacade.create).toHaveBeenCalledWith({
+        id: expect.any(String),
+        name: client.name,
+        document: client.document,
+        street: client.address.street,
+        number: client.address.number,
+        complement: client.address.complement,
+        city: client.address.city,
+        state: client.address.state,
+        zipCode: client.address.zipCode,
+        items: orderItems.map((item) => ({
+          id: item.productId,
+          name: `Product ${item.productId}`,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+      })
     })
   })
 })
