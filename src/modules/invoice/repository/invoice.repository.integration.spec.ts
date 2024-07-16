@@ -100,7 +100,7 @@ describe('Invoice Repository integration tests', () => {
     expect(invoiceModel.items[1].total).toBe(item2.total)
   })
 
-  it('should throw an error when trying to create a invoice with an existing id', async () => {
+  it('should throw an error when trying to create an invoice with an existing id', async () => {
     // Arrange - Given
     const id = new Id()
 

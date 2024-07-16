@@ -1,5 +1,8 @@
 import { TestUtils } from '@/modules/@shared/test/test.utils'
 import { CheckoutGateway } from '@/modules/checkout/gateway/checkout.gateway'
+import { ClientModel } from '@/modules/checkout/repository/client.model'
+import OrderItemModel from '@/modules/checkout/repository/order-item.model'
+import { OrderModel } from '@/modules/checkout/repository/order.model'
 import { ClientAdmFacadeInterface } from '@/modules/client-adm/facade/client-adm.facade.interface'
 import { InvoiceFacadeInterface } from '@/modules/invoice/facade/invoice.facade.interface'
 import { PaymentFacadeInterface } from '@/modules/payment/facade/payment.facade.interface'
@@ -8,7 +11,11 @@ import { StoreCatalogFacadeInterface } from '@/modules/store-catalog/facade/stor
 import { Sequelize } from 'sequelize-typescript'
 
 export async function InitSequelizeForCheckoutModule(): Promise<Sequelize> {
-  return await TestUtils.CreateSequelizeWithModels([])
+  return await TestUtils.CreateSequelizeWithModels([
+    OrderModel,
+    OrderItemModel,
+    ClientModel,
+  ])
 }
 
 export function CreateMockRepository(): CheckoutGateway {

@@ -9,19 +9,21 @@ import { InvoiceModel } from '@/modules/invoice/repository/invoice.model'
 export class InvoiceModelToInvoiceMapper
   implements DomainToModelMapperInterface<Invoice, InvoiceModel>
 {
-  toDomain(invoice: InvoiceModel): Invoice {
+  toDomain(model: InvoiceModel): Invoice {
     const address = new Address({
-      street: invoice.street,
-      number: invoice.number,
-      complement: invoice.complement,
-      city: invoice.city,
-      state: invoice.state,
-      zipCode: invoice.zipCode,
+      street: model.street,
+      number: model.number,
+      complement: model.complement,
+      city: model.city,
+      state: model.state,
+      zipCode: model.zipCode,
     })
 
-    const items = invoice.items.map((item) => {
+    const items = model.items.map((item) => {
       return new InvoiceItem({
         id: new Id(item.id),
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
         name: item.name,
         price: item.price,
         quantity: item.quantity,
@@ -29,40 +31,42 @@ export class InvoiceModelToInvoiceMapper
     })
 
     return new Invoice({
-      id: new Id(invoice.id),
-      createdAt: invoice.createdAt,
-      updatedAt: invoice.updatedAt,
-      name: invoice.name,
-      document: invoice.document,
+      id: new Id(model.id),
+      createdAt: model.createdAt,
+      updatedAt: model.updatedAt,
+      name: model.name,
+      document: model.document,
       address: address,
       items: items,
     })
   }
 
-  toModel(invoice: Invoice): InvoiceModel {
+  toModel(domain: Invoice): InvoiceModel {
     return new InvoiceModel(
       {
-        id: invoice.id.value,
-        createdAt: invoice.createdAt,
-        updatedAt: invoice.updatedAt,
-        name: invoice.name,
-        document: invoice.document,
-        street: invoice.address.street,
-        number: invoice.address.number,
-        complement: invoice.address.complement,
-        city: invoice.address.city,
-        state: invoice.address.state,
-        zipCode: invoice.address.zipCode,
-        items: invoice.items.map((item) => {
+        id: domain.id.value,
+        createdAt: domain.createdAt,
+        updatedAt: domain.updatedAt,
+        name: domain.name,
+        document: domain.document,
+        street: domain.address.street,
+        number: domain.address.number,
+        complement: domain.address.complement,
+        city: domain.address.city,
+        state: domain.address.state,
+        zipCode: domain.address.zipCode,
+        items: domain.items.map((item) => {
           return {
             id: item.id.value,
+            createdAt: item.createdAt,
+            updatedAt: item.updatedAt,
             name: item.name,
             price: item.price,
             quantity: item.quantity,
             total: item.total,
           }
         }),
-        total: invoice.total,
+        total: domain.total,
       },
       {
         include: [{ model: InvoiceItemModel }],
