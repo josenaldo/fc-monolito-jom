@@ -1,22 +1,23 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { Product } from '@/modules/product-adm/domain/entity/product.entity'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
-import { InitSequelizeForProductAdmModule } from '@/modules/product-adm/test/product-adm.test.utils'
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/product-adm/test/product-adm.test.utils'
 
 describe('Product Repository integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let repository: ProductRepository
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForProductAdmModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     repository = new ProductRepository()
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should create a product', async () => {
@@ -25,6 +26,7 @@ describe('Product Repository integration tests', () => {
       name: 'product name',
       description: 'product description',
       purchasePrice: 10,
+      salesPrice: 20,
       stock: 10,
     }
     const product = new Product(props)
@@ -42,6 +44,7 @@ describe('Product Repository integration tests', () => {
     expect(productModel.name).toBe(product.name)
     expect(productModel.description).toBe(product.description)
     expect(productModel.purchasePrice).toBe(product.purchasePrice)
+    expect(productModel.salesPrice).toBe(product.salesPrice)
     expect(productModel.stock).toBe(product.stock)
   })
 
@@ -56,6 +59,7 @@ describe('Product Repository integration tests', () => {
       name: 'Product 1',
       description: 'Description 1',
       purchasePrice: 10,
+      salesPrice: 20,
       stock: 10,
     }
 
@@ -68,6 +72,7 @@ describe('Product Repository integration tests', () => {
       name: 'Product 2',
       description: 'Product 2 description',
       purchasePrice: 20,
+      salesPrice: 40,
       stock: 20,
     })
     // Act - When
@@ -89,6 +94,7 @@ describe('Product Repository integration tests', () => {
       name: 'Product 1',
       description: 'Product 1 description',
       purchasePrice: 10,
+      salesPrice: 20,
       stock: 10,
     })
 
@@ -99,6 +105,7 @@ describe('Product Repository integration tests', () => {
       name: 'Product 2',
       description: 'Product 2 description',
       purchasePrice: 20,
+      salesPrice: 40,
       stock: 20,
     })
 
@@ -114,6 +121,7 @@ describe('Product Repository integration tests', () => {
     expect(product1.name).toBe('Product 1')
     expect(product1.description).toBe('Product 1 description')
     expect(product1.purchasePrice).toBe(10)
+    expect(product1.salesPrice).toBe(20)
     expect(product1.stock).toBe(10)
 
     expect(product2).not.toBeNull()
@@ -123,6 +131,7 @@ describe('Product Repository integration tests', () => {
     expect(product2.name).toBe('Product 2')
     expect(product2.description).toBe('Product 2 description')
     expect(product2.purchasePrice).toBe(20)
+    expect(product2.salesPrice).toBe(40)
     expect(product2.stock).toBe(20)
   })
 

@@ -28,7 +28,7 @@ export class AddClientUsecase implements UsecaseInterface {
         complement: input.address.complement,
         city: input.address.city,
         state: input.address.state,
-        zipCode: input.address.zipCode,
+        zipcode: input.address.zipcode,
         parentContext: 'client-adm/client',
       })
     }
@@ -58,7 +58,7 @@ export class AddClientUsecase implements UsecaseInterface {
         complement: cliente.address.complement,
         city: cliente.address.city,
         state: cliente.address.state,
-        zipCode: cliente.address.zipCode,
+        zipcode: cliente.address.zipcode,
       },
     }
   }

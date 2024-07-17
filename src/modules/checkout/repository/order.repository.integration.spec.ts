@@ -1,5 +1,6 @@
 import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { Client } from '@/modules/checkout/domain/entity/client.entity'
 import { OrderItem } from '@/modules/checkout/domain/entity/order-item.entity'
 import {
@@ -11,11 +12,11 @@ import { ClientModel } from '@/modules/checkout/repository/client.model'
 import OrderItemModel from '@/modules/checkout/repository/order-item.model'
 import { OrderModel } from '@/modules/checkout/repository/order.model'
 import { OrderRepository } from '@/modules/checkout/repository/order.repository'
-import { InitSequelizeForCheckoutModule } from '@/modules/checkout/test/checkout.test.utils'
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/checkout/test/checkout.test.utils'
 
 describe('Order Repository integration tests ', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
+
   let repository: OrderRepository
 
   let client: Client
@@ -24,7 +25,8 @@ describe('Order Repository integration tests ', () => {
   let item2: OrderItem
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForCheckoutModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     repository = new OrderRepository()
 
@@ -34,7 +36,7 @@ describe('Order Repository integration tests ', () => {
       complement: 'Complement 1',
       city: 'City 1',
       state: 'State 1',
-      zipCode: '12345678',
+      zipcode: '12345678',
     })
 
     client = new Client({
@@ -71,14 +73,14 @@ describe('Order Repository integration tests ', () => {
       street: client.address.street,
       number: client.address.number,
       complement: client.address.complement,
-      zipCode: client.address.zipCode,
+      zipcode: client.address.zipcode,
       city: client.address.city,
       state: client.address.state,
     })
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should create a order', async () => {
@@ -113,7 +115,7 @@ describe('Order Repository integration tests ', () => {
     expect(orderModel.client.street).toBe(order.client.address.street)
     expect(orderModel.client.number).toBe(order.client.address.number)
     expect(orderModel.client.complement).toBe(order.client.address.complement)
-    expect(orderModel.client.zipCode).toBe(order.client.address.zipCode)
+    expect(orderModel.client.zipcode).toBe(order.client.address.zipcode)
     expect(orderModel.client.city).toBe(order.client.address.city)
     expect(orderModel.client.state).toBe(order.client.address.state)
     expect(orderModel.items).toHaveLength(2)
@@ -177,7 +179,7 @@ describe('Order Repository integration tests ', () => {
     expect(output.client.address.complement).toBe(
       order.client.address.complement
     )
-    expect(output.client.address.zipCode).toBe(order.client.address.zipCode)
+    expect(output.client.address.zipcode).toBe(order.client.address.zipcode)
     expect(output.client.address.city).toBe(order.client.address.city)
     expect(output.client.address.state).toBe(order.client.address.state)
     expect(output.items).toHaveLength(2)

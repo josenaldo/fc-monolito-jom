@@ -1,20 +1,21 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { InvoiceGateway } from '@/modules/invoice/gateway/invoice.gateway'
 import InvoiceItemModel from '@/modules/invoice/repository/invoice-item.model'
 import { InvoiceModel } from '@/modules/invoice/repository/invoice.model'
 import { InvoiceRepository } from '@/modules/invoice/repository/invoice.repository'
-import { InitSequelizeForInvoiceModule } from '@/modules/invoice/test/invoice.test.utils'
+import { CreateMigrator } from '@/modules/invoice/test/invoice.test.utils'
 import { FindInvoiceUsecase } from '@/modules/invoice/usecase/find-invoice/find-invoice.usecase'
-import { Sequelize } from 'sequelize-typescript'
 
 describe('Find Invoice use case unit tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let repository: InvoiceGateway
   let usecase: FindInvoiceUsecase
   let id: Id
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForInvoiceModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     repository = new InvoiceRepository()
     usecase = new FindInvoiceUsecase(repository)
@@ -31,11 +32,13 @@ describe('Find Invoice use case unit tests', () => {
         complement: 'Complement 1',
         city: 'City 1',
         state: 'State 1',
-        zipCode: '12345678',
+        zipcode: '12345678',
         total: 10,
         items: [
           {
             id: new Id().value,
+            createdAt: new Date(),
+            updatedAt: new Date(),
             name: 'Product 1',
             price: 10,
             quantity: 1,
@@ -50,7 +53,7 @@ describe('Find Invoice use case unit tests', () => {
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should find a invoice', async () => {
@@ -72,7 +75,7 @@ describe('Find Invoice use case unit tests', () => {
         complement: 'Complement 1',
         city: 'City 1',
         state: 'State 1',
-        zipCode: '12345678',
+        zipcode: '12345678',
       }),
       total: 10,
       items: expect.arrayContaining([

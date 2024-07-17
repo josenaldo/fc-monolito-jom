@@ -39,7 +39,7 @@ export class OrderModelToOrderMapper
         complement: model.client.complement,
         city: model.client.city,
         state: model.client.state,
-        zipCode: model.client.zipCode,
+        zipcode: model.client.zipcode,
       }),
     })
 

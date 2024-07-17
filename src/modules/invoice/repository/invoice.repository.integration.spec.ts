@@ -1,5 +1,6 @@
 import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { InvoiceItem } from '@/modules/invoice/domain/entity/invoice-item.entity'
 import {
   Invoice,
@@ -8,18 +9,18 @@ import {
 import InvoiceItemModel from '@/modules/invoice/repository/invoice-item.model'
 import { InvoiceModel } from '@/modules/invoice/repository/invoice.model'
 import { InvoiceRepository } from '@/modules/invoice/repository/invoice.repository'
-import { InitSequelizeForInvoiceModule } from '@/modules/invoice/test/invoice.test.utils'
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/invoice/test/invoice.test.utils'
 
 describe('Invoice Repository integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let repository: InvoiceRepository
   let address: Address
   let item1: InvoiceItem
   let item2: InvoiceItem
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForInvoiceModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     repository = new InvoiceRepository()
 
@@ -29,7 +30,7 @@ describe('Invoice Repository integration tests', () => {
       complement: 'Complement 1',
       city: 'City 1',
       state: 'State 1',
-      zipCode: '12345678',
+      zipcode: '12345678',
     })
 
     item1 = new InvoiceItem({
@@ -48,7 +49,7 @@ describe('Invoice Repository integration tests', () => {
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should create a invoice', async () => {
@@ -83,7 +84,7 @@ describe('Invoice Repository integration tests', () => {
     expect(invoiceModel.street).toBe(invoice.address.street)
     expect(invoiceModel.number).toBe(invoice.address.number)
     expect(invoiceModel.complement).toBe(invoice.address.complement)
-    expect(invoiceModel.zipCode).toBe(invoice.address.zipCode)
+    expect(invoiceModel.zipcode).toBe(invoice.address.zipcode)
     expect(invoiceModel.city).toBe(invoice.address.city)
     expect(invoiceModel.state).toBe(invoice.address.state)
     expect(invoiceModel.total).toBe(invoice.total)
@@ -149,11 +150,13 @@ describe('Invoice Repository integration tests', () => {
         complement: 'Complement 1',
         city: 'City 1',
         state: 'State 1',
-        zipCode: '12345678',
+        zipcode: '12345678',
         total: 10,
         items: [
           {
             id: new Id().value,
+            createdAt: new Date(),
+            updatedAt: new Date(),
             name: 'Product 1',
             price: 10,
             quantity: 1,
@@ -178,11 +181,13 @@ describe('Invoice Repository integration tests', () => {
         complement: 'Complement 2',
         city: 'City 2',
         state: 'State 2',
-        zipCode: '12345679',
+        zipcode: '12345679',
         total: 40,
         items: [
           {
             id: new Id().value,
+            createdAt: new Date(),
+            updatedAt: new Date(),
             name: 'Product 2',
             price: 20,
             quantity: 2,
@@ -209,7 +214,7 @@ describe('Invoice Repository integration tests', () => {
     expect(invoice1.address.street).toBe('Street 1')
     expect(invoice1.address.number).toBe('123')
     expect(invoice1.address.complement).toBe('Complement 1')
-    expect(invoice1.address.zipCode).toBe('12345678')
+    expect(invoice1.address.zipcode).toBe('12345678')
     expect(invoice1.address.city).toBe('City 1')
     expect(invoice1.address.state).toBe('State 1')
     expect(invoice1.total).toBe(10)
@@ -229,7 +234,7 @@ describe('Invoice Repository integration tests', () => {
     expect(invoice2.address.street).toBe('Street 2')
     expect(invoice2.address.number).toBe('123')
     expect(invoice2.address.complement).toBe('Complement 2')
-    expect(invoice2.address.zipCode).toBe('12345679')
+    expect(invoice2.address.zipcode).toBe('12345679')
     expect(invoice2.address.city).toBe('City 2')
     expect(invoice2.address.state).toBe('State 2')
     expect(invoice2.total).toBe(40)

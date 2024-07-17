@@ -20,6 +20,7 @@ describe('Add Product use case unit tests', () => {
       name: 'Product 1',
       description: 'Description 1',
       purchasePrice: 10,
+      salesPrice: 20,
       stock: 10,
     }
   })
@@ -40,6 +41,7 @@ describe('Add Product use case unit tests', () => {
         _name: input.name,
         _description: input.description,
         _purchasePrice: input.purchasePrice,
+        _salesPrice: input.salesPrice,
         _stock: input.stock,
       })
     )
@@ -52,6 +54,7 @@ describe('Add Product use case unit tests', () => {
       name: input.name,
       description: input.description,
       purchasePrice: input.purchasePrice,
+      salesPrice: input.salesPrice,
       stock: input.stock,
     })
   })
@@ -73,6 +76,7 @@ describe('Add Product use case unit tests', () => {
         _name: input.name,
         _description: input.description,
         _purchasePrice: input.purchasePrice,
+        _salesPrice: input.salesPrice,
         _stock: input.stock,
       })
     )
@@ -85,6 +89,7 @@ describe('Add Product use case unit tests', () => {
       name: input.name,
       description: input.description,
       purchasePrice: input.purchasePrice,
+      salesPrice: input.salesPrice,
       stock: input.stock,
     })
   })

@@ -1,10 +1,9 @@
-import { TestUtils } from '@/modules/@shared/test/test.utils'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
 import { ClientModel } from '@/modules/client-adm/repository/client.model'
-import { Sequelize } from 'sequelize-typescript'
 
-export async function InitSequelizeForClientAdmModule(): Promise<Sequelize> {
-  return await TestUtils.CreateSequelizeWithModels([ClientModel])
+export function CreateMigrator(): Migrator {
+  return new Migrator([ClientModel])
 }
 
 export function CreateMockRepository(): ClientGateway {

@@ -1,24 +1,24 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
 import { ClientModel } from '@/modules/client-adm/repository/client.model'
 import { ClientRepository } from '@/modules/client-adm/repository/client.repository'
-import { InitSequelizeForClientAdmModule } from '@/modules/client-adm/test/client-adm.test.utils'
+import { CreateMigrator } from '@/modules/client-adm/test/client-adm.test.utils'
 import { AddClientUsecase } from '@/modules/client-adm/usecase/add-client/add-client.usecase'
 import {
   AddClientUsecaseInputDto,
   AddClientUsecaseOutputDto,
 } from '@/modules/client-adm/usecase/add-client/add-client.usecase.dto'
-import { Sequelize } from 'sequelize-typescript'
 
 describe('Add Client use case integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let repository: ClientGateway
   let usecase: AddClientUsecase
   let input: AddClientUsecaseInputDto
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForClientAdmModule()
-
+    migrator = CreateMigrator()
+    await migrator.up()
     repository = new ClientRepository()
     usecase = new AddClientUsecase(repository)
     input = {
@@ -31,13 +31,13 @@ describe('Add Client use case integration tests', () => {
         complement: 'Bairro 1',
         city: 'Cidade 1',
         state: 'Estado 1',
-        zipCode: '12345-123',
+        zipcode: '12345-123',
       },
     }
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should add a client without an id', async () => {
@@ -71,7 +71,7 @@ describe('Add Client use case integration tests', () => {
       complement: input.address.complement,
       city: input.address.city,
       state: input.address.state,
-      zipCode: input.address.zipCode,
+      zipcode: input.address.zipcode,
     })
   })
 
@@ -98,7 +98,7 @@ describe('Add Client use case integration tests', () => {
         complement: input.address.complement,
         city: input.address.city,
         state: input.address.state,
-        zipCode: input.address.zipCode,
+        zipcode: input.address.zipcode,
       }),
     })
 
@@ -116,7 +116,7 @@ describe('Add Client use case integration tests', () => {
       complement: input.address.complement,
       city: input.address.city,
       state: input.address.state,
-      zipCode: input.address.zipCode,
+      zipcode: input.address.zipcode,
     })
   })
 

@@ -40,5 +40,5 @@ export class ClientModel extends Model {
   declare state: string
 
   @Column({ allowNull: false })
-  declare zipCode: string
+  declare zipcode: string
 }

@@ -1,22 +1,23 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
-import { InitSequelizeForProductAdmModule } from '@/modules/product-adm/test/product-adm.test.utils'
+import { CreateMigrator } from '@/modules/product-adm/test/product-adm.test.utils'
 import {
   AddProductUsecaseInputDto,
   AddProductUsecaseOutputDto,
 } from '@/modules/product-adm/usecase/add-product/add-product.dto'
 import { AddProductUsecase } from '@/modules/product-adm/usecase/add-product/add-product.usecase'
-import { Sequelize } from 'sequelize-typescript'
 
 describe('Add Product use case integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let repository: ProductRepository
   let usecase: AddProductUsecase
   let input: AddProductUsecaseInputDto
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForProductAdmModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     repository = new ProductRepository()
     usecase = new AddProductUsecase(repository)
@@ -25,12 +26,13 @@ describe('Add Product use case integration tests', () => {
       name: 'Product 1',
       description: 'Description 1',
       purchasePrice: 10,
+      salesPrice: 20,
       stock: 10,
     }
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should add a product without an id', async () => {
@@ -48,6 +50,7 @@ describe('Add Product use case integration tests', () => {
       name: input.name,
       description: input.description,
       purchasePrice: input.purchasePrice,
+      salesPrice: input.salesPrice,
       stock: input.stock,
     })
 
@@ -61,6 +64,7 @@ describe('Add Product use case integration tests', () => {
       name: input.name,
       description: input.description,
       purchasePrice: input.purchasePrice,
+      salesPrice: input.salesPrice,
       stock: input.stock,
     })
   })
@@ -82,6 +86,7 @@ describe('Add Product use case integration tests', () => {
       name: input.name,
       description: input.description,
       purchasePrice: input.purchasePrice,
+      salesPrice: input.salesPrice,
       stock: input.stock,
     })
 
@@ -95,6 +100,7 @@ describe('Add Product use case integration tests', () => {
       name: input.name,
       description: input.description,
       purchasePrice: input.purchasePrice,
+      salesPrice: input.salesPrice,
       stock: input.stock,
     })
   })

@@ -23,6 +23,7 @@ describe('Check Stock usecase unit tests', () => {
       name: 'Product 1',
       description: 'Product 1 description',
       purchasePrice: 10,
+      salesPrice: 20,
       stock: 10,
     })
   })
@@ -43,16 +44,21 @@ describe('Check Stock usecase unit tests', () => {
     expect(output.stock).toBe(product.stock)
   })
 
-  it('should throw error if product not found', async () => {
+  it('should return 0 stock if product not found', async () => {
     // Arrange - Given
     repository.find = jest
       .fn()
       .mockRejectedValue(new Error('Product not found'))
+    const input: CheckStockUsecaseInputDto = { productId: id.value }
 
     // Act - When
-    const output = usecase.execute({ productId: id.value })
+    const output: CheckStockUsecaseOutputDto = await usecase.execute(input)
 
     // Assert - Then
-    await expect(output).rejects.toThrow(new Error('Product not found'))
+    expect(repository.find).toHaveBeenCalledTimes(1)
+    expect(repository.find).toHaveBeenCalledWith(id.value)
+    expect(output).toBeDefined()
+    expect(output.productId).toBe(id.value)
+    expect(output.stock).toBe(0)
   })
 })

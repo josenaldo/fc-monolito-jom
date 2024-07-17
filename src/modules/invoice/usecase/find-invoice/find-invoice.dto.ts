@@ -14,7 +14,7 @@ export interface FindInvoiceUsecaseOutputDto {
     complement?: string
     city: string
     state: string
-    zipCode: string
+    zipcode: string
   }
   items: {
     id: string

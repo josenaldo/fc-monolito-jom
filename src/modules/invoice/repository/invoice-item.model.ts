@@ -1,5 +1,12 @@
-import { InvoiceModel } from "@/modules/invoice/repository/invoice.model"
-import { BelongsTo, Column, ForeignKey, Model, PrimaryKey, Table } from "sequelize-typescript"
+import { InvoiceModel } from '@/modules/invoice/repository/invoice.model'
+import {
+  BelongsTo,
+  Column,
+  ForeignKey,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript'
 
 @Table({
   tableName: 'invoice_items',
@@ -10,8 +17,14 @@ export default class InvoiceItemModel extends Model {
   @Column
   declare id: string
 
+  @Column({ allowNull: false, field: 'created_at' })
+  declare createdAt: Date
+
+  @Column({ allowNull: false, field: 'updated_at' })
+  declare updatedAt: Date
+
   @ForeignKey(() => InvoiceModel)
-  @Column({ allowNull: false, field: 'invoice_id'})
+  @Column({ allowNull: false, field: 'invoice_id' })
   declare invoiceId: string
 
   @BelongsTo(() => InvoiceModel)

@@ -18,7 +18,7 @@ describe('Client unit tests', () => {
         complement: 'Fake Complement',
         city: 'Fake City',
         state: 'Fake State',
-        zipCode: '12345-123',
+        zipcode: '12345-123',
       }),
     }
   })
@@ -39,7 +39,7 @@ describe('Client unit tests', () => {
     expect(output.address.street).toBe(props.address.street)
     expect(output.address.number).toBe(props.address.number)
     expect(output.address.complement).toBe(props.address.complement)
-    expect(output.address.zipCode).toBe(props.address.zipCode)
+    expect(output.address.zipcode).toBe(props.address.zipcode)
     expect(output.address.city).toBe(props.address.city)
     expect(output.address.state).toBe(props.address.state)
   })

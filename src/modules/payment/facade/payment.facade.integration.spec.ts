@@ -1,24 +1,25 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import {
   PaymentFacadeInterface,
   PaymentFacadeOutputDto,
 } from '@/modules/payment/facade/payment.facade.interface'
 import { PaymentFacadeFactory } from '@/modules/payment/factory/payment.facade.factory'
-import { InitSequelizeForPaymentModule } from '@/modules/payment/test/payment.test.utils'
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/payment/test/payment.test.utils'
 
 describe('Payment facade integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let facade: PaymentFacadeInterface
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForPaymentModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     facade = PaymentFacadeFactory.create()
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should process a payment and approve', async () => {

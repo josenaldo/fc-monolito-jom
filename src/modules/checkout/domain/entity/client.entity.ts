@@ -31,7 +31,7 @@ export class Client extends BaseEntity implements AggregateRoot {
         complement: props.address.complement,
         city: props.address.city,
         state: props.address.state,
-        zipCode: props.address.zipCode,
+        zipcode: props.address.zipcode,
         parentContext: this.contextName,
       })
     }

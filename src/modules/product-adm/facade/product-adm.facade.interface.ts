@@ -3,6 +3,7 @@ export interface AddProductFacadeInputDto {
   name: string
   description: string
   purchasePrice: number
+  salesPrice: number
   stock: number
 }
 
@@ -13,6 +14,7 @@ export interface AddProductFacadeOutputDto {
   name: string
   description: string
   purchasePrice: number
+  salesPrice: number
   stock: number
 }
 
@@ -36,6 +38,7 @@ export interface FindProductFacadeOutputDto {
   name: string
   description: string
   purchasePrice: number
+  salesPrice: number
   stock: number
 }
 

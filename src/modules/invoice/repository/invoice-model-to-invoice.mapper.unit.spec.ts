@@ -1,6 +1,7 @@
 import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { DomainToModelMapperInterface } from '@/modules/@shared/repository/domain-to-model-mapper.interface'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { InvoiceItem } from '@/modules/invoice/domain/entity/invoice-item.entity'
 import {
   Invoice,
@@ -9,20 +10,21 @@ import {
 import InvoiceItemModel from '@/modules/invoice/repository/invoice-item.model'
 import { InvoiceModelToInvoiceMapper } from '@/modules/invoice/repository/invoice-model-to-invoice.mapper'
 import { InvoiceModel } from '@/modules/invoice/repository/invoice.model'
-import { InitSequelizeForInvoiceModule } from '@/modules/invoice/test/invoice.test.utils'
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/invoice/test/invoice.test.utils'
 
 describe('InvoiceModelToInvoiceMapper unit tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let mapper: DomainToModelMapperInterface<Invoice, InvoiceModel>
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForInvoiceModule()
+    migrator = CreateMigrator()
+    await migrator.up()
+
     mapper = new InvoiceModelToInvoiceMapper()
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should map InvoiceModel to Invoice', async () => {
@@ -40,7 +42,7 @@ describe('InvoiceModelToInvoiceMapper unit tests', () => {
         complement: 'Complement 1',
         city: 'City 1',
         state: 'State 1',
-        zipCode: '12345678',
+        zipcode: '12345678',
         total: 10,
         items: [
           {
@@ -69,7 +71,7 @@ describe('InvoiceModelToInvoiceMapper unit tests', () => {
     expect(domain.address.street).toBe('Street 1')
     expect(domain.address.number).toBe('123')
     expect(domain.address.complement).toBe('Complement 1')
-    expect(domain.address.zipCode).toBe('12345678')
+    expect(domain.address.zipcode).toBe('12345678')
     expect(domain.address.city).toBe('City 1')
     expect(domain.address.state).toBe('State 1')
     expect(domain.total).toBe(10)
@@ -91,7 +93,7 @@ describe('InvoiceModelToInvoiceMapper unit tests', () => {
       complement: 'Complement 1',
       city: 'City 1',
       state: 'State 1',
-      zipCode: '12345678',
+      zipcode: '12345678',
     })
 
     const item1 = new InvoiceItem({
@@ -131,7 +133,7 @@ describe('InvoiceModelToInvoiceMapper unit tests', () => {
     expect(model.street).toBe(domain.address.street)
     expect(model.number).toBe(domain.address.number)
     expect(model.complement).toBe(domain.address.complement)
-    expect(model.zipCode).toBe(domain.address.zipCode)
+    expect(model.zipcode).toBe(domain.address.zipcode)
     expect(model.city).toBe(domain.address.city)
     expect(model.state).toBe(domain.address.state)
     expect(model.total).toBe(domain.total)

@@ -11,6 +11,7 @@ describe('Product unit tests', () => {
       name: 'Product Name',
       description: 'Product Description',
       purchasePrice: 9.99,
+      salesPrice: 19.99,
       stock: 10,
     }
   })
@@ -28,6 +29,7 @@ describe('Product unit tests', () => {
     expect(output.name).toBe(props.name)
     expect(output.description).toBe(props.description)
     expect(output.purchasePrice).toBe(props.purchasePrice)
+    expect(output.salesPrice).toBe(props.salesPrice)
     expect(output.stock).toBe(props.stock)
   })
 
@@ -82,6 +84,19 @@ describe('Product unit tests', () => {
       new Error(
         'product-adm/product: Purchase Price must be greater than or equal to 0'
       )
+    )
+  })
+
+  it('should throw a notification error if salesPrice is not greater than zero', () => {
+    // Arrange - Given
+    props.salesPrice = 0
+
+    // Act - When
+    const output = () => new Product(props)
+
+    // Assert - Then
+    expect(output).toThrow(
+      new Error('product-adm/product: Sales Price must be greater than 0')
     )
   })
 

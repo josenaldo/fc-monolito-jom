@@ -1,21 +1,22 @@
 import { AddressProps } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
 import { ClientModel } from '@/modules/client-adm/repository/client.model'
 import { ClientRepository } from '@/modules/client-adm/repository/client.repository'
-import { InitSequelizeForClientAdmModule } from '@/modules/client-adm/test/client-adm.test.utils'
+import { CreateMigrator } from '@/modules/client-adm/test/client-adm.test.utils'
 import { FindClientUsecase } from '@/modules/client-adm/usecase/find-client/find-client.usecase'
-import { Sequelize } from 'sequelize-typescript'
 
 describe('Find Client use case integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let repository: ClientGateway
   let usecase: FindClientUsecase
   let id1: string
   let addressProps: AddressProps
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForClientAdmModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     repository = new ClientRepository()
     usecase = new FindClientUsecase(repository)
@@ -27,7 +28,7 @@ describe('Find Client use case integration tests', () => {
       complement: 'Bairro 1',
       city: 'Cidade 1',
       state: 'Estado 1',
-      zipCode: '12345-123',
+      zipcode: '12345-123',
     }
 
     await ClientModel.create({
@@ -42,12 +43,12 @@ describe('Find Client use case integration tests', () => {
       complement: addressProps.complement,
       city: addressProps.city,
       state: addressProps.state,
-      zipCode: addressProps.zipCode,
+      zipcode: addressProps.zipcode,
     })
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should find a client', async () => {

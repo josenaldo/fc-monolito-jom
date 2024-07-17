@@ -6,7 +6,7 @@ export type AddressProps = {
   complement?: string
   city: string
   state: string
-  zipCode: string
+  zipcode: string
   parentContext?: string
 }
 
@@ -16,7 +16,7 @@ export class Address extends BaseValueObject {
   private _complement?: string
   private _city: string = ''
   private _state: string = ''
-  private _zipCode: string = ''
+  private _zipcode: string = ''
 
   constructor(props: AddressProps) {
     super(props.parentContext)
@@ -25,7 +25,7 @@ export class Address extends BaseValueObject {
     this._complement = props.complement
     this._city = props.city
     this._state = props.state
-    this._zipCode = props.zipCode
+    this._zipcode = props.zipcode
 
     this.validate()
   }
@@ -54,12 +54,12 @@ export class Address extends BaseValueObject {
     return this._state
   }
 
-  get zipCode() {
-    return this._zipCode
+  get zipcode() {
+    return this._zipcode
   }
 
   toString() {
-    return `${this._street}, ${this._number}, ${this._complement} - ${this._city}/${this._state} - ${this._zipCode}`
+    return `${this._street}, ${this._number}, ${this._complement} - ${this._city}/${this._state} - ${this._zipcode}`
   }
 
   validate() {
@@ -79,7 +79,7 @@ export class Address extends BaseValueObject {
       this.addNotificationError('State is required')
     }
 
-    if (!this._zipCode) {
+    if (!this._zipcode) {
       this.addNotificationError('Zip code is required')
     }
 

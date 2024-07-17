@@ -1,6 +1,7 @@
 import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { DomainToModelMapperInterface } from '@/modules/@shared/repository/domain-to-model-mapper.interface'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { Client } from '@/modules/checkout/domain/entity/client.entity'
 import { OrderItem } from '@/modules/checkout/domain/entity/order-item.entity'
 import {
@@ -12,12 +13,10 @@ import { ClientModel } from '@/modules/checkout/repository/client.model'
 import OrderItemModel from '@/modules/checkout/repository/order-item.model'
 import { OrderModelToOrderMapper } from '@/modules/checkout/repository/order-model-to-order.mapper'
 import { OrderModel } from '@/modules/checkout/repository/order.model'
-import { InitSequelizeForCheckoutModule } from '@/modules/checkout/test/checkout.test.utils'
-
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/checkout/test/checkout.test.utils'
 
 describe('OrderModelToOrderMapper unit tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let mapper: DomainToModelMapperInterface<Order, OrderModel>
 
   let client: Client
@@ -26,7 +25,9 @@ describe('OrderModelToOrderMapper unit tests', () => {
   let item2: OrderItem
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForCheckoutModule()
+    migrator = CreateMigrator()
+    await migrator.up()
+
     mapper = new OrderModelToOrderMapper()
 
     address = new Address({
@@ -35,7 +36,7 @@ describe('OrderModelToOrderMapper unit tests', () => {
       complement: 'Complement 1',
       city: 'City 1',
       state: 'State 1',
-      zipCode: '12345678',
+      zipcode: '12345678',
     })
 
     client = new Client({
@@ -64,7 +65,7 @@ describe('OrderModelToOrderMapper unit tests', () => {
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should map OrderModel to Order', async () => {
@@ -86,7 +87,7 @@ describe('OrderModelToOrderMapper unit tests', () => {
           street: client.address.street,
           number: client.address.number,
           complement: client.address.complement,
-          zipCode: client.address.zipCode,
+          zipcode: client.address.zipcode,
           city: client.address.city,
           state: client.address.state,
         },
@@ -123,7 +124,7 @@ describe('OrderModelToOrderMapper unit tests', () => {
     expect(domain.client.address.street).toBe(client.address.street)
     expect(domain.client.address.number).toBe(client.address.number)
     expect(domain.client.address.complement).toBe(client.address.complement)
-    expect(domain.client.address.zipCode).toBe(client.address.zipCode)
+    expect(domain.client.address.zipcode).toBe(client.address.zipcode)
     expect(domain.client.address.city).toBe(client.address.city)
     expect(domain.client.address.state).toBe(client.address.state)
     expect(domain.total).toBe(50)
@@ -149,7 +150,7 @@ describe('OrderModelToOrderMapper unit tests', () => {
       complement: 'Complement 1',
       city: 'City 1',
       state: 'State 1',
-      zipCode: '12345678',
+      zipcode: '12345678',
     })
 
     const client = new Client({

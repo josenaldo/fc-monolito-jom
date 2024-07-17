@@ -1,23 +1,24 @@
 import { Address } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { DomainToModelMapperInterface } from '@/modules/@shared/repository/domain-to-model-mapper.interface'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { Client } from '@/modules/client-adm/domain/entity/client.entity'
 import { ClientModelToClientMapper } from '@/modules/client-adm/repository/client-model-to-client.mapper'
 import { ClientModel } from '@/modules/client-adm/repository/client.model'
-import { InitSequelizeForClientAdmModule } from '@/modules/client-adm/test/client-adm.test.utils'
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/client-adm/test/client-adm.test.utils'
 
 describe('ClientModelToClientMapper unit tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let mapper: DomainToModelMapperInterface<Client, ClientModel>
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForClientAdmModule()
+    migrator = CreateMigrator()
+    await migrator.up()
     mapper = new ClientModelToClientMapper()
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should map ClientModel to Client', () => {
@@ -35,7 +36,7 @@ describe('ClientModelToClientMapper unit tests', () => {
       complement: 'Bairro 1',
       city: 'Cidade 1',
       state: 'Estado 1',
-      zipCode: '12345-123',
+      zipcode: '12345-123',
     })
 
     const domain = mapper.toDomain(model)
@@ -54,7 +55,7 @@ describe('ClientModelToClientMapper unit tests', () => {
     expect(domain.address.complement).toBe(model.complement)
     expect(domain.address.city).toBe(model.city)
     expect(domain.address.state).toBe(model.state)
-    expect(domain.address.zipCode).toBe(model.zipCode)
+    expect(domain.address.zipcode).toBe(model.zipcode)
   })
 
   it('should map Client to ClientModel', () => {
@@ -73,7 +74,7 @@ describe('ClientModelToClientMapper unit tests', () => {
         complement: 'Bairro 1',
         city: 'Cidade 1',
         state: 'Estado 1',
-        zipCode: '12345-123',
+        zipcode: '12345-123',
       }),
     })
 
@@ -90,6 +91,6 @@ describe('ClientModelToClientMapper unit tests', () => {
     expect(model.complement).toBe(domain.address.complement)
     expect(model.city).toBe(domain.address.city)
     expect(model.state).toBe(domain.address.state)
-    expect(model.zipCode).toBe(domain.address.zipCode)
+    expect(model.zipcode).toBe(domain.address.zipcode)
   })
 })

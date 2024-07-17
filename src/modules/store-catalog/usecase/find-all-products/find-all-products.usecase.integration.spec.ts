@@ -1,26 +1,27 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { ProductGateway } from '@/modules/store-catalog/gateway/product.gateway'
 import { ProductModel } from '@/modules/store-catalog/repository/product.model'
 import { ProductRepository } from '@/modules/store-catalog/repository/product.repository'
-import { InitSequelizeForStoreCatalogModule } from '@/modules/store-catalog/test/store-catalog.test.utils'
+import { CreateMigrator } from '@/modules/store-catalog/test/store-catalog.test.utils'
 import { FindAllProductsUsecaseOutputDto } from '@/modules/store-catalog/usecase/find-all-products/find-all-products.dto'
 import { FindAllProductsUsecase } from '@/modules/store-catalog/usecase/find-all-products/find-all-products.usecase'
-import { Sequelize } from 'sequelize-typescript'
 
 describe('Find All Products Usecase unit tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let repository: ProductGateway
   let usecase: FindAllProductsUsecase
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForStoreCatalogModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     repository = new ProductRepository()
     usecase = new FindAllProductsUsecase(repository)
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should find all products', async () => {

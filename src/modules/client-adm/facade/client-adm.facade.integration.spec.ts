@@ -1,5 +1,6 @@
 import { AddressProps } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { ClientAdmFacade } from '@/modules/client-adm/facade/client-adm.facade'
 import {
   AddClientFacadeInputDto,
@@ -9,11 +10,11 @@ import {
 } from '@/modules/client-adm/facade/client-adm.facade.interface'
 import { ClientAdmFacadeFactory } from '@/modules/client-adm/factory/client-adm.facade.factory'
 import { ClientRepository } from '@/modules/client-adm/repository/client.repository'
-import { InitSequelizeForClientAdmModule } from '@/modules/client-adm/test/client-adm.test.utils'
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/client-adm/test/client-adm.test.utils'
 
 describe('Client Adm facade integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
+
   let clientAdmFacade: ClientAdmFacade
   let repository: ClientRepository
   let addressProps: AddressProps
@@ -21,7 +22,8 @@ describe('Client Adm facade integration tests', () => {
   let input: AddClientFacadeInputDto
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForClientAdmModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     repository = new ClientRepository()
     clientAdmFacade = ClientAdmFacadeFactory.create()
@@ -32,7 +34,7 @@ describe('Client Adm facade integration tests', () => {
       complement: 'Bairro 1',
       city: 'Cidade 1',
       state: 'Estado 1',
-      zipCode: '12345-123',
+      zipcode: '12345-123',
     }
 
     id = new Id()
@@ -46,7 +48,7 @@ describe('Client Adm facade integration tests', () => {
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   describe('when addClient', () => {

@@ -24,7 +24,7 @@ describe('Generate Invoice use case unit tests', () => {
       complement: 'Complement 1',
       city: 'City 1',
       state: 'State 1',
-      zipCode: '12345678',
+      zipcode: '12345678',
       items: [
         {
           id: new Id().value,
@@ -63,7 +63,7 @@ describe('Generate Invoice use case unit tests', () => {
           _complement: input.complement,
           _city: input.city,
           _state: input.state,
-          _zipCode: input.zipCode,
+          _zipcode: input.zipcode,
         }),
         _items: expect.objectContaining(
           input.items.map((item) =>
@@ -90,7 +90,7 @@ describe('Generate Invoice use case unit tests', () => {
       complement: input.complement,
       city: input.city,
       state: input.state,
-      zipCode: input.zipCode,
+      zipcode: input.zipcode,
       items: input.items.map((item) =>
         expect.objectContaining({
           id: expect.any(String),
@@ -127,7 +127,7 @@ describe('Generate Invoice use case unit tests', () => {
           _complement: input.complement,
           _city: input.city,
           _state: input.state,
-          _zipCode: input.zipCode,
+          _zipcode: input.zipcode,
         }),
         _items: expect.objectContaining(
           input.items.map((item) =>
@@ -154,7 +154,7 @@ describe('Generate Invoice use case unit tests', () => {
       complement: input.complement,
       city: input.city,
       state: input.state,
-      zipCode: input.zipCode,
+      zipcode: input.zipcode,
       items: input.items.map((item) =>
         expect.objectContaining({
           id: expect.any(String),
@@ -235,7 +235,7 @@ describe('Generate Invoice use case unit tests', () => {
 
   it('should throw an error when trying to create a invoice with an empty zip code', async () => {
     // Arrange
-    input.zipCode = ''
+    input.zipcode = ''
 
     // Act
     const output = usecase.execute(input)

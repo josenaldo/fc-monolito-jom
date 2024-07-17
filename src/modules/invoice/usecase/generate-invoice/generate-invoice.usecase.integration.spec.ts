@@ -1,23 +1,24 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { InvoiceGateway } from '@/modules/invoice/gateway/invoice.gateway'
 import { InvoiceModel } from '@/modules/invoice/repository/invoice.model'
 import { InvoiceRepository } from '@/modules/invoice/repository/invoice.repository'
-import { InitSequelizeForInvoiceModule } from '@/modules/invoice/test/invoice.test.utils'
+import { CreateMigrator } from '@/modules/invoice/test/invoice.test.utils'
 import {
   GenerateInvoiceUsecaseInputDto,
   GenerateInvoiceUsecaseOutputDto,
 } from '@/modules/invoice/usecase/generate-invoice/generate-invoice.dto'
 import { GenerateInvoiceUsecase } from '@/modules/invoice/usecase/generate-invoice/generate-invoice.usecase'
-import { Sequelize } from 'sequelize-typescript'
 
 describe('Generate Invoice use case integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let repository: InvoiceGateway
   let usecase: GenerateInvoiceUsecase
   let input: GenerateInvoiceUsecaseInputDto
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForInvoiceModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     repository = new InvoiceRepository()
     usecase = new GenerateInvoiceUsecase(repository)
@@ -30,7 +31,7 @@ describe('Generate Invoice use case integration tests', () => {
       complement: 'Complement 1',
       city: 'City 1',
       state: 'State 1',
-      zipCode: '12345678',
+      zipcode: '12345678',
       items: [
         {
           id: new Id().value,
@@ -49,7 +50,7 @@ describe('Generate Invoice use case integration tests', () => {
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should generate a invoice without an id', async () => {
@@ -71,7 +72,7 @@ describe('Generate Invoice use case integration tests', () => {
       complement: input.complement,
       city: input.city,
       state: input.state,
-      zipCode: input.zipCode,
+      zipcode: input.zipcode,
       items: input.items.map((item) =>
         expect.objectContaining({
           id: expect.any(String),
@@ -97,7 +98,7 @@ describe('Generate Invoice use case integration tests', () => {
     expect(model.street).toEqual(input.street)
     expect(model.number).toEqual(input.number)
     expect(model.complement).toEqual(input.complement)
-    expect(model.zipCode).toEqual(input.zipCode)
+    expect(model.zipcode).toEqual(input.zipcode)
     expect(model.city).toEqual(input.city)
     expect(model.state).toEqual(input.state)
     expect(model.items).toHaveLength(2)
@@ -124,7 +125,7 @@ describe('Generate Invoice use case integration tests', () => {
       complement: input.complement,
       city: input.city,
       state: input.state,
-      zipCode: input.zipCode,
+      zipcode: input.zipcode,
       items: input.items.map((item) =>
         expect.objectContaining({
           id: expect.any(String),
@@ -150,7 +151,7 @@ describe('Generate Invoice use case integration tests', () => {
     expect(model.street).toEqual(input.street)
     expect(model.number).toEqual(input.number)
     expect(model.complement).toEqual(input.complement)
-    expect(model.zipCode).toEqual(input.zipCode)
+    expect(model.zipcode).toEqual(input.zipcode)
     expect(model.city).toEqual(input.city)
     expect(model.state).toEqual(input.state)
     expect(model.items).toHaveLength(2)
@@ -223,7 +224,7 @@ describe('Generate Invoice use case integration tests', () => {
 
   it('should throw an error when trying to create a invoice with an empty zip code', async () => {
     // Arrange
-    input.zipCode = ''
+    input.zipcode = ''
 
     // Act
     const output = usecase.execute(input)

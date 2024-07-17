@@ -16,7 +16,7 @@ export class InvoiceModelToInvoiceMapper
       complement: model.complement,
       city: model.city,
       state: model.state,
-      zipCode: model.zipCode,
+      zipcode: model.zipcode,
     })
 
     const items = model.items.map((item) => {
@@ -54,7 +54,7 @@ export class InvoiceModelToInvoiceMapper
         complement: domain.address.complement,
         city: domain.address.city,
         state: domain.address.state,
-        zipCode: domain.address.zipCode,
+        zipcode: domain.address.zipcode,
         items: domain.items.map((item) => {
           return {
             id: item.id.value,

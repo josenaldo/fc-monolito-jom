@@ -3,19 +3,20 @@ import {
   AddressProps,
 } from '@/modules/@shared/domain/value-object/address'
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { Client } from '@/modules/client-adm/domain/entity/client.entity'
 import { ClientModel } from '@/modules/client-adm/repository/client.model'
 import { ClientRepository } from '@/modules/client-adm/repository/client.repository'
-import { InitSequelizeForClientAdmModule } from '@/modules/client-adm/test/client-adm.test.utils'
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/client-adm/test/client-adm.test.utils'
 
 describe('Client Repository integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let repository: ClientRepository
   let addressProps: AddressProps
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForClientAdmModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     repository = new ClientRepository()
 
@@ -25,12 +26,12 @@ describe('Client Repository integration tests', () => {
       complement: 'Bairro 1',
       city: 'Cidade 1',
       state: 'Estado 1',
-      zipCode: '12345-123',
+      zipcode: '12345-123',
     }
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should create a client', async () => {
@@ -79,7 +80,7 @@ describe('Client Repository integration tests', () => {
       complement: 'Bairro 1',
       city: 'Cidade 1',
       state: 'Estado 1',
-      zipCode: '12345-123',
+      zipcode: '12345-123',
     }
 
     await ClientModel.create(props)
@@ -117,7 +118,7 @@ describe('Client Repository integration tests', () => {
       complement: 'Bairro 1',
       city: 'Cidade 1',
       state: 'Estado 1',
-      zipCode: '12345-123',
+      zipcode: '12345-123',
     })
 
     await ClientModel.create({
@@ -132,7 +133,7 @@ describe('Client Repository integration tests', () => {
       complement: 'Bairro 2',
       city: 'Cidade 2',
       state: 'Estado 2',
-      zipCode: '12345-123',
+      zipcode: '12345-123',
     })
 
     // Act - When
@@ -153,7 +154,7 @@ describe('Client Repository integration tests', () => {
     expect(client1.address.complement).toBe('Bairro 1')
     expect(client1.address.city).toBe('Cidade 1')
     expect(client1.address.state).toBe('Estado 1')
-    expect(client1.address.zipCode).toBe('12345-123')
+    expect(client1.address.zipcode).toBe('12345-123')
 
     expect(client2).not.toBeNull()
     expect(client2.id).toStrictEqual(id2)
@@ -168,7 +169,7 @@ describe('Client Repository integration tests', () => {
     expect(client2.address.complement).toBe('Bairro 2')
     expect(client2.address.city).toBe('Cidade 2')
     expect(client2.address.state).toBe('Estado 2')
-    expect(client2.address.zipCode).toBe('12345-123')
+    expect(client2.address.zipcode).toBe('12345-123')
   })
 
   it('should throw a Not Found error when trying to find a client that does not exist', async () => {

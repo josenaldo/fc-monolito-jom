@@ -1,25 +1,26 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import {
   Transaction,
   TransactionStatus,
 } from '@/modules/payment/domain/entity/transaction.entity'
 import { TransactionModel } from '@/modules/payment/repository/transaction.model'
 import { TransactionRepository } from '@/modules/payment/repository/transaction.repository'
-import { InitSequelizeForPaymentModule } from '@/modules/payment/test/payment.test.utils'
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/payment/test/payment.test.utils'
 
 describe('Transaction Repository integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let repository: TransactionRepository
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForPaymentModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     repository = new TransactionRepository()
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should save a transaction', async () => {

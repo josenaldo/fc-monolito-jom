@@ -1,23 +1,24 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
 import { DomainToModelMapperInterface } from '@/modules/@shared/repository/domain-to-model-mapper.interface'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { Product } from '@/modules/store-catalog/domain/entity/product.entity'
 import { ProductModelToProductMapper } from '@/modules/store-catalog/repository/product-model-to-product.mapper'
 import { ProductModel } from '@/modules/store-catalog/repository/product.model'
-import { InitSequelizeForStoreCatalogModule } from '@/modules/store-catalog/test/store-catalog.test.utils'
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/store-catalog/test/store-catalog.test.utils'
 
 describe('ProductModelToProductMapper unit tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let mapper: DomainToModelMapperInterface<Product, ProductModel>
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForStoreCatalogModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     mapper = new ProductModelToProductMapper()
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should map ProductModel to Product', () => {

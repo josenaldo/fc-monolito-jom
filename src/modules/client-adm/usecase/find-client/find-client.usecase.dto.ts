@@ -15,6 +15,6 @@ export interface FindClientUsecaseOutputDto {
     complement?: string
     city: string
     state: string
-    zipCode: string
+    zipcode: string
   }
 }

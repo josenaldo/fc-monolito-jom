@@ -46,7 +46,7 @@ export class InvoiceFacade implements InvoiceFacadeInterface {
         complement: output.address.complement,
         city: output.address.city,
         state: output.address.state,
-        zipCode: output.address.zipCode,
+        zipcode: output.address.zipcode,
       },
       items: output.items.map((item) => ({
         id: item.id,

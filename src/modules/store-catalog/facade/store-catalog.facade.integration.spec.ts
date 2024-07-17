@@ -1,12 +1,12 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { StoreCatalogFacadeInterface } from '@/modules/store-catalog/facade/store-catalog.facade.interface'
 import { StoreCatalogFacadeFactory } from '@/modules/store-catalog/factory/store-catalog.facade.factory'
 import { ProductModel } from '@/modules/store-catalog/repository/product.model'
-import { InitSequelizeForStoreCatalogModule } from '@/modules/store-catalog/test/store-catalog.test.utils'
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/store-catalog/test/store-catalog.test.utils'
 
 describe('Store Catalog facade integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let facade: StoreCatalogFacadeInterface
   let id1: Id
   let id2: Id
@@ -14,7 +14,8 @@ describe('Store Catalog facade integration tests', () => {
   let productModel2: any
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForStoreCatalogModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     facade = StoreCatalogFacadeFactory.create()
 
@@ -28,7 +29,6 @@ describe('Store Catalog facade integration tests', () => {
       name: 'Product 1',
       description: 'Description 1',
       salesPrice: 10.0,
-      stock: 10,
     }
 
     productModel2 = {
@@ -42,7 +42,7 @@ describe('Store Catalog facade integration tests', () => {
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should find a product', async () => {

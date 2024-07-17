@@ -3,6 +3,7 @@ export interface AddProductUsecaseInputDto {
   name: string
   description: string
   purchasePrice: number
+  salesPrice: number
   stock: number
 }
 
@@ -13,5 +14,6 @@ export interface AddProductUsecaseOutputDto {
   name: string
   description: string
   purchasePrice: number
+  salesPrice: number
   stock: number
 }

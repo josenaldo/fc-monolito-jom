@@ -13,7 +13,7 @@ describe('Address unit tests', () => {
       complement: 'Fake Complement',
       city: 'Fake City',
       state: 'Fake State',
-      zipCode: '12345-123',
+      zipcode: '12345-123',
     }
   })
   it('should create an Address instance', () => {
@@ -29,7 +29,7 @@ describe('Address unit tests', () => {
     expect(address.complement).toBe(addressProps.complement)
     expect(address.city).toBe(addressProps.city)
     expect(address.state).toBe(addressProps.state)
-    expect(address.zipCode).toBe(addressProps.zipCode)
+    expect(address.zipcode).toBe(addressProps.zipcode)
   })
 
   it('should throw an error if street is empty', () => {
@@ -66,14 +66,14 @@ describe('Address unit tests', () => {
     expect(address.street).toBe(addressProps.street)
     expect(address.number).toBe(addressProps.number)
     expect(address.complement).toBeUndefined()
-    expect(address.zipCode).toBe(addressProps.zipCode)
+    expect(address.zipcode).toBe(addressProps.zipcode)
     expect(address.city).toBe(addressProps.city)
     expect(address.state).toBe(addressProps.state)
   })
 
   it('should throw an error if zip code is empty', () => {
     // Arrange - Given
-    addressProps.zipCode = ''
+    addressProps.zipcode = ''
 
     // Act - When
     const address = () => new Address(addressProps)

@@ -1,29 +1,30 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { TransactionStatus } from '@/modules/payment/domain/entity/transaction.entity'
 import { PaymentGateway } from '@/modules/payment/gateway/payment.gateway'
 import { TransactionModel } from '@/modules/payment/repository/transaction.model'
 import { TransactionRepository } from '@/modules/payment/repository/transaction.repository'
-import { InitSequelizeForPaymentModule } from '@/modules/payment/test/payment.test.utils'
+import { CreateMigrator } from '@/modules/payment/test/payment.test.utils'
 import ProcessPaymentUsecase from '@/modules/payment/usecase/process-payment/process-payment.usecase'
 import {
   ProcessPaymentUsecaseInputDto,
   ProcessPaymentUsecaseOutputDto,
 } from '@/modules/payment/usecase/process-payment/process-payment.usecase.dto'
-import { Sequelize } from 'sequelize-typescript'
 
 describe('Process Payment unit tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let repository: PaymentGateway
   let usecase: ProcessPaymentUsecase
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForPaymentModule()
+    migrator = CreateMigrator()
+    await migrator.up()
     repository = new TransactionRepository()
     usecase = new ProcessPaymentUsecase(repository)
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should process a payment and approve', async () => {

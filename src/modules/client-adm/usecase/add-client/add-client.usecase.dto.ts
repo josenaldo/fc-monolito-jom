@@ -9,7 +9,7 @@ export interface AddClientUsecaseInputDto {
     complement?: string
     city: string
     state: string
-    zipCode: string
+    zipcode: string
   }
 }
 
@@ -26,6 +26,6 @@ export interface AddClientUsecaseOutputDto {
     complement?: string
     city: string
     state: string
-    zipCode: string
+    zipcode: string
   }
 }

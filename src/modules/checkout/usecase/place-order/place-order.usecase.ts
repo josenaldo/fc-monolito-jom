@@ -124,7 +124,7 @@ export class PlaceOrderUsecase implements UsecaseInterface {
         complement: client.address.complement,
         city: client.address.city,
         state: client.address.state,
-        zipCode: client.address.zipCode,
+        zipcode: client.address.zipcode,
         items: items,
       }
       invoice = await this._invoiceFacade.create(invoiceProps)
@@ -144,12 +144,14 @@ export class PlaceOrderUsecase implements UsecaseInterface {
     return {
       id: order.id.value,
       invoiceId: invoiceId,
+      clientId: order.client.id.value,
       status: order.status,
       total: order.total,
       items: orderItems.map((item) => ({
         productId: item.productId,
         quantity: item.quantity,
         price: item.price,
+        total: item.total,
       })),
     }
   }
@@ -175,7 +177,7 @@ export class PlaceOrderUsecase implements UsecaseInterface {
         complement: clientAdmOutput.address.complement,
         city: clientAdmOutput.address.city,
         state: clientAdmOutput.address.state,
-        zipCode: clientAdmOutput.address.zipCode,
+        zipcode: clientAdmOutput.address.zipcode,
       }),
     }
     const client: Client = new Client(clientProps)
@@ -251,14 +253,22 @@ export class PlaceOrderUsecase implements UsecaseInterface {
   private async findProduct(
     productId: string
   ): Promise<FindStoreCatalogFacadeOutputDto> {
-    const output: FindStoreCatalogFacadeOutputDto =
-      await this._storeCatalogFacade.find({ id: productId })
+    try {
+      const output: FindStoreCatalogFacadeOutputDto =
+        await this._storeCatalogFacade.find({ id: productId })
 
-    if (!output) {
-      this.addNotificationError(`Product ${productId} not found`)
+      if (!output) {
+        this.addNotificationError(`Product ${productId} not found`)
+      }
+
+      return output
+    } catch (e) {
+      if (e instanceof Error && e.message === 'Product not found') {
+        this.addNotificationError(`Product ${productId} not found`)
+      }
+    } finally {
+      this.throwIfHasNotificationErrors()
     }
-    this.throwIfHasNotificationErrors()
-    return output
   }
 
   private addNotificationError(message: string): void {

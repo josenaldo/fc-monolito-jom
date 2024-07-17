@@ -1,19 +1,20 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
 import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
-import { InitSequelizeForProductAdmModule } from '@/modules/product-adm/test/product-adm.test.utils'
+import { CreateMigrator } from '@/modules/product-adm/test/product-adm.test.utils'
 import { FindProductUsecase } from '@/modules/product-adm/usecase/find-product/find-product.usecase'
-import { Sequelize } from 'sequelize-typescript'
 
 describe('Find Product use case integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let repository: ProductRepository
   let usecase: FindProductUsecase
   let id1: string
   let id2: string
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForProductAdmModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     repository = new ProductRepository()
     usecase = new FindProductUsecase(repository)
@@ -28,6 +29,7 @@ describe('Find Product use case integration tests', () => {
       name: 'Product 1',
       description: 'Description 1',
       purchasePrice: 10,
+      salesPrice: 20,
       stock: 10,
     })
 
@@ -38,12 +40,13 @@ describe('Find Product use case integration tests', () => {
       name: 'Product 2',
       description: 'Description 2',
       purchasePrice: 20,
+      salesPrice: 40,
       stock: 20,
     })
   })
 
   afterEach(async () => {
-    await sequelize.drop()
+    await migrator.down()
   })
 
   it('should find a product', async () => {
@@ -59,6 +62,7 @@ describe('Find Product use case integration tests', () => {
       name: 'Product 1',
       description: 'Description 1',
       purchasePrice: 10,
+      salesPrice: 20,
       stock: 10,
     })
   })

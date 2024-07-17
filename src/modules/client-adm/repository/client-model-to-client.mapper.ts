@@ -21,7 +21,7 @@ export class ClientModelToClientMapper
         complement: model.complement,
         city: model.city,
         state: model.state,
-        zipCode: model.zipCode,
+        zipcode: model.zipcode,
       }),
     })
   }
@@ -39,7 +39,7 @@ export class ClientModelToClientMapper
       complement: domain.address.complement,
       city: domain.address.city,
       state: domain.address.state,
-      zipCode: domain.address.zipCode,
+      zipcode: domain.address.zipcode,
     })
   }
 }

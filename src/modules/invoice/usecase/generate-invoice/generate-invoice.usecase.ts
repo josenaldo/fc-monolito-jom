@@ -27,12 +27,17 @@ export class GenerateInvoiceUsecase implements UsecaseInterface {
       complement: input.complement,
       city: input.city,
       state: input.state,
-      zipCode: input.zipCode,
+      zipcode: input.zipcode,
     })
+
+    const createdAt: Date = new Date()
+    const updatedAt: Date = new Date()
 
     const items: InvoiceItem[] = input.items.map((item) => {
       return new InvoiceItem({
         id: new Id(item.id),
+        createdAt: createdAt,
+        updatedAt: updatedAt,
         name: item.name,
         price: item.price,
         quantity: item.quantity,
@@ -41,6 +46,8 @@ export class GenerateInvoiceUsecase implements UsecaseInterface {
 
     const invoice = new Invoice({
       id: id,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
       name: input.name,
       document: input.document,
       address: address,
@@ -60,9 +67,11 @@ export class GenerateInvoiceUsecase implements UsecaseInterface {
       complement: invoice.address.complement,
       city: invoice.address.city,
       state: invoice.address.state,
-      zipCode: invoice.address.zipCode,
+      zipcode: invoice.address.zipcode,
       items: invoice.items.map((item) => ({
         id: item.id.value,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
         name: item.name,
         price: item.price,
         quantity: item.quantity,

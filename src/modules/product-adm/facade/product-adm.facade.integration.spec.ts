@@ -1,4 +1,5 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import { ProductAdmFacade } from '@/modules/product-adm/facade/product-adm.facade'
 import {
   AddProductFacadeInputDto,
@@ -8,23 +9,23 @@ import {
 } from '@/modules/product-adm/facade/product-adm.facade.interface'
 import { ProductAdmFacadeFactory } from '@/modules/product-adm/factory/product-adm.facade.factory'
 import { ProductRepository } from '@/modules/product-adm/repository/product.repository'
-import { InitSequelizeForProductAdmModule } from '@/modules/product-adm/test/product-adm.test.utils'
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/product-adm/test/product-adm.test.utils'
 
 describe('Product Adm facade integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let productAdmFacade: ProductAdmFacade
   let repository: ProductRepository
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForProductAdmModule()
+    migrator = CreateMigrator()
+    await migrator.up()
 
     repository = new ProductRepository()
     productAdmFacade = ProductAdmFacadeFactory.create()
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   describe('when addProduct', () => {
@@ -36,6 +37,7 @@ describe('Product Adm facade integration tests', () => {
         name: 'product',
         description: 'description',
         purchasePrice: 10,
+        salesPrice: 20,
         stock: 10,
       }
 
@@ -51,6 +53,7 @@ describe('Product Adm facade integration tests', () => {
       expect(product.name).toBe('product')
       expect(product.description).toBe('description')
       expect(product.purchasePrice).toBe(10)
+      expect(product.salesPrice).toBe(20)
       expect(product.stock).toBe(10)
     })
 
@@ -60,6 +63,7 @@ describe('Product Adm facade integration tests', () => {
         name: 'product',
         description: 'description',
         purchasePrice: 10,
+        salesPrice: 20,
         stock: 10,
       }
 
@@ -76,6 +80,7 @@ describe('Product Adm facade integration tests', () => {
       expect(product.name).toBe('product')
       expect(product.description).toBe('description')
       expect(product.purchasePrice).toBe(10)
+      expect(product.salesPrice).toBe(20)
       expect(product.stock).toBe(10)
     })
 
@@ -88,6 +93,7 @@ describe('Product Adm facade integration tests', () => {
         name: 'product',
         description: 'description',
         purchasePrice: 10,
+        salesPrice: 20,
         stock: 10,
       }
 
@@ -99,6 +105,7 @@ describe('Product Adm facade integration tests', () => {
         name: 'product 2',
         description: 'description 2',
         purchasePrice: 20,
+        salesPrice: 40,
         stock: 20,
       }
       const output = productAdmFacade.addProduct(input2)
@@ -113,6 +120,7 @@ describe('Product Adm facade integration tests', () => {
         name: '',
         description: '',
         purchasePrice: -10,
+        salesPrice: -5,
         stock: -10,
       }
 
@@ -122,7 +130,7 @@ describe('Product Adm facade integration tests', () => {
       // Assert - Then
       await expect(output).rejects.toThrow(
         new Error(
-          'product-adm/product: Name is required, Description is required, Purchase Price must be greater than or equal to 0, Stock must be greater than 0'
+          'product-adm/product: Name is required, Description is required, Purchase Price must be greater than or equal to 0, Sales Price must be greater than 0, Stock must be greater than 0'
         )
       )
     })
@@ -137,6 +145,7 @@ describe('Product Adm facade integration tests', () => {
         name: 'product',
         description: 'description',
         purchasePrice: 10,
+        salesPrice: 20,
         stock: 10,
       }
       await productAdmFacade.addProduct(input)
@@ -150,15 +159,17 @@ describe('Product Adm facade integration tests', () => {
       expect(output.stock).toBe(10)
     })
 
-    it('should throw an error when product does not exist', async () => {
+    it('should return 0 when product does not exist', async () => {
       // Arrange - Given
       const id = new Id()
 
       // Act - When
-      const output = productAdmFacade.checkStock({ productId: id.value })
+      const output = await productAdmFacade.checkStock({ productId: id.value })
 
       // Assert - Then
-      await expect(output).rejects.toThrow(new Error('Product not found'))
+      expect(output).toBeDefined()
+      expect(output.productId).toBe(id.value)
+      expect(output.stock).toBe(0)
     })
   })
 
@@ -171,6 +182,7 @@ describe('Product Adm facade integration tests', () => {
         name: 'product',
         description: 'description',
         purchasePrice: 10,
+        salesPrice: 20,
         stock: 10,
       }
       await productAdmFacade.addProduct(input)
@@ -187,6 +199,7 @@ describe('Product Adm facade integration tests', () => {
       expect(output.name).toBe('product')
       expect(output.description).toBe('description')
       expect(output.purchasePrice).toBe(10)
+      expect(output.salesPrice).toBe(20)
       expect(output.stock).toBe(10)
     })
 

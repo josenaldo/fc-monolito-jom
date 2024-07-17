@@ -23,6 +23,7 @@ describe('Find Product use case unit tests', () => {
       name: 'Product 1',
       description: 'Description 1',
       purchasePrice: 10,
+      salesPrice: 20,
       stock: 10,
     })
     repository.find = jest.fn().mockResolvedValue(expectedProduct)
@@ -40,6 +41,7 @@ describe('Find Product use case unit tests', () => {
       name: 'Product 1',
       description: 'Description 1',
       purchasePrice: 10,
+      salesPrice: 20,
       stock: 10,
     })
   })

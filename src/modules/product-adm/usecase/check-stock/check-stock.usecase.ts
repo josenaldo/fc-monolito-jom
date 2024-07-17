@@ -15,11 +15,21 @@ export class CheckStockUsecase implements UsecaseInterface {
   async execute(
     input: CheckStockUsecaseInputDto
   ): Promise<CheckStockUsecaseOutputDto> {
-    const product = await this._repository.find(input.productId)
+    try {
+      const product = await this._repository.find(input.productId)
+      return {
+        productId: product.id.value,
+        stock: product.stock,
+      }
+    } catch (e) {
+      if (e instanceof Error && e.message === 'Product not found') {
+        return {
+          productId: input.productId,
+          stock: 0,
+        }
+      }
 
-    return {
-      productId: product.id.value,
-      stock: product.stock,
+      throw e
     }
   }
 }

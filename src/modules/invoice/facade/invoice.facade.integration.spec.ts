@@ -1,4 +1,5 @@
 import { Id } from '@/modules/@shared/domain/value-object/id.value-object'
+import { Migrator } from '@/modules/@shared/test/migrator'
 import {
   FindInvoiceFacadeInputDto,
   GenerateInvoiceFacadeInputDto,
@@ -7,16 +8,16 @@ import {
 import { InvoiceFacadeFactory } from '@/modules/invoice/factory/invoice.facade.factory'
 import InvoiceItemModel from '@/modules/invoice/repository/invoice-item.model'
 import { InvoiceModel } from '@/modules/invoice/repository/invoice.model'
-import { InitSequelizeForInvoiceModule } from '@/modules/invoice/test/invoice.test.utils'
-import { Sequelize } from 'sequelize-typescript'
+import { CreateMigrator } from '@/modules/invoice/test/invoice.test.utils'
 
 describe('Invoice Facade integration tests', () => {
-  let sequelize: Sequelize
+  let migrator: Migrator
   let facade: InvoiceFacadeInterface
-  let id = new Id()
+  const id = new Id()
 
   beforeEach(async () => {
-    sequelize = await InitSequelizeForInvoiceModule()
+    migrator = CreateMigrator()
+    await migrator.up()
     facade = InvoiceFacadeFactory.create()
 
     await InvoiceModel.create(
@@ -31,11 +32,13 @@ describe('Invoice Facade integration tests', () => {
         complement: 'Complement 1',
         city: 'City 1',
         state: 'State 1',
-        zipCode: '12345678',
+        zipcode: '12345678',
         total: 50,
         items: [
           {
             id: new Id().value,
+            createdAt: new Date(),
+            updatedAt: new Date(),
             name: 'Product 1',
             price: 10,
             quantity: 1,
@@ -43,6 +46,8 @@ describe('Invoice Facade integration tests', () => {
           },
           {
             id: new Id().value,
+            createdAt: new Date(),
+            updatedAt: new Date(),
             name: 'Product 2',
             price: 20,
             quantity: 2,
@@ -57,7 +62,7 @@ describe('Invoice Facade integration tests', () => {
   })
 
   afterEach(async () => {
-    await sequelize.close()
+    await migrator.down()
   })
 
   it('should generate a invoice', async () => {
@@ -65,13 +70,12 @@ describe('Invoice Facade integration tests', () => {
     // Arrange - Given
     const input: GenerateInvoiceFacadeInputDto = {
       id: newId.value,
-
       name: 'Invoice 1',
       document: '123456789',
       street: 'Street 1',
       number: '123',
       complement: 'Complement 1',
-      zipCode: '12345678',
+      zipcode: '12345678',
       city: 'City 1',
       state: 'State 1',
       items: [
@@ -102,7 +106,7 @@ describe('Invoice Facade integration tests', () => {
     expect(output.complement).toEqual(input.complement)
     expect(output.city).toEqual(input.city)
     expect(output.state).toEqual(input.state)
-    expect(output.zipCode).toEqual(input.zipCode)
+    expect(output.zipcode).toEqual(input.zipcode)
     expect(output.items).toHaveLength(2)
     expect(output.items).toEqual(
       expect.arrayContaining([
@@ -145,7 +149,7 @@ describe('Invoice Facade integration tests', () => {
         complement: 'Complement 1',
         city: 'City 1',
         state: 'State 1',
-        zipCode: '12345678',
+        zipcode: '12345678',
       },
       items: [
         {

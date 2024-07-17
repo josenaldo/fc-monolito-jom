@@ -37,8 +37,8 @@ export class InvoiceModel extends Model {
   @Column({ allowNull: false })
   declare state: string
 
-  @Column({ allowNull: false, field: 'zip_code' })
-  declare zipCode: string
+  @Column({ allowNull: false,  })
+  declare zipcode: string
 
   @HasMany(() => InvoiceItemModel)
   declare items: InvoiceItemModel[]

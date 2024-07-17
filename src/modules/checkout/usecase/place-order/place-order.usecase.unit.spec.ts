@@ -31,8 +31,8 @@ import {
 } from '@/modules/store-catalog/facade/store-catalog.facade.interface'
 
 describe('Place Order usecase unit tests', () => {
-  let usecase: PlaceOrderUsecase
   let repository: CheckoutGateway
+  let usecase: PlaceOrderUsecase
 
   let clientFacade: ClientAdmFacadeInterface
   let productFacade: ProductAdmFacadeInterface
@@ -89,7 +89,7 @@ describe('Place Order usecase unit tests', () => {
         complement: 'Test Complement',
         city: 'Test City',
         state: 'Test State',
-        zipCode: '12345678',
+        zipcode: '12345678',
       },
     }
 
@@ -153,7 +153,7 @@ describe('Place Order usecase unit tests', () => {
       )
       expect(output.address.city).toBe(clientFacadeOutput.address.city)
       expect(output.address.state).toBe(clientFacadeOutput.address.state)
-      expect(output.address.zipCode).toBe(clientFacadeOutput.address.zipCode)
+      expect(output.address.zipcode).toBe(clientFacadeOutput.address.zipcode)
     })
   })
 
@@ -334,7 +334,7 @@ describe('Place Order usecase unit tests', () => {
           complement: 'Test Complement',
           city: 'Test City',
           state: 'Test State',
-          zipCode: '12345678',
+          zipcode: '12345678',
         }),
       })
 
@@ -573,7 +573,7 @@ describe('Place Order usecase unit tests', () => {
         complement: client.address.complement,
         city: client.address.city,
         state: client.address.state,
-        zipCode: client.address.zipCode,
+        zipcode: client.address.zipcode,
         items: orderItems.map((item) => ({
           id: item.productId,
           name: `Product ${item.productId}`,
@@ -636,7 +636,7 @@ describe('Place Order usecase unit tests', () => {
         complement: client.address.complement,
         city: client.address.city,
         state: client.address.state,
-        zipCode: client.address.zipCode,
+        zipcode: client.address.zipcode,
         items: orderItems.map((item) => ({
           id: item.productId,
           name: `Product ${item.productId}`,

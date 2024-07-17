@@ -14,6 +14,7 @@ export class ProductModelToProductMapper
       name: product.name,
       description: product.description,
       purchasePrice: product.purchasePrice,
+      salesPrice: product.salesPrice,
       stock: product.stock,
     })
   }
@@ -26,6 +27,7 @@ export class ProductModelToProductMapper
       name: product.name,
       description: product.description,
       purchasePrice: product.purchasePrice,
+      salesPrice: product.salesPrice,
       stock: product.stock,
     })
   }

@@ -24,7 +24,7 @@ describe('Find Invoice use case unit tests', () => {
       complement: 'Complement 1',
       city: 'City 1',
       state: 'State 1',
-      zipCode: '12345678',
+      zipcode: '12345678',
     })
 
     const item: InvoiceItem = new InvoiceItem({
@@ -64,7 +64,7 @@ describe('Find Invoice use case unit tests', () => {
         complement: 'Complement 1',
         city: 'City 1',
         state: 'State 1',
-        zipCode: '12345678',
+        zipcode: '12345678',
       }),
       total: 40,
       items: [

@@ -22,7 +22,7 @@ describe('Order unit tests', () => {
         complement: 'Fake Complement',
         city: 'Fake City',
         state: 'Fake State',
-        zipCode: '12345-123',
+        zipcode: '12345-123',
       }),
     })
 

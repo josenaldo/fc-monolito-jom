@@ -59,6 +59,7 @@ export class ProductAdmFacade implements ProductAdmFacadeInterface {
       name: output.name,
       description: output.description,
       purchasePrice: output.purchasePrice,
+      salesPrice: output.salesPrice,
       stock: output.stock,
     }
   }

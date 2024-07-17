@@ -23,7 +23,7 @@ describe('Add Client use case unit tests', () => {
       complement: 'Bairro 1',
       city: 'Cidade 1',
       state: 'Estado 1',
-      zipCode: '12345-123',
+      zipcode: '12345-123',
     }
 
     input = {

@@ -9,7 +9,7 @@ export interface AddClientFacadeInputDto {
     complement?: string
     city: string
     state: string
-    zipCode: string
+    zipcode: string
   }
 }
 
@@ -26,7 +26,7 @@ export interface AddClientFacadeOutputDto {
     complement?: string
     city: string
     state: string
-    zipCode: string
+    zipcode: string
   }
 }
 
@@ -47,7 +47,7 @@ export interface FindClientFacadeOutputDto {
     complement?: string
     city: string
     state: string
-    zipCode: string
+    zipcode: string
   }
 }
 
