@@ -14,7 +14,7 @@ describe('Find Order usecase unit tests', () => {
 
   let repository: CheckoutGateway
   let usecase: FindOrderUsecase
-  let id: Id
+  let orderId: Id
   let clientId: string
 
   beforeEach(async () => {
@@ -25,7 +25,7 @@ describe('Find Order usecase unit tests', () => {
     usecase = new FindOrderUsecase({ repository })
 
     clientId = new Id().value
-    id = new Id()
+    orderId = new Id()
     const now = new Date()
 
     await ClientModel.create({
@@ -45,7 +45,7 @@ describe('Find Order usecase unit tests', () => {
 
     await OrderModel.create(
       {
-        id: id.value,
+        id: orderId.value,
         createdAt: now,
         updatedAt: now,
         status: OrderStatus.APPROVED,
@@ -56,7 +56,7 @@ describe('Find Order usecase unit tests', () => {
             id: new Id().value,
             createdAt: now,
             updatedAt: now,
-            orderId: id.value,
+            orderId: orderId.value,
             productId: new Id().value,
             quantity: 5,
             price: 10,
@@ -66,7 +66,7 @@ describe('Find Order usecase unit tests', () => {
             id: new Id().value,
             createdAt: now,
             updatedAt: now,
-            orderId: id.value,
+            orderId: orderId.value,
             productId: new Id().value,
             quantity: 10,
             price: 20,
@@ -88,11 +88,11 @@ describe('Find Order usecase unit tests', () => {
     // Arrange - Given
 
     // Act - When
-    const result = await usecase.execute({ id: id.value })
+    const result = await usecase.execute({ id: orderId.value })
 
     // Assert - Then
     expect(result).toBeDefined()
-    expect(result.id).toBe(id.value)
+    expect(result.id).toBe(orderId.value)
     expect(result.clientId).toBe(clientId)
     expect(result.status).toBe(OrderStatus.APPROVED)
     expect(result.total).toBe(250)
