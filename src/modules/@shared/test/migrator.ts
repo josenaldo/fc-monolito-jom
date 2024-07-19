@@ -38,5 +38,6 @@ export class Migrator {
 
   public async down(): Promise<void> {
     await this.migrator.down()
+    await this.sequelize.close()
   }
 }

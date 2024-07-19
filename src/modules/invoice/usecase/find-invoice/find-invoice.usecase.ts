@@ -1,4 +1,5 @@
 import { UsecaseInterface } from '@/modules/@shared/usecase/usecase.interface'
+import { Invoice } from '@/modules/invoice/domain/entity/invoice.entity'
 import { InvoiceGateway } from '@/modules/invoice/gateway/invoice.gateway'
 import {
   FindInvoiceUsecaseInputDto,
@@ -15,7 +16,7 @@ export class FindInvoiceUsecase implements UsecaseInterface {
   async execute(
     input: FindInvoiceUsecaseInputDto
   ): Promise<FindInvoiceUsecaseOutputDto> {
-    const invoice = await this._repository.find(input.id)
+    const invoice: Invoice = await this._repository.find(input.id)
 
     if (!invoice) throw new Error('Invoice not found')
 
