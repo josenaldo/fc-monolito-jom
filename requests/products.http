@@ -1,0 +1,26 @@
+# GET Product
+GET http://localhost:4000/products/5a308c21-2bd0-4dd7-87f7-154af5838377
+
+###
+
+# POST product
+POST http://localhost:4000/products
+Content-Type: application/json
+
+{
+  "name": "Product 2",
+  "description": "Product 2 description",
+  "purchasePrice": 100,
+  "salesPrice": 200,
+  "stock": 20
+}
+
+###
+
+# Check stock
+# IDs:
+# - 9eea967e-4ffa-47ac-961c-ef836fb0a181
+# - 5a308c21-2bd0-4dd7-87f7-154af5838377
+GET http://localhost:4000/products/5a308c21-2bd0-4dd7-87f7-154af5838377/stock
+
+###

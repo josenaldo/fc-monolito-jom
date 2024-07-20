@@ -3,7 +3,7 @@ import { PaymentGateway } from '@/modules/payment/gateway/payment.gateway'
 import { TransactionModel } from '@/modules/payment/repository/transaction.model'
 
 export function CreateMigrator(): Migrator {
-  return new Migrator([TransactionModel])
+  return new Migrator({ models: [TransactionModel] })
 }
 
 export function CreateMockRepository(): PaymentGateway {

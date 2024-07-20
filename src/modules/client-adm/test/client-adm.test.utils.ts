@@ -3,7 +3,7 @@ import { ClientGateway } from '@/modules/client-adm/gateway/client.gateway'
 import { ClientModel } from '@/modules/client-adm/repository/client.model'
 
 export function CreateMigrator(): Migrator {
-  return new Migrator([ClientModel])
+  return new Migrator({ models: [ClientModel] })
 }
 
 export function CreateMockRepository(): ClientGateway {

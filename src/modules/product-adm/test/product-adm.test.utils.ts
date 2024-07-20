@@ -3,7 +3,7 @@ import { ProductGateway } from '@/modules/product-adm/gateway/product.gateway'
 import { ProductModel } from '@/modules/product-adm/repository/product.model'
 
 export function CreateMigrator(): Migrator {
-  return new Migrator([ProductModel])
+  return new Migrator({ models: [ProductModel] })
 }
 
 export function CreateMockRepository(): ProductGateway {

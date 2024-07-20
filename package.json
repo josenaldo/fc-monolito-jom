@@ -4,6 +4,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "dev": "nodemon src/infrastructure/server.ts",
     "test": "npm run tsc && jest",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

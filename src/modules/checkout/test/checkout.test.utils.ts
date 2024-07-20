@@ -16,17 +16,19 @@ import { StoreCatalogFacadeInterface } from '@/modules/store-catalog/facade/stor
 import { ProductModel as StoreCatalogProductModel } from '@/modules/store-catalog/repository/product.model'
 
 export function CreateMigrator(): Migrator {
-  return new Migrator([
-    OrderModel,
-    OrderItemModel,
-    CheckoutClientModel,
-    ClientAdmClientModel,
-    StoreCatalogProductModel,
-    AdmProductModel,
-    TransactionModel,
-    InvoiceModel,
-    InvoiceItemModel,
-  ])
+  return new Migrator({
+    models: [
+      OrderModel,
+      OrderItemModel,
+      CheckoutClientModel,
+      ClientAdmClientModel,
+      StoreCatalogProductModel,
+      AdmProductModel,
+      TransactionModel,
+      InvoiceModel,
+      InvoiceItemModel,
+    ],
+  })
 }
 
 export function CreateMockRepository(): CheckoutGateway {

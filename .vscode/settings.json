@@ -21,5 +21,13 @@
     "titleBar.inactiveBackground": "#33a1a199",
     "titleBar.inactiveForeground": "#15202b99"
   },
-  "peacock.remoteColor": "#33A1A1"
+  "peacock.remoteColor": "#33A1A1",
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "db-monolito",
+      "database": "./db.sqlite"
+    }
+  ]
 }
