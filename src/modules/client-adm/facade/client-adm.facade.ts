@@ -25,23 +25,47 @@ export class ClientAdmFacade implements ClientAdmFacadeInterface {
   async addClient(
     input: AddClientFacadeInputDto
   ): Promise<AddClientFacadeOutputDto> {
-    return await this._addClientUseCase.execute(input)
+    const client = await this._addClientUseCase.execute(input)
+
+    return {
+      id: client.id,
+      createdAt: client.createdAt,
+      updatedAt: client.updatedAt,
+      name: client.name,
+      email: client.email,
+      document: client.document,
+      address: {
+        street: client.address.street,
+        number: client.address.number,
+        complement: client.address.complement,
+        city: client.address.city,
+        state: client.address.state,
+        zipcode: client.address.zipcode,
+      },
+    }
   }
 
   async findClient(
     input: FindClientFacadeInputDto
   ): Promise<FindClientFacadeOutputDto> {
-    const output: FindClientUsecaseOutputDto =
+    const client: FindClientUsecaseOutputDto =
       await this._findClientUseCase.execute(input)
 
     return {
-      id: output.id,
-      createdAt: output.createdAt,
-      updatedAt: output.updatedAt,
-      name: output.name,
-      email: output.email,
-      document: output.document,
-      address: output.address,
+      id: client.id,
+      createdAt: client.createdAt,
+      updatedAt: client.updatedAt,
+      name: client.name,
+      email: client.email,
+      document: client.document,
+      address: {
+        street: client.address.street,
+        number: client.address.number,
+        complement: client.address.complement,
+        city: client.address.city,
+        state: client.address.state,
+        zipcode: client.address.zipcode,
+      },
     }
   }
 }

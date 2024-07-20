@@ -1,0 +1,21 @@
+# GET Product
+GET http://localhost:4000/clients/87fb6c84-ff9e-4287-bfff-dd166eaf5526
+###
+
+# POST product
+POST http://localhost:4000/clients
+Content-Type: application/json
+
+{
+  "name": "Jane Doe",
+  "email": "jane@test.com",
+  "document": "12345678911",
+  "address": {
+    "street": "Main Street",
+    "number": 123,
+    "complement": "Apt 102",
+    "city": "Big City",
+    "state": "BC",
+    "zipcode": "12345-678"
+  }
+}
