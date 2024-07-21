@@ -35,9 +35,9 @@ export class OrderModel extends Model {
   @Column({ allowNull: false, field: 'client_id' })
   declare clientId: string
 
-  @BelongsTo(() => ClientModel)
+  @BelongsTo(() => ClientModel, { as: 'client' })
   declare client: ReturnType<() => ClientModel>
 
-  @HasMany(() => OrderItemModel)
+  @HasMany(() => OrderItemModel, { as: 'items' })
   declare items: OrderItemModel[]
 }

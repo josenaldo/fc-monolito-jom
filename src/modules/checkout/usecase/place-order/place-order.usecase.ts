@@ -143,7 +143,7 @@ export class PlaceOrderUsecase implements UsecaseInterface {
     //retornar dto
     return {
       id: order.id.value,
-      invoiceId: invoiceId,
+      invoiceId: invoiceId || null,
       clientId: order.client.id.value,
       status: order.status,
       total: order.total,
