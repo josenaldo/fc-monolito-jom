@@ -14,6 +14,10 @@ productsRoute.get('/:id', async (req: Request, res: Response) => {
     return res.status(200).send(result)
   } catch (error) {
     if (error instanceof Error) {
+      if (error.message === 'Product not found') {
+        return res.status(404).send({ error: error.message })
+      }
+
       return res.status(500).send({ error: error.message })
     }
     return res.status(500).send({ error: error })
@@ -29,6 +33,14 @@ productsRoute.post('/', async (req: Request, res: Response) => {
     return res.status(201).send(result)
   } catch (error) {
     if (error instanceof Error) {
+      if (error.message === 'Product already exists') {
+        return res.status(409).send({ error: error.message })
+      }
+
+      if (error.message.startsWith('product-adm/product: ')) {
+        return res.status(400).send({ error: error.message })
+      }
+
       return res.status(500).send({ error: error.message })
     }
     return res.status(500).send({ error: error })
